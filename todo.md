@@ -79,3 +79,9 @@
 - [x] Test search functionality
 - [x] Content management via Sanity Studio
 - [x] Check SEO meta tags on all pages
+
+## Design Updates - Navy Blue & Serif Theme
+- [x] Update color palette to navy blue theme
+- [x] Change primary font to classic serif
+- [x] Update accent colors to complement navy blue
+- [x] Test responsive design with new colors

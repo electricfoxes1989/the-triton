@@ -43,10 +43,10 @@
 }
 
 :root {
-  /* NYT-inspired editorial colors */
-  --primary: oklch(0.25 0.08 240); /* #002e56 navy */
+  /* Classic navy blue theme */
+  --primary: oklch(0.22 0.09 250); /* Deep navy blue */
   --primary-foreground: oklch(1 0 0);
-  --sidebar-primary: oklch(0.25 0.08 240);
+  --sidebar-primary: oklch(0.22 0.09 250);
   --sidebar-primary-foreground: oklch(1 0 0);
   --chart-1: var(--color-blue-300);
   --chart-2: var(--color-blue-500);
@@ -55,28 +55,28 @@
   --chart-5: var(--color-blue-800);
   --radius: 0.5rem;
   --background: oklch(1 0 0); /* white */
-  --foreground: oklch(0.15 0.02 240); /* #0a1628 dark blue-black */
+  --foreground: oklch(0.18 0.03 250); /* Navy-tinted dark text */
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.15 0.02 240);
+  --card-foreground: oklch(0.18 0.03 250);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.15 0.02 240);
+  --popover-foreground: oklch(0.18 0.03 250);
   --secondary: oklch(0.97 0 0); /* #f5f5f5 light grey */
-  --secondary-foreground: oklch(0.15 0.02 240);
+  --secondary-foreground: oklch(0.18 0.03 250);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.5 0 0); /* #666 grey */
-  --accent: oklch(0.75 0.12 180); /* #3ecfb2 teal accent */
+  --accent: oklch(0.55 0.15 220); /* Rich blue accent */
   --accent-foreground: oklch(1 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.985 0 0);
   --border: oklch(0.92 0 0); /* #e5e5e5 */
   --input: oklch(0.92 0 0);
-  --ring: oklch(0.25 0.08 240);
+  --ring: oklch(0.22 0.09 250);
   --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.15 0.02 240);
+  --sidebar-foreground: oklch(0.18 0.03 250);
   --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.15 0.02 240);
+  --sidebar-accent-foreground: oklch(0.18 0.03 250);
   --sidebar-border: oklch(0.92 0 0);
-  --sidebar-ring: oklch(0.25 0.08 240);
+  --sidebar-ring: oklch(0.22 0.09 250);
 }
 
 .dark {
@@ -120,14 +120,17 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'Crimson Text', 'Georgia', 'Garamond', serif;
+    font-size: 18px;
+    line-height: 1.7;
     font-feature-settings: "kern" 1, "liga" 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Playfair Display', 'Baskerville', Georgia, serif;
     font-weight: 700;
+    letter-spacing: -0.02em;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
