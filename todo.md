@@ -85,3 +85,17 @@
 - [x] Change primary font to classic serif
 - [x] Update accent colors to complement navy blue
 - [x] Test responsive design with new colors
+
+## Homepage Redesign - Match Mockup
+- [x] Fix Sanity API queries to handle missing schema fields gracefully
+- [x] Add ad banner space above navigation
+- [x] Rebuild navigation with simplified menu structure
+- [x] Create hero carousel with dots navigation
+- [x] Build "The Latest News" grid section
+- [x] Add "Trending Now" numbered sidebar
+- [x] Create "Triton Spotlight" section
+- [x] Add turquoise newsletter signup section
+- [x] Build "Crew Life" section with cards
+- [x] Add statistics section (22k, 25k+, 22k+, 3M+)
+- [x] Create media kit banner section
+- [x] Update footer with proper links

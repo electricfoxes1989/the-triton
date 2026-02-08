@@ -40,20 +40,25 @@ export function sanityImageUrl(
 
 // Query functions for fetching content
 export async function getArticles(limit = 100) {
-  return await sanityClient.fetch(`
-    *[_type == "article"] | order(publishedAt desc) [0...${limit}] {
-      _id,
-      title,
-      slug,
-      excerpt,
-      publishedAt,
-      mainImage,
-      heroImageUrl,
-      "author": author->{name, slug, image, bio},
-      "category": category->{title, slug},
-      tags[]->{name, slug}
-    }
-  `);
+  try {
+    return await sanityClient.fetch(`
+      *[_type == "article"] | order(publishedAt desc) [0...${limit}] {
+        _id,
+        title,
+        slug,
+        excerpt,
+        publishedAt,
+        mainImage,
+        "heroImageUrl": coalesce(heroImageUrl, mainImage.asset->url),
+        "author": author->{name, slug, image, bio},
+        "category": category->{title, slug},
+        "tags": tags[]->{name, slug}
+      }
+    `);
+  } catch (error) {
+    console.error('Error fetching articles:', error);
+    return [];
+  }
 }
 
 export async function getArticleBySlug(slug: string) {
@@ -79,19 +84,32 @@ export async function getArticleBySlug(slug: string) {
 }
 
 export async function getFeaturedArticles(limit = 1) {
-  return await sanityClient.fetch(`
-    *[_type == "article" && featured == true] | order(publishedAt desc) [0...${limit}] {
-      _id,
-      title,
-      slug,
-      excerpt,
-      publishedAt,
-      mainImage,
-      heroImageUrl,
-      "author": author->{name, slug},
-      "category": category->{title, slug}
+  try {
+    // Try featured articles first, fallback to latest if no featured field exists
+    const featured = await sanityClient.fetch(`
+      *[_type == "article" && defined(featured) && featured == true] | order(publishedAt desc) [0...${limit}] {
+        _id,
+        title,
+        slug,
+        excerpt,
+        publishedAt,
+        mainImage,
+        "heroImageUrl": coalesce(heroImageUrl, mainImage.asset->url),
+        "author": author->{name, slug},
+        "category": category->{title, slug}
+      }
+    `);
+    
+    // If no featured articles, return latest articles
+    if (!featured || featured.length === 0) {
+      return await getArticles(limit);
     }
-  `);
+    
+    return featured;
+  } catch (error) {
+    console.error('Error fetching featured articles:', error);
+    return await getArticles(limit);
+  }
 }
 
 export async function getArticlesByCategory(categorySlug: string, limit = 20) {
@@ -150,14 +168,19 @@ export async function searchArticles(query: string): Promise<any[]> {
 }
 
 export async function getPopularTags(limit = 20) {
-  return await sanityClient.fetch(`
-    *[_type == "tag"] {
-      _id,
-      name,
-      slug,
-      "articleCount": count(*[_type == "article" && references(^._id)])
-    } | order(articleCount desc) [0...${limit}]
-  `);
+  try {
+    return await sanityClient.fetch(`
+      *[_type == "tag"] {
+        _id,
+        name,
+        slug,
+        "articleCount": count(*[_type == "article" && references(^._id)])
+      } | order(articleCount desc) [0...${limit}]
+    `);
+  } catch (error) {
+    console.error('Error fetching popular tags:', error);
+    return [];
+  }
 }
 
 export async function getCategories() {
