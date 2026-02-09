@@ -28,10 +28,10 @@ export default function HomeNew() {
   }, []);
 
   const heroArticle = articles[heroIndex] || null;
-  const latestArticles = articles.slice(1, 7);
-  const trendingArticles = articles.slice(0, 3);
-  const spotlightArticles = articles.slice(7, 9);
-  const crewLifeArticles = articles.slice(9, 13);
+  const latestArticles = articles.slice(1, 8); // 7 articles total
+  const trendingArticles = articles.slice(0, 5); // 5 trending items
+  const spotlightArticles = articles.slice(8, 10);
+  const crewLifeArticles = articles.slice(10, 14);
 
   const nextHero = () => {
     setHeroIndex((prev) => (prev + 1) % Math.min(articles.length, 5));
@@ -75,7 +75,10 @@ export default function HomeNew() {
             {/* Hero Content */}
             <div className="relative container mx-auto px-4 h-full flex flex-col justify-end pb-16">
               <div className="max-w-3xl">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
+                <span className="inline-block px-3 py-1 bg-[#00BCD4] text-white text-xs font-bold uppercase tracking-widest mb-4">
+                  NEWS
+                </span>
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
                   {heroArticle.title}
                 </h1>
                 <div className="flex items-center gap-4 text-white/90 text-sm mb-6">
@@ -134,8 +137,9 @@ export default function HomeNew() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
               {/* Latest News - Left 2/3 */}
               <div className="lg:col-span-2">
-                <h2 className="text-3xl font-bold mb-8 border-b-4 border-primary pb-2 inline-block">
+                <h2 className="text-3xl font-bold mb-8">
                   The Latest News
+                  <div className="h-1 w-24 bg-primary mt-2"></div>
                 </h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
@@ -151,14 +155,14 @@ export default function HomeNew() {
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             />
                           </div>
-                          <h3 className="text-2xl font-bold text-gray-900 group-hover:text-primary transition-colors mb-2">
+                          <h3 className="text-3xl md:text-4xl font-bold text-gray-900 group-hover:text-primary transition-colors mb-3 leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
                             {latestArticles[0].title}
                           </h3>
-                          <p className="text-gray-600 mb-3 line-clamp-2">
+                          <p className="text-lg text-gray-700 mb-4 line-clamp-2" style={{ fontFamily: 'Georgia, serif' }}>
                             {latestArticles[0].excerpt}
                           </p>
-                          <p className="text-sm text-gray-500 uppercase tracking-wide">
-                            {formatDate(latestArticles[0].publishedAt)}
+                          <p className="text-xs text-gray-500 uppercase tracking-widest font-semibold">
+                            5 MIN READ
                           </p>
                         </article>
                       </Link>
@@ -179,11 +183,11 @@ export default function HomeNew() {
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                           />
                         </div>
-                        <h3 className="text-lg font-bold text-gray-900 group-hover:text-primary transition-colors mb-2 line-clamp-2">
+                        <h3 className="text-xl font-bold text-gray-900 group-hover:text-primary transition-colors mb-3 line-clamp-3 leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
                           {article.title}
                         </h3>
-                        <p className="text-sm text-gray-500 uppercase tracking-wide">
-                          {formatDate(article.publishedAt)}
+                        <p className="text-xs text-gray-500 uppercase tracking-widest font-semibold">
+                          5 MIN READ
                         </p>
                       </article>
                     </Link>
@@ -193,8 +197,9 @@ export default function HomeNew() {
 
               {/* Trending Now - Right 1/3 */}
               <div>
-                <h2 className="text-2xl font-bold mb-6 border-b-4 border-accent pb-2 inline-block">
+                <h2 className="text-2xl font-bold mb-6">
                   Trending Now
+                  <div className="h-1 w-24 bg-[#00BCD4] mt-2"></div>
                 </h2>
 
                 <div className="space-y-6 mt-8">
@@ -227,7 +232,10 @@ export default function HomeNew() {
         {/* Triton Spotlight */}
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold mb-8">Triton Spotlight</h2>
+            <h2 className="text-3xl font-bold mb-8">
+              Triton Spotlight
+              <div className="h-1 w-24 bg-primary mt-2"></div>
+            </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {spotlightArticles.map((article: any) => (
@@ -291,7 +299,10 @@ export default function HomeNew() {
         {/* Crew Life Section */}
         <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold mb-8">Crew Life</h2>
+            <h2 className="text-3xl font-bold mb-8">
+              Crew Life
+              <div className="h-1 w-24 bg-primary mt-2"></div>
+            </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {crewLifeArticles.map((article: any) => (
