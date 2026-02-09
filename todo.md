@@ -181,3 +181,30 @@
 - [x] Add articles covering global yachting locations
 - [x] Include different crew perspectives (chef, engineer, deckhand, stew)
 - [x] Run migration and verify content diversity
+
+## Light Blue Hover Animations
+- [x] Add hover effects to navigation menu items
+- [x] Add hover effects to article cards
+- [x] Add hover effects to buttons and CTAs
+- [x] Add hover effects to footer links
+- [x] Use triton aqua/light blue color for all hover states
+
+## Original Content Migration
+- [ ] Check existing 302 articles in Sanity dataset
+- [ ] Verify articles have proper structure and images
+- [ ] Ensure old content displays correctly on website
+
+## Backend Proxy for Sanity Articles
+- [x] Create tRPC procedures to fetch articles from Sanity (server-side)
+- [x] Add procedure for fetching all articles
+- [x] Add procedure for fetching article by slug
+- [x] Add procedure for fetching articles by category
+- [x] Update frontend to use tRPC instead of direct Sanity client calls
+
+## Homepage Design Refinement - Match Mockup Exactly
+- [ ] Review mockup PDF for exact layout specifications
+- [ ] Verify article grid layout matches mockup
+- [ ] Ensure typography matches mockup fonts
+- [ ] Check spacing and padding matches mockup
+- [ ] Verify color scheme matches mockup
+- [ ] Test responsive design on mobile/tablet/desktop

@@ -20,10 +20,10 @@ export default function NavigationNew() {
       <div className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-4">
           <div className="flex justify-end items-center h-10 text-xs uppercase tracking-wide">
-            <Link href="/newsletter" className="text-gray-700 hover:text-primary transition-colors px-4">
+            <Link href="/newsletter" className="text-gray-700 hover-aqua px-4">
               Subscribe to our Newsletter
             </Link>
-            <Link href="/advertise" className="text-gray-700 hover:text-primary transition-colors px-4 border-l border-gray-300">
+            <Link href="/advertise" className="text-gray-700 hover-aqua px-4 border-l border-gray-300">
               Advertise with us
             </Link>
           </div>
@@ -61,19 +61,19 @@ export default function NavigationNew() {
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-8 text-sm uppercase tracking-wider font-medium">
-              <Link href="/category/news" className="hover:text-gray-200 transition-colors">
+              <Link href="/category/news" className="hover-aqua">
                 News
               </Link>
-              <Link href="/category/captains" className="hover:text-gray-200 transition-colors">
+              <Link href="/category/captains" className="hover-aqua">
                 Captains
               </Link>
-              <Link href="/category/crew-life" className="hover:text-gray-200 transition-colors">
+              <Link href="/category/crew-life" className="hover-aqua">
                 Crew Life
               </Link>
-              <Link href="/category/magazine" className="hover:text-gray-200 transition-colors">
+              <Link href="/category/magazine" className="hover-aqua">
                 Magazine
               </Link>
-              <Link href="/events" className="hover:text-gray-200 transition-colors">
+              <Link href="/events" className="hover-aqua">
                 Events
               </Link>
             </div>

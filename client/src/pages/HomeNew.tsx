@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "wouter";
 import NavigationNew from "@/components/NavigationNew";
 import Footer from "@/components/Footer";
-import { getArticles } from "@/lib/sanity";
+import { trpc } from "@/lib/trpc";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 function formatDate(dateStr: string) {
@@ -11,21 +11,10 @@ function formatDate(dateStr: string) {
 }
 
 export default function HomeNew() {
-  const [articles, setArticles] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [heroIndex, setHeroIndex] = useState(0);
-
-  useEffect(() => {
-    getArticles(50)
-      .then(results => {
-        setArticles(results || []);
-        setIsLoading(false);
-      })
-      .catch(err => {
-        console.error('Failed to fetch articles:', err);
-        setIsLoading(false);
-      });
-  }, []);
+  
+  // Fetch articles through tRPC backend
+  const { data: articles = [], isLoading } = trpc.articles.list.useQuery({ limit: 50 });
 
   const heroArticle = articles[heroIndex] || null;
   const latestArticles = articles.slice(1, 8); // 7 articles total
@@ -88,8 +77,8 @@ export default function HomeNew() {
                   <span>•</span>
                   <span className="uppercase">{formatDate(heroArticle.publishedAt)}</span>
                 </div>
-                <Link href={`/article/${heroArticle.slug.current || heroArticle.slug}`}>
-                  <button className="px-8 py-3 bg-white text-primary font-semibold rounded hover:bg-gray-100 transition-colors uppercase tracking-wide text-sm">
+                <Link href={`/article/${typeof heroArticle.slug === "string" ? heroArticle.slug : heroArticle.slug.current}`}>
+                  <button className="px-8 py-3 bg-white text-primary font-semibold rounded hover:bg-gray-100 hover-scale transition-colors uppercase tracking-wide text-sm">
                     Read More
                   </button>
                 </Link>
@@ -146,16 +135,16 @@ export default function HomeNew() {
                   {/* First Article - Full Width */}
                   {latestArticles[0] && (
                     <div className="md:col-span-2">
-                      <Link href={`/article/${latestArticles[0].slug.current || latestArticles[0].slug}`}>
-                        <article className="group cursor-pointer">
+                      <Link href={`/article/${typeof latestArticles[0].slug === "string" ? latestArticles[0].slug : latestArticles[0].slug.current}`}>
+                        <article className="group cursor-pointer hover-card">
                           <div className="aspect-video overflow-hidden mb-4 rounded">
                             <img
-                              src={latestArticles[0].heroImageUrl || latestArticles[0].mainImage?.asset?.url || '/placeholder.jpg'}
+                              src={latestArticles[0].heroImageUrl || '/placeholder.jpg'}
                               alt={latestArticles[0].title}
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             />
                           </div>
-                          <h3 className="text-3xl md:text-4xl font-bold text-gray-900 group-hover:text-primary transition-colors mb-3 leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
+                          <h3 className="text-3xl md:text-4xl font-bold text-gray-900 group-hover:text-[var(--triton-aqua)] transition-colors mb-3 leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
                             {latestArticles[0].title}
                           </h3>
                           <p className="text-lg text-gray-700 mb-4 line-clamp-2" style={{ fontFamily: 'Georgia, serif' }}>
@@ -173,9 +162,9 @@ export default function HomeNew() {
                   {latestArticles.slice(1).map((article: any) => (
                     <Link
                       key={article._id}
-                      href={`/article/${article.slug.current || article.slug}`}
+                      href={`/article/${typeof article.slug === "string" ? article.slug : article.slug.current}`}
                     >
-                      <article className="group cursor-pointer">
+                      <article className="group cursor-pointer hover-card">
                         <div className="aspect-video overflow-hidden mb-3 rounded">
                           <img
                             src={article.heroImageUrl || '/placeholder.jpg'}
@@ -183,7 +172,7 @@ export default function HomeNew() {
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                           />
                         </div>
-                        <h3 className="text-xl font-bold text-gray-900 group-hover:text-primary transition-colors mb-3 line-clamp-3 leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
+                        <h3 className="text-xl font-bold text-gray-900 group-hover:text-[var(--triton-aqua)] transition-colors mb-3 line-clamp-3 leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
                           {article.title}
                         </h3>
                         <p className="text-xs text-gray-500 uppercase tracking-widest font-semibold">
@@ -206,14 +195,14 @@ export default function HomeNew() {
                   {trendingArticles.map((article: any, index: number) => (
                     <Link
                       key={article._id}
-                      href={`/article/${article.slug.current || article.slug}`}
+                      href={`/article/${typeof article.slug === "string" ? article.slug : article.slug.current}`}
                     >
                       <article className="group cursor-pointer flex gap-4">
                         <span className="text-5xl font-bold text-accent/30 leading-none">
                           {String(index + 1).padStart(2, '0')}
                         </span>
                         <div className="flex-1">
-                          <h3 className="text-lg font-bold text-gray-900 group-hover:text-primary transition-colors mb-2 line-clamp-2">
+                          <h3 className="text-lg font-bold text-gray-900 group-hover:text-[var(--triton-aqua)] transition-colors mb-2 line-clamp-2">
                             {article.title}
                           </h3>
                           <p className="text-sm text-gray-500 uppercase tracking-wide">
@@ -241,7 +230,7 @@ export default function HomeNew() {
               {spotlightArticles.map((article: any) => (
                 <Link
                   key={article._id}
-                  href={`/article/${article.slug.current || article.slug}`}
+                  href={`/article/${typeof article.slug === "string" ? article.slug : article.slug.current}`}
                 >
                   <article className="group cursor-pointer bg-gray-50 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
                     <div className="aspect-video overflow-hidden">
@@ -255,7 +244,7 @@ export default function HomeNew() {
                       <span className="text-xs font-semibold text-accent uppercase tracking-wider">
                         Triton Spotlight
                       </span>
-                      <h3 className="text-xl font-bold text-gray-900 group-hover:text-primary transition-colors mt-2 mb-3">
+                      <h3 className="text-xl font-bold text-gray-900 group-hover:text-[var(--triton-aqua)] transition-colors mt-2 mb-3">
                         {article.title}
                       </h3>
                       <p className="text-gray-600 mb-4 line-clamp-3">
@@ -308,9 +297,9 @@ export default function HomeNew() {
               {crewLifeArticles.map((article: any) => (
                 <Link
                   key={article._id}
-                  href={`/article/${article.slug.current || article.slug}`}
+                  href={`/article/${typeof article.slug === "string" ? article.slug : article.slug.current}`}
                 >
-                  <article className="group cursor-pointer">
+                  <article className="group cursor-pointer hover-card">
                     <div className="aspect-video overflow-hidden mb-4 rounded">
                       <img
                         src={article.heroImageUrl || '/placeholder.jpg'}
@@ -318,7 +307,7 @@ export default function HomeNew() {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     </div>
-                    <h3 className="text-lg font-bold text-gray-900 group-hover:text-primary transition-colors mb-2 line-clamp-2">
+                    <h3 className="text-lg font-bold text-gray-900 group-hover:text-[var(--triton-aqua)] transition-colors mb-2 line-clamp-2">
                       {article.title}
                     </h3>
                     <p className="text-sm text-gray-600 mb-2 line-clamp-2">

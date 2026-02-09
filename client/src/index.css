@@ -46,6 +46,7 @@
   /* Classic navy blue theme */
   --primary: oklch(0.22 0.09 250); /* Deep navy blue */
   --primary-foreground: oklch(1 0 0);
+  --triton-aqua: oklch(0.75 0.12 200); /* Light blue/aqua for hover states */
   --sidebar-primary: oklch(0.22 0.09 250);
   --sidebar-primary-foreground: oklch(1 0 0);
   --chart-1: var(--color-blue-300);
@@ -224,5 +225,31 @@
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+  
+  /* Triton aqua hover animations */
+  .hover-aqua {
+    transition: color 0.3s ease;
+  }
+  
+  .hover-aqua:hover {
+    color: var(--triton-aqua);
+  }
+  
+  .hover-card {
+    transition: all 0.3s ease;
+  }
+  
+  .hover-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+  
+  .hover-scale {
+    transition: transform 0.3s ease;
+  }
+  
+  .hover-scale:hover {
+    transform: scale(1.05);
   }
 }
