@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import NavigationNew from "@/components/NavigationNew";
 import Footer from "@/components/Footer";
@@ -12,9 +12,21 @@ function formatDate(dateStr: string) {
 
 export default function HomeNew() {
   const [heroIndex, setHeroIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   
   // Fetch articles through tRPC backend
   const { data: articles = [], isLoading } = trpc.articles.list.useQuery({ limit: 50 });
+  
+  // Auto-rotation effect
+  useEffect(() => {
+    if (isPaused || articles.length === 0) return;
+    
+    const interval = setInterval(() => {
+      setHeroIndex((prev) => (prev + 1) % Math.min(articles.length, 5));
+    }, 5000);
+    
+    return () => clearInterval(interval);
+  }, [isPaused, articles.length]);
 
   const heroArticle = articles[heroIndex] || null;
   const latestArticles = articles.slice(1, 8); // 7 articles total
@@ -51,7 +63,11 @@ export default function HomeNew() {
       <main className="flex-1">
         {/* Hero Carousel Section */}
         {heroArticle && (
-          <section className="relative h-[600px] bg-gray-900">
+          <section 
+            className="relative h-[600px] bg-gray-900"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+          >
             <div 
               className="absolute inset-0 bg-cover bg-center"
               style={{
@@ -191,7 +207,7 @@ export default function HomeNew() {
                   <div className="h-1 w-24 bg-[#00BCD4] mt-2"></div>
                 </h2>
 
-                <div className="space-y-6 mt-8">
+                <div className="space-y-6">
                   {trendingArticles.map((article: any, index: number) => (
                     <Link
                       key={article._id}
@@ -294,7 +310,7 @@ export default function HomeNew() {
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {crewLifeArticles.map((article: any) => (
+              {crewLifeArticles.slice(0, 3).map((article: any) => (
                 <Link
                   key={article._id}
                   href={`/article/${typeof article.slug === "string" ? article.slug : article.slug.current}`}
@@ -319,11 +335,26 @@ export default function HomeNew() {
                   </article>
                 </Link>
               ))}
-            </div>
-
-            {/* Ad Space */}
-            <div className="mt-12 bg-gray-100 h-32 flex items-center justify-center text-gray-400 rounded">
-              Advertisement Space
+              
+              {/* Advertisement Card */}
+              <div className="group cursor-pointer hover-card">
+                <div className="aspect-video overflow-hidden mb-4 rounded bg-gray-900 flex items-center justify-center">
+                  <div className="text-center text-white p-6">
+                    <h3 className="text-xl font-bold mb-2">Driveline Failure?</h3>
+                    <p className="text-sm mb-4">We're here for you when <span className="text-[#00BCD4] font-bold">SHIP HAPPENS</span></p>
+                    <div className="text-xs">AMESOLUTIONS.COM</div>
+                  </div>
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">
+                  Advertisement
+                </h3>
+                <p className="text-sm text-gray-600 mb-2">
+                  Your ad could be here
+                </p>
+                <p className="text-xs text-gray-500 uppercase tracking-wide">
+                  Contact us
+                </p>
+              </div>
             </div>
           </div>
         </section>

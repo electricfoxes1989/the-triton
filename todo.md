@@ -219,3 +219,13 @@
 - [x] Add reading progress indicator
 - [x] Style with NYT-inspired typography
 - [x] Test article page with sample content
+
+## Bug Fixes and Enhancements
+- [x] Fix Trending Now section alignment issue
+- [x] Remove "Page not found" articles from Sanity dataset
+- [x] Implement hero carousel auto-rotation (5 second intervals)
+- [x] Add navigation dots to carousel
+- [x] Add arrow controls to carousel
+- [x] Add Crew Life section below Media Kit (3 articles + 1 ad)
+- [ ] Enhance author bio with social media links
+- [ ] Add recent articles list to author bio section
