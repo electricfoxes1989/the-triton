@@ -379,3 +379,19 @@
 - [x] Improve article content typography and spacing
 - [x] Enhance social sharing buttons placement
 - [x] Add newsletter signup widget to sidebar
+
+## Crew Life Page Redesign
+- [x] Add featured video embed section for crew stories
+- [x] Create lifestyle article grid with varied card sizes
+- [x] Add banner ad placements for crew services
+- [x] Add "Life at Sea" photo gallery section
+- [x] Add crew resources/guides section
+- [x] Add crew job opportunities widget
+
+## Captains Page Redesign
+- [x] Add featured captain interview video section
+- [x] Create professional articles grid
+- [x] Add banner placements for captain services
+- [x] Add "Captain Profiles" showcase section
+- [x] Add professional development resources
+- [x] Add industry insights and best practices section
