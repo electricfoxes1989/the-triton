@@ -65,16 +65,16 @@ export default function NavigationNew() {
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-8 text-sm uppercase tracking-wider font-medium">
-              <Link href="/category/news" className="hover-aqua">
+              <Link href="/news" className="hover-aqua">
                 News
               </Link>
-              <Link href="/category/captains" className="hover-aqua">
+              <Link href="/captains" className="hover-aqua">
                 Captains
               </Link>
-              <Link href="/category/crew-life" className="hover-aqua">
+              <Link href="/crew-life" className="hover-aqua">
                 Crew Life
               </Link>
-              <Link href="/category/magazine" className="hover-aqua">
+              <Link href="/magazine" className="hover-aqua">
                 Magazine
               </Link>
               <Link href="/events" className="hover-aqua">
@@ -129,28 +129,28 @@ export default function NavigationNew() {
           <div className="md:hidden border-t border-white/20 bg-primary">
             <div className="container mx-auto py-4 space-y-2">
               <Link
-                href="/category/news"
+                href="/news"
                 className="block px-4 py-2 hover:bg-white/10 rounded transition-colors uppercase tracking-wide"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 News
               </Link>
               <Link
-                href="/category/captains"
+                href="/captains"
                 className="block px-4 py-2 hover:bg-white/10 rounded transition-colors uppercase tracking-wide"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Captains
               </Link>
               <Link
-                href="/category/crew-life"
+                href="/crew-life"
                 className="block px-4 py-2 hover:bg-white/10 rounded transition-colors uppercase tracking-wide"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Crew Life
               </Link>
               <Link
-                href="/category/magazine"
+                href="/magazine"
                 className="block px-4 py-2 hover:bg-white/10 rounded transition-colors uppercase tracking-wide"
                 onClick={() => setMobileMenuOpen(false)}
               >

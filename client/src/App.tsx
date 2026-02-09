@@ -10,6 +10,11 @@ import Category from "./pages/Category";
 import Tag from "./pages/Tag";
 import Search from "./pages/Search";
 import Events from "./pages/Events";
+import NewsPage from "./pages/NewsPage";
+import CaptainsPage from "./pages/CaptainsPage";
+import CrewLifePage from "./pages/CrewLifePage";
+import MagazinePage from "./pages/MagazinePage";
+import EventsPage from "./pages/EventsPage";
 
 function Router() {
   return (
@@ -17,10 +22,14 @@ function Router() {
       {/* Public routes */}
       <Route path="/" component={Home} />
       <Route path="/article/:slug" component={ArticleDetail} />
+      <Route path="/news" component={NewsPage} />
+      <Route path="/captains" component={CaptainsPage} />
+      <Route path="/crew-life" component={CrewLifePage} />
+      <Route path="/magazine" component={MagazinePage} />
+      <Route path="/events" component={EventsPage} />
       <Route path="/category/:slug" component={Category} />
       <Route path="/tag/:slug" component={Tag} />
       <Route path="/search" component={Search} />
-      <Route path="/events" component={Events} />
       
       {/* Fallback */}
       <Route path="/404" component={NotFound} />

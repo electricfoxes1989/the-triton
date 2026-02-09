@@ -275,3 +275,31 @@
 ## Statistics Animation
 - [x] Add count-up animation to statistics numbers
 - [x] Trigger animation when section comes into view
+
+## Image Loading Verification
+- [x] Check hero slideshow images
+- [x] Check article card images across all sections
+- [x] Verify Sanity CMS image URLs are working
+
+## Image Responsiveness Testing
+- [x] Test images on mobile viewport (375px)
+- [x] Test images on tablet viewport (768px)
+- [x] Test images on desktop viewport (1920px)
+- [x] Verify aspect ratios maintained across devices
+- [x] Check for any layout breaking or overflow issues
+
+## Dynamic Hero Slideshow
+- [ ] Update hero to pull latest 5 articles from Sanity CMS
+- [ ] Ensure articles are sorted by publishedAt date (newest first)
+- [ ] Display article title, author, date, and hero image
+- [ ] Maintain slideshow functionality with dynamic content
+
+## Category Pages Development
+- [x] Create News page with filtered articles
+- [x] Create Captains page with filtered articles
+- [x] Create Crew Life page with filtered articles
+- [x] Create Magazine page with filtered articles
+- [x] Create Events page with filtered articles
+- [x] Ensure NavigationNew component appears on all pages
+- [x] Add routes in App.tsx for all category pages
+- [x] Implement category filtering in backend tRPC procedures
