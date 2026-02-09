@@ -114,7 +114,7 @@ export default function HomeNew() {
 
         {/* The Latest News + Trending Now */}
         <section className="py-16 bg-gray-50">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-6 md:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
               {/* Latest News - Left 2/3 */}
               <div className="lg:col-span-2">
@@ -212,7 +212,7 @@ export default function HomeNew() {
 
         {/* Triton Spotlight */}
         <section className="py-16 bg-white">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-6 md:px-8">
             <h2 className="text-3xl font-bold mb-8">
               Triton Spotlight
               <div className="h-1 w-24 bg-primary mt-2"></div>
@@ -253,7 +253,7 @@ export default function HomeNew() {
 
         {/* Statistics Section */}
         <section className="py-16 bg-white">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-6 md:px-8">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
               <div>
                 <div className="text-5xl font-bold text-gray-300 mb-2">22k</div>
@@ -281,7 +281,7 @@ export default function HomeNew() {
 
         {/* Media Kit Banner */}
         <section className="py-0 bg-gradient-to-r from-primary via-primary to-[#00BCD4]">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-6 md:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center min-h-[400px]">
               <div className="text-white py-12">
                 <div className="text-xs font-semibold uppercase tracking-wider mb-4 text-white/80">
@@ -320,7 +320,7 @@ export default function HomeNew() {
             }}></div>
           </div>
 
-          <div className="container mx-auto px-4 relative z-10">
+          <div className="container mx-auto px-6 md:px-8 relative z-10">
             <div className="max-w-4xl mx-auto">
               {/* Header */}
               <div className="text-center mb-8">
@@ -380,7 +380,7 @@ export default function HomeNew() {
 
         {/* Crew Life Section */}
         <section className="py-16 bg-white">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-6 md:px-8">
             <h2 className="text-3xl font-bold mb-8">
               Crew Life
               <div className="h-1 w-24 bg-primary mt-2"></div>

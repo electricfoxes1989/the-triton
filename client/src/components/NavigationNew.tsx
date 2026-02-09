@@ -18,7 +18,7 @@ export default function NavigationNew() {
     <div className="sticky top-0 z-50 bg-white">
       {/* Top Bar with Subscribe and Advertise links */}
       <div className="bg-white border-b border-gray-200">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-6 md:px-8">
           <div className="flex justify-end items-center h-10 text-xs uppercase tracking-wide">
             <Link href="/newsletter" className="text-gray-700 hover-aqua px-4">
               Subscribe to our Newsletter
@@ -32,7 +32,7 @@ export default function NavigationNew() {
 
       {/* Logo and Ad Banner Row */}
       <div className="bg-white border-b border-gray-200">
-        <div className="container mx-auto px-4 py-4">
+        <div className="container mx-auto px-6 md:px-8 py-4">
           <div className="flex items-center justify-between gap-8">
             {/* Triton Logo */}
             <Link href="/" className="flex-shrink-0">

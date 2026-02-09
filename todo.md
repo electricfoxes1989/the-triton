@@ -264,3 +264,6 @@
 ## Navigation and Hero Updates
 - [x] Make navigation bar sticky on mobile
 - [x] Remove text overlay from hero slideshow
+
+## Content Padding Updates
+- [x] Increase horizontal padding on all content sections
