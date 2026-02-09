@@ -404,3 +404,29 @@
 - [x] Update CrewLifePage to fetch video from Sanity
 - [x] Update CaptainsPage to fetch video from Sanity
 - [x] Add fallback handling when no video is configured
+
+## Banner Ad Management System
+- [x] Create Sanity schema for advertisement banner document type
+- [x] Add fields: title, image, link, page targeting, position, start/end dates
+- [x] Create backend query functions to fetch active banners by page/position
+- [x] Add tRPC procedures for banner queries
+- [ ] Create reusable BannerAd component
+- [ ] Update NavigationNew to use dynamic banner
+- [ ] Update CrewLifePage to use dynamic banners
+- [ ] Update CaptainsPage to use dynamic banners
+- [ ] Add fallback handling when no banner is configured
+
+## Banner Ad Management System
+- [x] Create advertisement schema interface in TypeScript
+- [x] Build getAdvertisements() function in server/sanity.ts with filtering
+- [x] Create tRPC advertisements router with byPageAndPosition, trackImpression, trackClick procedures
+- [x] Build reusable BannerAd component with automatic impression/click tracking
+- [x] Replace hardcoded Quantum banner in NavigationNew with dynamic BannerAd
+- [x] Replace hardcoded banners in CrewLifePage with dynamic BannerAd (2 placements)
+- [x] Replace hardcoded banners in CaptainsPage with dynamic BannerAd (2 placements)
+- [x] Create comprehensive Sanity schema documentation (sanity-advertisement-schema.md)
+- [x] Document ad placement reference and best practices
+- [ ] Add advertisement schema to Sanity Studio
+- [ ] Create sample advertisements in Sanity (Quantum, AME Solutions, etc.)
+- [ ] Test ad display and click tracking
+- [ ] Monitor impression and click analytics

@@ -3,7 +3,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { z } from "zod";
-import { getArticles, getArticleBySlug, getArticlesByCategory, searchArticles, getMagazineIssues, getEvents, getAuthorBySlug, getArticlesByAuthor, getFeaturedVideoByCategory } from "./sanity";
+import { getArticles, getArticleBySlug, getArticlesByCategory, searchArticles, getMagazineIssues, getEvents, getAuthorBySlug, getArticlesByAuthor, getFeaturedVideoByCategory, getBannerAds, getAllActiveBanners } from "./sanity";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -94,6 +94,23 @@ export const appRouter = router({
       .input(z.object({ category: z.enum(['crew-life', 'captains']) }))
       .query(async ({ input }) => {
         return await getFeaturedVideoByCategory(input.category);
+      }),
+  }),
+
+  // Banner Advertisements
+  banners: router({
+    byPageAndPosition: publicProcedure
+      .input(z.object({ 
+        page: z.string(),
+        position: z.string()
+      }))
+      .query(async ({ input }) => {
+        return await getBannerAds(input.page, input.position);
+      }),
+    
+    allActive: publicProcedure
+      .query(async () => {
+        return await getAllActiveBanners();
       }),
   }),
 });

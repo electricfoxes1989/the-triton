@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { Search, Menu, X } from "lucide-react";
 import { SearchModal } from "./SearchModal";
+import BannerAd from "./BannerAd";
 
 export default function NavigationNew() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -41,10 +42,17 @@ export default function NavigationNew() {
             
             {/* Ad Banner Space */}
             <div className="flex-1 h-24 flex items-center justify-center">
-              <img 
-                src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663300921591/WOOPvtNVghHvPkWb.png" 
-                alt="Quantum Marine Stabilizers - e-FIN Electric Stabilizers with Energy Recovery"
-                className="h-full w-auto object-contain"
+              <BannerAd 
+                page="all" 
+                position="nav-top"
+                className="h-full w-auto"
+                fallbackContent={
+                  <img 
+                    src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663300921591/WOOPvtNVghHvPkWb.png" 
+                    alt="Quantum Marine Stabilizers"
+                    className="h-full w-auto object-contain"
+                  />
+                }
               />
             </div>
           </div>

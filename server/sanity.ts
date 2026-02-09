@@ -429,3 +429,81 @@ export async function getAllFeaturedVideos(): Promise<SanityFeaturedVideo[]> {
     return [];
   }
 }
+
+// Banner Advertisement Types
+export interface SanityBannerAd {
+  _id: string;
+  title: string;
+  slug: { current: string } | string;
+  imageUrl: string;
+  link: string;
+  advertiser?: string;
+  position: string;
+  pageTargeting: string[];
+  priority: number;
+  isActive: boolean;
+  startDate?: string;
+  endDate?: string;
+}
+
+export async function getBannerAds(page: string, position: string): Promise<SanityBannerAd | null> {
+  try {
+    const query = `
+      *[_type == "bannerAd" 
+        && isActive == true 
+        && position == "${position}"
+        && ("all" in pageTargeting || "${page}" in pageTargeting)
+        && (!defined(startDate) || startDate <= now())
+        && (!defined(endDate) || endDate >= now())
+      ] | order(priority desc) [0]{
+        _id,
+        title,
+        slug,
+        "imageUrl": image.asset->url,
+        link,
+        advertiser,
+        position,
+        pageTargeting,
+        priority,
+        isActive,
+        startDate,
+        endDate
+      }
+    `;
+    const result = await sanityClient.fetch(query);
+    return result || null;
+  } catch (error) {
+    console.error('Error fetching banner ads:', error);
+    return null;
+  }
+}
+
+export async function getAllActiveBanners(): Promise<SanityBannerAd[]> {
+  try {
+    const query = `
+      *[_type == "bannerAd" 
+        && isActive == true
+        && (!defined(startDate) || startDate <= now())
+        && (!defined(endDate) || endDate >= now())
+      ] | order(priority desc){
+        _id,
+        title,
+        slug,
+        "imageUrl": image.asset->url,
+        link,
+        advertiser,
+        position,
+        pageTargeting,
+        priority,
+        isActive,
+        startDate,
+        endDate
+      }
+    `;
+    const results = await sanityClient.fetch(query);
+    return results || [];
+  } catch (error) {
+    console.error('Error fetching all active banners:', error);
+    return [];
+  }
+}

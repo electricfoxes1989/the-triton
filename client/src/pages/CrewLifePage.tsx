@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import NavigationNew from "@/components/NavigationNew";
 import Footer from "@/components/Footer";
+import BannerAd from "@/components/BannerAd";
 import { trpc } from "@/lib/trpc";
 import { Calendar, ArrowRight, Briefcase, BookOpen, MapPin } from "lucide-react";
 
@@ -65,12 +66,17 @@ export default function CrewLifePage() {
       {/* Banner Ad 1 */}
       <div className="bg-white py-6">
         <div className="container mx-auto px-6 md:px-8">
-          <div className="bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg p-8 text-center">
-            <p className="text-sm text-gray-500 uppercase tracking-wider mb-2">Advertisement</p>
-            <div className="h-24 flex items-center justify-center">
-              <p className="text-gray-400 text-lg">Crew Training & Certification Banner (728x90)</p>
-            </div>
-          </div>
+          <p className="text-sm text-gray-500 uppercase tracking-wider mb-2 text-center">Advertisement</p>
+          <BannerAd 
+            page="crew-life" 
+            position="content-top"
+            className="h-24 w-full rounded-lg overflow-hidden"
+            fallbackContent={
+              <div className="bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg p-8 text-center h-24 flex items-center justify-center">
+                <p className="text-gray-400 text-lg">Crew Training & Certification Banner</p>
+              </div>
+            }
+          />
         </div>
       </div>
 
@@ -164,12 +170,17 @@ export default function CrewLifePage() {
       {/* Banner Ad 2 */}
       <div className="bg-white py-6">
         <div className="container mx-auto px-6 md:px-8">
-          <div className="bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg p-8 text-center">
-            <p className="text-sm text-gray-500 uppercase tracking-wider mb-2">Advertisement</p>
-            <div className="h-24 flex items-center justify-center">
-              <p className="text-gray-400 text-lg">Crew Recruitment Agency Banner (728x90)</p>
-            </div>
-          </div>
+          <p className="text-sm text-gray-500 uppercase tracking-wider mb-2 text-center">Advertisement</p>
+          <BannerAd 
+            page="crew-life" 
+            position="content-middle"
+            className="h-24 w-full rounded-lg overflow-hidden"
+            fallbackContent={
+              <div className="bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg p-8 text-center h-24 flex items-center justify-center">
+                <p className="text-gray-400 text-lg">Crew Recruitment Agency Banner</p>
+              </div>
+            }
+          />
         </div>
       </div>
 
