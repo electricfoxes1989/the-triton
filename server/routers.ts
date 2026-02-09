@@ -3,7 +3,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { z } from "zod";
-import { getArticles, getArticleBySlug, getArticlesByCategory, searchArticles, getMagazineIssues, getEvents, getAuthorBySlug, getArticlesByAuthor } from "./sanity";
+import { getArticles, getArticleBySlug, getArticlesByCategory, searchArticles, getMagazineIssues, getEvents, getAuthorBySlug, getArticlesByAuthor, getFeaturedVideoByCategory } from "./sanity";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -85,6 +85,15 @@ export const appRouter = router({
       }))
       .query(async ({ input }) => {
         return await getArticlesByAuthor(input.authorSlug, input.limit);
+      }),
+  }),
+
+  // Featured Videos
+  videos: router({
+    byCategory: publicProcedure
+      .input(z.object({ category: z.enum(['crew-life', 'captains']) }))
+      .query(async ({ input }) => {
+        return await getFeaturedVideoByCategory(input.category);
       }),
   }),
 });

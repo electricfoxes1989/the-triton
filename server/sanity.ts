@@ -371,3 +371,61 @@ export async function getArticlesByAuthor(authorSlug: string, limit: number = 50
     return [];
   }
 }
+
+// Featured Video interface
+export interface SanityFeaturedVideo {
+  _id: string;
+  title: string;
+  slug: { current: string } | string;
+  category: 'crew-life' | 'captains';
+  videoUrl: string;
+  description?: string;
+  isActive: boolean;
+  publishedAt: string;
+}
+
+// Get active featured video by category
+export async function getFeaturedVideoByCategory(category: string): Promise<SanityFeaturedVideo | null> {
+  try {
+    const query = `
+      *[_type == "featuredVideo" && category == $category && isActive == true] | order(publishedAt desc) [0] {
+        _id,
+        title,
+        slug,
+        category,
+        videoUrl,
+        description,
+        isActive,
+        publishedAt
+      }
+    `;
+    const result = await sanityClient.fetch(query, { category });
+    return result || null;
+  } catch (error) {
+    console.error('Server: Failed to fetch featured video by category:', error);
+    return null;
+  }
+}
+
+// Get all featured videos
+export async function getAllFeaturedVideos(): Promise<SanityFeaturedVideo[]> {
+  try {
+    const query = `
+      *[_type == "featuredVideo"] | order(publishedAt desc) {
+        _id,
+        title,
+        slug,
+        category,
+        videoUrl,
+        description,
+        isActive,
+        publishedAt
+      }
+    `;
+    const results = await sanityClient.fetch(query);
+    return results || [];
+  } catch (error) {
+    console.error('Server: Failed to fetch featured videos:', error);
+    return [];
+  }
+}

@@ -10,6 +10,10 @@ export default function CrewLifePage() {
     limit: 20,
   });
 
+  const { data: featuredVideo } = trpc.videos.byCategory.useQuery({
+    category: "crew-life",
+  });
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <NavigationNew />
@@ -39,15 +43,20 @@ export default function CrewLifePage() {
               </div>
             </div>
             <div className="aspect-video bg-gray-900 rounded-lg overflow-hidden shadow-2xl">
-              {/* YouTube embed placeholder - replace with actual video URL */}
-              <iframe
-                className="w-full h-full"
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                title="Crew Life Video"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
+              {featuredVideo?.videoUrl ? (
+                <iframe
+                  className="w-full h-full"
+                  src={featuredVideo.videoUrl}
+                  title={featuredVideo.title || "Crew Life Video"}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-gray-800">
+                  <p className="text-white/60">No featured video available</p>
+                </div>
+              )}
             </div>
           </div>
         </div>

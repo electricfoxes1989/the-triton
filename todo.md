@@ -395,3 +395,12 @@
 - [x] Add "Captain Profiles" showcase section
 - [x] Add professional development resources
 - [x] Add industry insights and best practices section
+
+## CMS-Managed Featured Videos
+- [x] Create Sanity schema for featuredVideo document type
+- [x] Add fields: title, videoUrl, category (crew-life/captains), description
+- [x] Create backend query functions to fetch videos by category
+- [x] Add tRPC procedures for video queries
+- [x] Update CrewLifePage to fetch video from Sanity
+- [x] Update CaptainsPage to fetch video from Sanity
+- [x] Add fallback handling when no video is configured
