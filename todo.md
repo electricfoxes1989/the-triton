@@ -267,3 +267,7 @@
 
 ## Content Padding Updates
 - [x] Increase horizontal padding on all content sections
+
+## Hero Text Overlay Restoration
+- [x] Restore title, author, date, and Read More button to hero slideshow
+- [x] Make overlay smaller and more subtle than original

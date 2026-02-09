@@ -68,14 +68,38 @@ export default function HomeNew() {
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
           >
-            <Link href={`/article/${typeof heroArticle.slug === "string" ? heroArticle.slug : heroArticle.slug.current}`}>
-              <div 
-                className="absolute inset-0 bg-cover bg-center cursor-pointer"
-                style={{
-                  backgroundImage: heroArticle.heroImageUrl ? `url(${heroArticle.heroImageUrl})` : 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)',
-                }}
-              />
-            </Link>
+            <div 
+              className="absolute inset-0 bg-cover bg-center"
+              style={{
+                backgroundImage: heroArticle.heroImageUrl ? `url(${heroArticle.heroImageUrl})` : 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)',
+              }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+            </div>
+
+            {/* Hero Content */}
+            <div className="relative container mx-auto px-6 md:px-8 h-full flex flex-col justify-end pb-20 md:pb-24">
+              <div className="max-w-2xl">
+                <span className="inline-block px-3 py-1 bg-[#00BCD4] text-white text-xs font-bold uppercase tracking-widest mb-3">
+                  NEWS
+                </span>
+                <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3 leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
+                  {heroArticle.title}
+                </h1>
+                <div className="flex items-center gap-3 text-white/90 text-xs mb-4">
+                  <span className="uppercase tracking-wide">
+                    BY {heroArticle.author?.name || 'TRITON STAFF'}
+                  </span>
+                  <span>•</span>
+                  <span className="uppercase">{formatDate(heroArticle.publishedAt)}</span>
+                </div>
+                <Link href={`/article/${typeof heroArticle.slug === "string" ? heroArticle.slug : heroArticle.slug.current}`}>
+                  <button className="px-6 py-2 bg-white text-primary font-semibold rounded hover:bg-gray-100 hover-scale transition-colors uppercase tracking-wide text-xs">
+                    Read More
+                  </button>
+                </Link>
+              </div>
+            </div>
 
             {/* Carousel Navigation */}
             <div className="absolute bottom-8 right-6 md:right-8 flex items-center gap-4 z-10">
