@@ -230,8 +230,9 @@
 - [ ] Enhance author bio with social media links
 - [ ] Add recent articles list to author bio section
 
-## Homepage Section Reordering
-- [ ] Move Media Kit banner section above Crew Life section
+## Homepage Section Reordering and Footer Update
+- [x] Move Crew Life section below Media Kit banner
+- [x] Update footer to dark blue color scheme
 
 ## Banner Images Integration
 - [x] Upload AME Solutions banner to S3

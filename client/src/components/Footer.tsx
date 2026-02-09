@@ -2,7 +2,7 @@ import { Link } from "wouter";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0A1628] text-white">
+    <footer className="bg-primary text-white">
       {/* Main footer */}
       <div className="container py-10 sm:py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-6 sm:gap-8 md:gap-6 items-start">
@@ -100,7 +100,7 @@ export default function Footer() {
               />
               <button
                 type="submit"
-                className="px-5 py-2.5 bg-white text-[#0A1628] text-sm font-medium hover:bg-white/90 transition-colors"
+                className="px-5 py-2.5 bg-white text-primary text-sm font-medium hover:bg-white/90 transition-colors"
               >
                 Subscribe
               </button>
