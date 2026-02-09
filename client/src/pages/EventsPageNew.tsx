@@ -24,9 +24,7 @@ export default function EventsPageNew() {
   const [view, setView] = useState<"month" | "week" | "list">("month");
 
   // Fetch events from Sanity
-  const { data: events, isLoading } = trpc.events.list.useQuery({
-    limit: 100,
-  });
+  const { data: events, isLoading } = trpc.events.list.useQuery();
 
   // Transform events for FullCalendar
   const calendarEvents = events?.map((event: any) => ({

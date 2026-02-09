@@ -11,9 +11,7 @@ export default function MagazinePage() {
   const [selectedIssue, setSelectedIssue] = useState<any | null>(null);
 
   // Fetch all magazine issues
-  const { data: issues, isLoading } = trpc.magazines.list.useQuery({
-    limit: 100,
-  });
+  const { data: issues, isLoading } = trpc.magazines.list.useQuery();
 
   // Get unique years from issues
   const years: number[] = issues

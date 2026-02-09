@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { trpc } from "@/lib/trpc";
 import { ExternalLink } from "lucide-react";
 
@@ -13,6 +14,16 @@ export default function BannerAd({ page, position, className = "", fallbackConte
     page,
     position,
   });
+  
+  const trackImpression = trpc.banners.trackImpression.useMutation();
+  const trackClick = trpc.banners.trackClick.useMutation();
+
+  // Track impression when banner is loaded
+  useEffect(() => {
+    if (banner?._id) {
+      trackImpression.mutate({ adId: banner._id });
+    }
+  }, [banner?._id]);
 
   if (isLoading) {
     return (
@@ -26,6 +37,12 @@ export default function BannerAd({ page, position, className = "", fallbackConte
     return fallbackContent ? <>{fallbackContent}</> : null;
   }
 
+  const handleClick = () => {
+    if (banner?._id) {
+      trackClick.mutate({ adId: banner._id });
+    }
+  };
+
   return (
     <a
       href={banner.link}
@@ -33,6 +50,7 @@ export default function BannerAd({ page, position, className = "", fallbackConte
       rel="noopener noreferrer sponsored"
       className={`block group relative overflow-hidden ${className}`}
       title={banner.advertiser || banner.title}
+      onClick={handleClick}
     >
       <img
         src={banner.imageUrl}

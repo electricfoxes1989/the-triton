@@ -49,7 +49,7 @@ export async function getArticles(limit: number = 50): Promise<SanityArticle[]> 
     const results = await sanityClient.fetch(query);
     return results || [];
   } catch (error) {
-    console.error('Server: Failed to fetch articles from Sanity:', error);
+    console.error('Error fetching articles:', error);
     return [];
   }
 }
@@ -57,7 +57,7 @@ export async function getArticles(limit: number = 50): Promise<SanityArticle[]> 
 export async function getArticleBySlug(slug: string): Promise<SanityArticle | null> {
   try {
     const query = `
-      *[_type == "article" && slug.current == $slug][0] {
+      *[_type == "article" && slug.current == "${slug}"][0]{
         _id,
         title,
         slug,
@@ -65,15 +65,24 @@ export async function getArticleBySlug(slug: string): Promise<SanityArticle | nu
         publishedAt,
         heroImageUrl,
         body,
-        "author": author->{name, slug, image, bio},
+        "author": author->{
+          name, 
+          slug,
+          "image": image.asset->url,
+          bio,
+          twitter,
+          linkedin,
+          email,
+          website
+        },
         "category": category->{title, slug},
         "tags": tags[]->{name, slug}
       }
     `;
-    const result = await sanityClient.fetch(query, { slug });
+    const result = await sanityClient.fetch(query);
     return result || null;
   } catch (error) {
-    console.error('Server: Failed to fetch article by slug:', error);
+    console.error('Error fetching article by slug:', error);
     return null;
   }
 }
@@ -81,7 +90,7 @@ export async function getArticleBySlug(slug: string): Promise<SanityArticle | nu
 export async function getArticlesByCategory(categorySlug: string, limit: number = 20): Promise<SanityArticle[]> {
   try {
     const query = `
-      *[_type == "article" && category->slug.current == $categorySlug] | order(publishedAt desc) [0...${limit}] {
+      *[_type == "article" && category->slug.current == "${categorySlug}"] | order(publishedAt desc) [0...${limit}] {
         _id,
         title,
         slug,
@@ -92,10 +101,10 @@ export async function getArticlesByCategory(categorySlug: string, limit: number 
         "category": category->{title, slug}
       }
     `;
-    const results = await sanityClient.fetch(query, { categorySlug });
+    const results = await sanityClient.fetch(query);
     return results || [];
   } catch (error) {
-    console.error('Server: Failed to fetch articles by category:', error);
+    console.error('Error fetching articles by category:', error);
     return [];
   }
 }
@@ -104,8 +113,9 @@ export async function searchArticles(searchQuery: string, limit: number = 20): P
   try {
     const query = `
       *[_type == "article" && (
-        title match $searchQuery ||
-        excerpt match $searchQuery
+        title match "${searchQuery}*" ||
+        excerpt match "${searchQuery}*" ||
+        author->name match "${searchQuery}*"
       )] | order(publishedAt desc) [0...${limit}] {
         _id,
         title,
@@ -117,57 +127,44 @@ export async function searchArticles(searchQuery: string, limit: number = 20): P
         "category": category->{title, slug}
       }
     `;
-    const results = await sanityClient.fetch(query, { searchQuery: `*${searchQuery}*` });
+    const results = await sanityClient.fetch(query);
     return results || [];
   } catch (error) {
-    console.error('Server: Failed to search articles:', error);
+    console.error('Error searching articles:', error);
     return [];
   }
 }
 
-// Magazine Issue interfaces and functions
+// Magazine Issue Types
 export interface SanityMagazineIssue {
   _id: string;
   title: string;
   slug: { current: string } | string;
-  issueNumber?: string;
-  publishDate: string;
-  coverImage?: string;
+  issueNumber: number;
+  publishedDate: string;
+  coverImageUrl?: string;
   issuuEmbedUrl?: string;
-  issuuDocumentId?: string;
-  pdfUrl?: string;
   description?: string;
-  featuredArticles?: SanityArticle[];
 }
 
-export async function getMagazineIssues(limit: number = 50): Promise<SanityMagazineIssue[]> {
+export async function getMagazineIssues(): Promise<SanityMagazineIssue[]> {
   try {
     const query = `
-      *[_type == "magazineIssue"] | order(publishDate desc) [0...${limit}] {
+      *[_type == "magazineIssue"] | order(publishedDate desc) {
         _id,
         title,
         slug,
         issueNumber,
-        publishDate,
-        "coverImage": coverImage.asset->url,
+        publishedDate,
+        "coverImageUrl": coverImage.asset->url,
         issuuEmbedUrl,
-        issuuDocumentId,
-        pdfUrl,
-        description,
-        "featuredArticles": featuredArticles[]->{
-          _id,
-          title,
-          slug,
-          excerpt,
-          publishedAt,
-          heroImageUrl
-        }
+        description
       }
     `;
     const results = await sanityClient.fetch(query);
     return results || [];
   } catch (error) {
-    console.error('Server: Failed to fetch magazine issues from Sanity:', error);
+    console.error('Error fetching magazine issues:', error);
     return [];
   }
 }
@@ -175,85 +172,59 @@ export async function getMagazineIssues(limit: number = 50): Promise<SanityMagaz
 export async function getMagazineIssueBySlug(slug: string): Promise<SanityMagazineIssue | null> {
   try {
     const query = `
-      *[_type == "magazineIssue" && slug.current == $slug][0] {
+      *[_type == "magazineIssue" && slug.current == "${slug}"][0]{
         _id,
         title,
         slug,
         issueNumber,
-        publishDate,
-        "coverImage": coverImage.asset->url,
+        publishedDate,
+        "coverImageUrl": coverImage.asset->url,
         issuuEmbedUrl,
-        issuuDocumentId,
-        pdfUrl,
-        description,
-        "featuredArticles": featuredArticles[]->{
-          _id,
-          title,
-          slug,
-          excerpt,
-          publishedAt,
-          heroImageUrl,
-          "author": author->{name, slug}
-        }
+        description
       }
     `;
-    const result = await sanityClient.fetch(query, { slug });
+    const result = await sanityClient.fetch(query);
     return result || null;
   } catch (error) {
-    console.error('Server: Failed to fetch magazine issue by slug:', error);
+    console.error('Error fetching magazine issue by slug:', error);
     return null;
   }
 }
 
-// Event interfaces and functions
+// Event Types
 export interface SanityEvent {
   _id: string;
   title: string;
   slug: { current: string } | string;
   startDate: string;
   endDate?: string;
-  allDay: boolean;
-  eventType: string;
-  location?: {
-    venue?: string;
-    city?: string;
-    country?: string;
-    address?: string;
-  };
-  description?: any;
-  featuredImage?: string;
+  location?: string;
+  description?: string;
+  eventType?: string;
   registrationUrl?: string;
-  websiteUrl?: string;
-  organizer?: string;
-  contactEmail?: string;
-  isFeatured: boolean;
+  imageUrl?: string;
 }
 
-export async function getEvents(limit: number = 100): Promise<SanityEvent[]> {
+export async function getEvents(): Promise<SanityEvent[]> {
   try {
     const query = `
-      *[_type == "event"] | order(startDate asc) [0...${limit}] {
+      *[_type == "event"] | order(startDate desc) {
         _id,
         title,
         slug,
         startDate,
         endDate,
-        allDay,
-        eventType,
         location,
         description,
-        "featuredImage": featuredImage.asset->url,
+        eventType,
         registrationUrl,
-        websiteUrl,
-        organizer,
-        contactEmail,
-        isFeatured
+        "imageUrl": image.asset->url
       }
     `;
     const results = await sanityClient.fetch(query);
     return results || [];
   } catch (error) {
-    console.error('Server: Failed to fetch events from Sanity:', error);
+    console.error('Error fetching events:', error);
     return [];
   }
 }
@@ -261,58 +232,52 @@ export async function getEvents(limit: number = 100): Promise<SanityEvent[]> {
 export async function getEventBySlug(slug: string): Promise<SanityEvent | null> {
   try {
     const query = `
-      *[_type == "event" && slug.current == $slug][0] {
+      *[_type == "event" && slug.current == "${slug}"][0]{
         _id,
         title,
         slug,
         startDate,
         endDate,
-        allDay,
-        eventType,
         location,
         description,
-        "featuredImage": featuredImage.asset->url,
+        eventType,
         registrationUrl,
-        websiteUrl,
-        organizer,
-        contactEmail,
-        isFeatured
+        "imageUrl": image.asset->url
       }
     `;
-    const result = await sanityClient.fetch(query, { slug });
+    const result = await sanityClient.fetch(query);
     return result || null;
   } catch (error) {
-    console.error('Server: Failed to fetch event by slug:', error);
+    console.error('Error fetching event by slug:', error);
     return null;
   }
 }
 
-export async function getFeaturedEvents(limit: number = 10): Promise<SanityEvent[]> {
+export async function getFeaturedEvents(limit: number = 5): Promise<SanityEvent[]> {
   try {
     const query = `
-      *[_type == "event" && isFeatured == true] | order(startDate asc) [0...${limit}] {
+      *[_type == "event" && startDate >= now()] | order(startDate asc) [0...${limit}] {
         _id,
         title,
         slug,
         startDate,
         endDate,
-        allDay,
-        eventType,
         location,
-        "featuredImage": featuredImage.asset->url,
+        description,
+        eventType,
         registrationUrl,
-        websiteUrl
+        "imageUrl": image.asset->url
       }
     `;
     const results = await sanityClient.fetch(query);
     return results || [];
   } catch (error) {
-    console.error('Server: Failed to fetch featured events:', error);
+    console.error('Error fetching featured events:', error);
     return [];
   }
 }
 
-// Author interface
+// Author Types
 export interface SanityAuthor {
   _id: string;
   name: string;
@@ -325,15 +290,14 @@ export interface SanityAuthor {
   website?: string;
 }
 
-// Get author by slug
 export async function getAuthorBySlug(slug: string): Promise<SanityAuthor | null> {
   try {
     const query = `
-      *[_type == "author" && slug.current == $slug][0] {
+      *[_type == "author" && slug.current == "${slug}"][0]{
         _id,
         name,
         slug,
-        image,
+        "image": image.asset->url,
         bio,
         twitter,
         linkedin,
@@ -341,19 +305,18 @@ export async function getAuthorBySlug(slug: string): Promise<SanityAuthor | null
         website
       }
     `;
-    const result = await sanityClient.fetch(query, { slug });
+    const result = await sanityClient.fetch(query);
     return result || null;
   } catch (error) {
-    console.error('Server: Failed to fetch author by slug:', error);
+    console.error('Error fetching author by slug:', error);
     return null;
   }
 }
 
-// Get articles by author slug
-export async function getArticlesByAuthor(authorSlug: string, limit: number = 50): Promise<SanityArticle[]> {
+export async function getArticlesByAuthor(authorSlug: string, limit: number = 20): Promise<SanityArticle[]> {
   try {
     const query = `
-      *[_type == "article" && author->slug.current == $authorSlug] | order(publishedAt desc) [0...${limit}] {
+      *[_type == "article" && author->slug.current == "${authorSlug}"] | order(publishedAt desc) [0...${limit}] {
         _id,
         title,
         slug,
@@ -364,69 +327,41 @@ export async function getArticlesByAuthor(authorSlug: string, limit: number = 50
         "category": category->{title, slug}
       }
     `;
-    const results = await sanityClient.fetch(query, { authorSlug });
-    return results || [];
-  } catch (error) {
-    console.error('Server: Failed to fetch articles by author:', error);
-    return [];
-  }
-}
-
-// Featured Video interface
-export interface SanityFeaturedVideo {
-  _id: string;
-  title: string;
-  slug: { current: string } | string;
-  category: 'crew-life' | 'captains';
-  videoUrl: string;
-  description?: string;
-  isActive: boolean;
-  publishedAt: string;
-}
-
-// Get active featured video by category
-export async function getFeaturedVideoByCategory(category: string): Promise<SanityFeaturedVideo | null> {
-  try {
-    const query = `
-      *[_type == "featuredVideo" && category == $category && isActive == true] | order(publishedAt desc) [0] {
-        _id,
-        title,
-        slug,
-        category,
-        videoUrl,
-        description,
-        isActive,
-        publishedAt
-      }
-    `;
-    const result = await sanityClient.fetch(query, { category });
-    return result || null;
-  } catch (error) {
-    console.error('Server: Failed to fetch featured video by category:', error);
-    return null;
-  }
-}
-
-// Get all featured videos
-export async function getAllFeaturedVideos(): Promise<SanityFeaturedVideo[]> {
-  try {
-    const query = `
-      *[_type == "featuredVideo"] | order(publishedAt desc) {
-        _id,
-        title,
-        slug,
-        category,
-        videoUrl,
-        description,
-        isActive,
-        publishedAt
-      }
-    `;
     const results = await sanityClient.fetch(query);
     return results || [];
   } catch (error) {
-    console.error('Server: Failed to fetch featured videos:', error);
+    console.error('Error fetching articles by author:', error);
     return [];
+  }
+}
+
+// Featured Video Types
+export interface SanityFeaturedVideo {
+  _id: string;
+  title: string;
+  videoUrl: string;
+  description?: string;
+  category: string;
+  active: boolean;
+}
+
+export async function getFeaturedVideoByCategory(category: string): Promise<SanityFeaturedVideo | null> {
+  try {
+    const query = `
+      *[_type == "featuredVideo" && category == "${category}" && active == true][0]{
+        _id,
+        title,
+        videoUrl,
+        description,
+        category,
+        active
+      }
+    `;
+    const result = await sanityClient.fetch(query);
+    return result || null;
+  } catch (error) {
+    console.error('Error fetching featured video by category:', error);
+    return null;
   }
 }
 
@@ -444,6 +379,8 @@ export interface SanityBannerAd {
   isActive: boolean;
   startDate?: string;
   endDate?: string;
+  impressions?: number;
+  clicks?: number;
 }
 
 export async function getBannerAds(page: string, position: string): Promise<SanityBannerAd | null> {
@@ -467,7 +404,9 @@ export async function getBannerAds(page: string, position: string): Promise<Sani
         priority,
         isActive,
         startDate,
-        endDate
+        endDate,
+        impressions,
+        clicks
       }
     `;
     const result = await sanityClient.fetch(query);
@@ -497,7 +436,9 @@ export async function getAllActiveBanners(): Promise<SanityBannerAd[]> {
         priority,
         isActive,
         startDate,
-        endDate
+        endDate,
+        impressions,
+        clicks
       }
     `;
     const results = await sanityClient.fetch(query);
@@ -505,5 +446,61 @@ export async function getAllActiveBanners(): Promise<SanityBannerAd[]> {
   } catch (error) {
     console.error('Error fetching all active banners:', error);
     return [];
+  }
+}
+
+export async function getAllAdvertisements(): Promise<SanityBannerAd[]> {
+  try {
+    const query = `
+      *[_type == "bannerAd"] | order(priority desc, _createdAt desc){
+        _id,
+        title,
+        slug,
+        "imageUrl": image.asset->url,
+        link,
+        advertiser,
+        position,
+        pageTargeting,
+        priority,
+        isActive,
+        startDate,
+        endDate,
+        impressions,
+        clicks
+      }
+    `;
+    const results = await sanityClient.fetch(query);
+    return results || [];
+  } catch (error) {
+    console.error('Error fetching all advertisements:', error);
+    return [];
+  }
+}
+
+export async function trackBannerImpression(adId: string): Promise<boolean> {
+  try {
+    await sanityClient
+      .patch(adId)
+      .setIfMissing({ impressions: 0 })
+      .inc({ impressions: 1 })
+      .commit();
+    return true;
+  } catch (error) {
+    console.error('Error tracking banner impression:', error);
+    return false;
+  }
+}
+
+export async function trackBannerClick(adId: string): Promise<boolean> {
+  try {
+    await sanityClient
+      .patch(adId)
+      .setIfMissing({ clicks: 0 })
+      .inc({ clicks: 1 })
+      .commit();
+    return true;
+  } catch (error) {
+    console.error('Error tracking banner click:', error);
+    return false;
   }
 }

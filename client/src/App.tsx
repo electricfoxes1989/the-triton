@@ -18,6 +18,7 @@ import CrewLifePage from "./pages/CrewLifePage";
 import MagazinePage from "./pages/MagazinePage";
 import EventsPageNew from "./pages/EventsPageNew";
 import AdvertisePage from "./pages/AdvertisePage";
+import AdvertisementAnalytics from "./pages/AdvertisementAnalytics";
 
 function Router() {
   return (
@@ -32,6 +33,7 @@ function Router() {
       <Route path="/magazine" component={MagazinePage} />
       <Route path="/events" component={EventsPageNew} />
       <Route path="/advertise" component={AdvertisePage} />
+      <Route path="/ad-analytics" component={AdvertisementAnalytics} />
       <Route path="/category/:slug" component={Category} />
       <Route path="/tag/:slug" component={Tag} />
       <Route path="/search" component={Search} />

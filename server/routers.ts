@@ -3,7 +3,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { z } from "zod";
-import { getArticles, getArticleBySlug, getArticlesByCategory, searchArticles, getMagazineIssues, getEvents, getAuthorBySlug, getArticlesByAuthor, getFeaturedVideoByCategory, getBannerAds, getAllActiveBanners } from "./sanity";
+import { getArticles, getArticleBySlug, getArticlesByCategory, searchArticles, getMagazineIssues, getEvents, getAuthorBySlug, getArticlesByAuthor, getFeaturedVideoByCategory, getBannerAds, getAllActiveBanners, getAllAdvertisements, trackBannerImpression, trackBannerClick } from "./sanity";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -55,18 +55,16 @@ export const appRouter = router({
   // Magazine issues
   magazines: router({
     list: publicProcedure
-      .input(z.object({ limit: z.number().optional().default(50) }))
-      .query(async ({ input }) => {
-        return await getMagazineIssues(input.limit);
+      .query(async () => {
+        return await getMagazineIssues();
       }),
   }),
 
   // Events
   events: router({
     list: publicProcedure
-      .input(z.object({ limit: z.number().optional().default(100) }))
-      .query(async ({ input }) => {
-        return await getEvents(input.limit);
+      .query(async () => {
+        return await getEvents();
       }),
   }),
 
@@ -111,6 +109,26 @@ export const appRouter = router({
     allActive: publicProcedure
       .query(async () => {
         return await getAllActiveBanners();
+      }),
+    
+    trackImpression: publicProcedure
+      .input(z.object({ adId: z.string() }))
+      .mutation(async ({ input }) => {
+        return await trackBannerImpression(input.adId);
+      }),
+    
+    trackClick: publicProcedure
+      .input(z.object({ adId: z.string() }))
+      .mutation(async ({ input }) => {
+        return await trackBannerClick(input.adId);
+      }),
+  }),
+
+  // Advertisement Analytics
+  analytics: router({
+    allAdvertisements: publicProcedure
+      .query(async () => {
+        return await getAllAdvertisements();
       }),
   }),
 });

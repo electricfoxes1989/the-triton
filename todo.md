@@ -430,3 +430,12 @@
 - [ ] Create sample advertisements in Sanity (Quantum, AME Solutions, etc.)
 - [ ] Test ad display and click tracking
 - [ ] Monitor impression and click analytics
+
+## Advertisement Analytics Dashboard
+- [x] Add tRPC procedure to fetch all advertisements with analytics data
+- [x] Create AdvertisementAnalytics page component
+- [x] Display ads in table format with image, title, targeting info
+- [x] Show impressions, clicks, and calculated CTR for each ad
+- [x] Add sorting and filtering capabilities
+- [x] Add route to App.tsx
+- [x] Write vitest tests for analytics page
