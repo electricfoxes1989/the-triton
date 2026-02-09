@@ -10,7 +10,7 @@
 - [x] Add "5 MIN READ" style reading time
 - [x] Align "Trending Now" numbered list vertically (expanded to 5 items)
 - [x] Apply same font styles to "Triton Spotlight" and "Crew Life" sections
-- [ ] Update Media Kit box with provided PDF content
+- [x] Update Media Kit box with provided PDF content
 - [x] Confirm bottom banner is standard 728x90 size
 - [x] Align footer text rows to top of Triton logo
 - [x] Reduce space between footer columns
@@ -153,3 +153,8 @@
 - [x] Use serif font for article body text only
 - [x] Update navigation menu font
 - [x] Update section headings font
+
+## Media Kit Update
+- [x] Extract key information from Media Kit PDF
+- [x] Update homepage Media Kit banner section
+- [x] Ensure design matches overall site aesthetic

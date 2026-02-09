@@ -354,12 +354,12 @@ export default function HomeNew() {
                 <div className="text-xs text-gray-500 mt-1">Digital Subscribers.<br />Distributed at FLIBS and<br />Palm Beach boat shows</div>
               </div>
               <div>
-                <div className="text-5xl font-bold text-gray-300 mb-2">22k+</div>
+                <div className="text-5xl font-bold text-gray-300 mb-2">27k+</div>
                 <div className="text-sm font-semibold text-gray-700 uppercase">Weekly News Brief</div>
                 <div className="text-xs text-gray-500 mt-1">Email Subscribers</div>
               </div>
               <div>
-                <div className="text-5xl font-bold text-gray-300 mb-2">3M+</div>
+                <div className="text-5xl font-bold text-gray-300 mb-2">2.5M+</div>
                 <div className="text-sm font-semibold text-gray-700 uppercase">Digital and Social<br />Media</div>
                 <div className="text-xs text-gray-500 mt-1">Annual Impressions</div>
               </div>
@@ -373,19 +373,19 @@ export default function HomeNew() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center min-h-[400px]">
               <div className="text-white py-12">
                 <div className="text-xs font-semibold uppercase tracking-wider mb-4 text-white/80">
-                  Commitment to Excellence
+                  Advertise with Triton
                 </div>
                 <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                  OUR MEDIA KIT
+                  REACH THE YACHTING INDUSTRY
                 </h2>
                 <p className="text-lg mb-8 text-white/90 leading-relaxed">
-                  Find out more about who we are and what we stand for. From our services,
-                  mission, vision, and company values to our commitment to customers and
-                  testimonials, we present you Bluestar Marine.
+                  For two decades, Triton has been the voice of the people who keep the yachting industry moving. 
+                  Position your brand alongside the go-to source for technical expertise, regulatory information, 
+                  and career advice trusted by 22,000 captains and crew worldwide.
                 </p>
-                <button className="px-8 py-4 bg-[#00BCD4] text-white font-semibold rounded hover:bg-[#00ACC1] transition-colors uppercase tracking-wide">
-                  Download Media Kit
-                </button>
+                <a href="/TRITON-MediaKit-2026.pdf" download className="inline-block px-8 py-4 bg-[#00BCD4] text-white font-semibold rounded hover:bg-[#00ACC1] transition-colors uppercase tracking-wide">
+                  Download Media Kit 2026
+                </a>
               </div>
               <div className="hidden md:flex items-center justify-center py-12">
                 <div className="relative">
