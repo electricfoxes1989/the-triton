@@ -122,9 +122,11 @@ export function ArticlePage() {
                           className="w-10 h-10 rounded-full object-cover"
                         />
                       )}
-                      <span className="font-medium text-gray-900">
-                        By {article.author.name}
-                      </span>
+                      <Link href={`/author/${typeof article.author.slug === 'string' ? article.author.slug : article.author.slug.current}`}>
+                        <span className="font-medium text-gray-900 hover:text-primary transition-colors cursor-pointer">
+                          By {article.author.name}
+                        </span>
+                      </Link>
                     </div>
                   )}
                   <div className="flex items-center gap-2">

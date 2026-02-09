@@ -7,6 +7,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/HomeNew";
 import ArticleDetail from "./pages/ArticleDetail";
 import { ArticlePage } from "./pages/ArticlePage";
+import { AuthorPage } from "./pages/AuthorPage";
 import Category from "./pages/Category";
 import Tag from "./pages/Tag";
 import Search from "./pages/Search";
@@ -24,6 +25,7 @@ function Router() {
       {/* Public routes */}
       <Route path="/" component={Home} />
       <Route path="/article/:slug" component={ArticlePage} />
+      <Route path="/author/:slug" component={AuthorPage} />
       <Route path="/news" component={NewsPage} />
       <Route path="/captains" component={CaptainsPage} />
       <Route path="/crew-life" component={CrewLifePage} />

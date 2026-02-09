@@ -311,3 +311,63 @@ export async function getFeaturedEvents(limit: number = 10): Promise<SanityEvent
     return [];
   }
 }
+
+// Author interface
+export interface SanityAuthor {
+  _id: string;
+  name: string;
+  slug: { current: string } | string;
+  image?: string;
+  bio?: string;
+  twitter?: string;
+  linkedin?: string;
+  email?: string;
+  website?: string;
+}
+
+// Get author by slug
+export async function getAuthorBySlug(slug: string): Promise<SanityAuthor | null> {
+  try {
+    const query = `
+      *[_type == "author" && slug.current == $slug][0] {
+        _id,
+        name,
+        slug,
+        image,
+        bio,
+        twitter,
+        linkedin,
+        email,
+        website
+      }
+    `;
+    const result = await sanityClient.fetch(query, { slug });
+    return result || null;
+  } catch (error) {
+    console.error('Server: Failed to fetch author by slug:', error);
+    return null;
+  }
+}
+
+// Get articles by author slug
+export async function getArticlesByAuthor(authorSlug: string, limit: number = 50): Promise<SanityArticle[]> {
+  try {
+    const query = `
+      *[_type == "article" && author->slug.current == $authorSlug] | order(publishedAt desc) [0...${limit}] {
+        _id,
+        title,
+        slug,
+        excerpt,
+        publishedAt,
+        heroImageUrl,
+        "author": author->{name, slug},
+        "category": category->{title, slug}
+      }
+    `;
+    const results = await sanityClient.fetch(query, { authorSlug });
+    return results || [];
+  } catch (error) {
+    console.error('Server: Failed to fetch articles by author:', error);
+    return [];
+  }
+}

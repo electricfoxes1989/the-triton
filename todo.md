@@ -351,3 +351,13 @@
 - [x] Add social sharing buttons
 - [x] Show article metadata (date, category, tags)
 - [x] Add route in App.tsx for /article/:slug
+
+## Author Profile Pages
+- [x] Create backend query to fetch author by slug
+- [x] Create backend query to fetch articles by author
+- [x] Add tRPC procedures for author queries
+- [x] Create AuthorPage component with profile header
+- [x] Display author photo, name, bio, and social links
+- [x] Show complete article archive in grid layout
+- [x] Add route in App.tsx for /author/:slug
+- [x] Update article pages to link to author profiles
