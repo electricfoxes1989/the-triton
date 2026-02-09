@@ -99,3 +99,22 @@
 - [x] Add statistics section (22k, 25k+, 22k+, 3M+)
 - [x] Create media kit banner section
 - [x] Update footer with proper links
+
+## Logo and Layout Fixes
+- [x] Add Triton logo to navigation
+- [x] Reposition ad banner horizontally next to logo (not full width)
+- [ ] Update article typography to NYT serif style only
+
+## Sanity CMS Content Strategy
+- [x] Document required Sanity schema fields (hero image, headline, author, body, etc.)
+- [x] Define category mapping to homepage sections
+- [x] Document rich text editor capabilities (image/video embedding)
+- [x] Create journalist workflow guide for Sanity Studio
+- [x] Define required vs optional fields in schema
+- [x] Document image specifications and requirements
+
+## Sanity Connection Issues
+- [x] Debug Sanity API connection errors
+- [x] Check CORS configuration
+- [x] Verify API token permissions
+- [x] Test with simpler queries

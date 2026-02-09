@@ -30,11 +30,23 @@ export default function NavigationNew() {
         </div>
       </div>
 
-      {/* Ad Banner Space */}
+      {/* Logo and Ad Banner Row */}
       <div className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-4 py-4">
-          <div className="h-24 bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
-            Advertisement Space (728x90)
+          <div className="flex items-center justify-between gap-8">
+            {/* Triton Logo */}
+            <Link href="/" className="flex-shrink-0">
+              <img 
+                src="/triton-logo.png" 
+                alt="Triton News" 
+                className="h-16 w-auto"
+              />
+            </Link>
+            
+            {/* Ad Banner Space */}
+            <div className="flex-1 h-24 bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
+              Advertisement Space (728x90)
+            </div>
           </div>
         </div>
       </div>
@@ -43,19 +55,8 @@ export default function NavigationNew() {
       <nav className="bg-primary text-white sticky top-0 z-50 shadow-md">
         <div className="container mx-auto">
           <div className="flex items-center justify-between h-16">
-            {/* Logo */}
-            <Link href="/" className="flex items-center">
-              <img 
-                src="/triton-logo-white.png" 
-                alt="Triton News" 
-                className="h-12"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                  e.currentTarget.nextElementSibling?.classList.remove('hidden');
-                }}
-              />
-              <span className="hidden text-2xl font-bold ml-2">TRITON</span>
-            </Link>
+            {/* Empty space for alignment */}
+            <div className="w-8"></div>
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-8 text-sm uppercase tracking-wider font-medium">

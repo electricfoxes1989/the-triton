@@ -4,8 +4,10 @@ import imageUrlBuilder from '@sanity/image-url';
 export const sanityClient = createClient({
   projectId: import.meta.env.VITE_SANITY_PROJECT_ID,
   dataset: import.meta.env.VITE_SANITY_DATASET,
-  useCdn: true,
+  token: import.meta.env.VITE_SANITY_API_TOKEN,
+  useCdn: false, // Disable CDN for authenticated requests
   apiVersion: '2024-01-01',
+  perspective: 'published',
 });
 
 const builder = imageUrlBuilder(sanityClient);
@@ -48,11 +50,9 @@ export async function getArticles(limit = 100) {
         slug,
         excerpt,
         publishedAt,
-        mainImage,
-        "heroImageUrl": coalesce(heroImageUrl, mainImage.asset->url),
-        "author": author->{name, slug, image, bio},
-        "category": category->{title, slug},
-        "tags": tags[]->{name, slug}
+        heroImageUrl,
+        "author": author->{name, slug},
+        "category": category->{title, slug}
       }
     `);
   } catch (error) {
@@ -87,14 +87,13 @@ export async function getFeaturedArticles(limit = 1) {
   try {
     // Try featured articles first, fallback to latest if no featured field exists
     const featured = await sanityClient.fetch(`
-      *[_type == "article" && defined(featured) && featured == true] | order(publishedAt desc) [0...${limit}] {
+      *[_type == "article" && featured == true] | order(publishedAt desc) [0...${limit}] {
         _id,
         title,
         slug,
         excerpt,
         publishedAt,
-        mainImage,
-        "heroImageUrl": coalesce(heroImageUrl, mainImage.asset->url),
+        heroImageUrl,
         "author": author->{name, slug},
         "category": category->{title, slug}
       }

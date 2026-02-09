@@ -66,7 +66,7 @@ export default function HomeNew() {
             <div 
               className="absolute inset-0 bg-cover bg-center"
               style={{
-                backgroundImage: `url(${heroArticle.heroImageUrl || heroArticle.mainImage?.asset?.url || '/placeholder-hero.jpg'})`,
+                backgroundImage: heroArticle.heroImageUrl ? `url(${heroArticle.heroImageUrl})` : 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)',
               }}
             >
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
@@ -174,7 +174,7 @@ export default function HomeNew() {
                       <article className="group cursor-pointer">
                         <div className="aspect-video overflow-hidden mb-3 rounded">
                           <img
-                            src={article.heroImageUrl || article.mainImage?.asset?.url || '/placeholder.jpg'}
+                            src={article.heroImageUrl || '/placeholder.jpg'}
                             alt={article.title}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                           />
@@ -238,7 +238,7 @@ export default function HomeNew() {
                   <article className="group cursor-pointer bg-gray-50 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
                     <div className="aspect-video overflow-hidden">
                       <img
-                        src={article.heroImageUrl || article.mainImage?.asset?.url || '/placeholder.jpg'}
+                        src={article.heroImageUrl || '/placeholder.jpg'}
                         alt={article.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
@@ -302,7 +302,7 @@ export default function HomeNew() {
                   <article className="group cursor-pointer">
                     <div className="aspect-video overflow-hidden mb-4 rounded">
                       <img
-                        src={article.heroImageUrl || article.mainImage?.asset?.url || '/placeholder.jpg'}
+                        src={article.heroImageUrl || '/placeholder.jpg'}
                         alt={article.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
