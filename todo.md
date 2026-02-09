@@ -158,3 +158,12 @@
 - [x] Extract key information from Media Kit PDF
 - [x] Update homepage Media Kit banner section
 - [x] Ensure design matches overall site aesthetic
+
+## Article Migration & Population
+- [x] Create migration script to add sample articles
+- [x] Add articles for Latest News section (7 articles)
+- [x] Add articles for Trending Now section (5 articles)
+- [x] Add articles for Triton Spotlight section (4 articles)
+- [x] Add articles for Crew Life section (4 articles)
+- [x] Include proper categories, authors, hero images, and excerpts
+- [x] Run migration script and verify articles display correctly
