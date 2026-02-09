@@ -335,3 +335,10 @@
 - [x] Build events calendar page with month/week/day views
 - [x] Add event detail modal with registration links
 - [x] Implement color-coded event types and legend
+
+## Sanity Backend Implementation
+- [x] Create getMagazineIssues function in server/sanity.ts
+- [x] Create getEvents function in server/sanity.ts
+- [x] Update magazines.list tRPC router to use Sanity query
+- [x] Update events.list tRPC router to use Sanity query
+- [ ] Test with sample data once schemas are added to Sanity Studio

@@ -3,7 +3,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { z } from "zod";
-import { getArticles, getArticleBySlug, getArticlesByCategory, searchArticles } from "./sanity";
+import { getArticles, getArticleBySlug, getArticlesByCategory, searchArticles, getMagazineIssues, getEvents } from "./sanity";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -52,23 +52,21 @@ export const appRouter = router({
       }),
   }),
 
-  // Magazine issues (placeholder until Sanity schema is updated)
+  // Magazine issues
   magazines: router({
     list: publicProcedure
       .input(z.object({ limit: z.number().optional().default(50) }))
-      .query(async () => {
-        // Placeholder: will fetch from Sanity once schema is updated
-        return [];
+      .query(async ({ input }) => {
+        return await getMagazineIssues(input.limit);
       }),
   }),
 
-  // Events (placeholder until Sanity schema is updated)
+  // Events
   events: router({
     list: publicProcedure
-      .input(z.object({ limit: z.number().optional().default(50) }))
-      .query(async () => {
-        // Placeholder: will fetch from Sanity once schema is updated
-        return [];
+      .input(z.object({ limit: z.number().optional().default(100) }))
+      .query(async ({ input }) => {
+        return await getEvents(input.limit);
       }),
   }),
 });

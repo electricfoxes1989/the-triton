@@ -124,3 +124,190 @@ export async function searchArticles(searchQuery: string, limit: number = 20): P
     return [];
   }
 }
+
+// Magazine Issue interfaces and functions
+export interface SanityMagazineIssue {
+  _id: string;
+  title: string;
+  slug: { current: string } | string;
+  issueNumber?: string;
+  publishDate: string;
+  coverImage?: string;
+  issuuEmbedUrl?: string;
+  issuuDocumentId?: string;
+  pdfUrl?: string;
+  description?: string;
+  featuredArticles?: SanityArticle[];
+}
+
+export async function getMagazineIssues(limit: number = 50): Promise<SanityMagazineIssue[]> {
+  try {
+    const query = `
+      *[_type == "magazineIssue"] | order(publishDate desc) [0...${limit}] {
+        _id,
+        title,
+        slug,
+        issueNumber,
+        publishDate,
+        "coverImage": coverImage.asset->url,
+        issuuEmbedUrl,
+        issuuDocumentId,
+        pdfUrl,
+        description,
+        "featuredArticles": featuredArticles[]->{
+          _id,
+          title,
+          slug,
+          excerpt,
+          publishedAt,
+          heroImageUrl
+        }
+      }
+    `;
+    const results = await sanityClient.fetch(query);
+    return results || [];
+  } catch (error) {
+    console.error('Server: Failed to fetch magazine issues from Sanity:', error);
+    return [];
+  }
+}
+
+export async function getMagazineIssueBySlug(slug: string): Promise<SanityMagazineIssue | null> {
+  try {
+    const query = `
+      *[_type == "magazineIssue" && slug.current == $slug][0] {
+        _id,
+        title,
+        slug,
+        issueNumber,
+        publishDate,
+        "coverImage": coverImage.asset->url,
+        issuuEmbedUrl,
+        issuuDocumentId,
+        pdfUrl,
+        description,
+        "featuredArticles": featuredArticles[]->{
+          _id,
+          title,
+          slug,
+          excerpt,
+          publishedAt,
+          heroImageUrl,
+          "author": author->{name, slug}
+        }
+      }
+    `;
+    const result = await sanityClient.fetch(query, { slug });
+    return result || null;
+  } catch (error) {
+    console.error('Server: Failed to fetch magazine issue by slug:', error);
+    return null;
+  }
+}
+
+// Event interfaces and functions
+export interface SanityEvent {
+  _id: string;
+  title: string;
+  slug: { current: string } | string;
+  startDate: string;
+  endDate?: string;
+  allDay: boolean;
+  eventType: string;
+  location?: {
+    venue?: string;
+    city?: string;
+    country?: string;
+    address?: string;
+  };
+  description?: any;
+  featuredImage?: string;
+  registrationUrl?: string;
+  websiteUrl?: string;
+  organizer?: string;
+  contactEmail?: string;
+  isFeatured: boolean;
+}
+
+export async function getEvents(limit: number = 100): Promise<SanityEvent[]> {
+  try {
+    const query = `
+      *[_type == "event"] | order(startDate asc) [0...${limit}] {
+        _id,
+        title,
+        slug,
+        startDate,
+        endDate,
+        allDay,
+        eventType,
+        location,
+        description,
+        "featuredImage": featuredImage.asset->url,
+        registrationUrl,
+        websiteUrl,
+        organizer,
+        contactEmail,
+        isFeatured
+      }
+    `;
+    const results = await sanityClient.fetch(query);
+    return results || [];
+  } catch (error) {
+    console.error('Server: Failed to fetch events from Sanity:', error);
+    return [];
+  }
+}
+
+export async function getEventBySlug(slug: string): Promise<SanityEvent | null> {
+  try {
+    const query = `
+      *[_type == "event" && slug.current == $slug][0] {
+        _id,
+        title,
+        slug,
+        startDate,
+        endDate,
+        allDay,
+        eventType,
+        location,
+        description,
+        "featuredImage": featuredImage.asset->url,
+        registrationUrl,
+        websiteUrl,
+        organizer,
+        contactEmail,
+        isFeatured
+      }
+    `;
+    const result = await sanityClient.fetch(query, { slug });
+    return result || null;
+  } catch (error) {
+    console.error('Server: Failed to fetch event by slug:', error);
+    return null;
+  }
+}
+
+export async function getFeaturedEvents(limit: number = 10): Promise<SanityEvent[]> {
+  try {
+    const query = `
+      *[_type == "event" && isFeatured == true] | order(startDate asc) [0...${limit}] {
+        _id,
+        title,
+        slug,
+        startDate,
+        endDate,
+        allDay,
+        eventType,
+        location,
+        "featuredImage": featuredImage.asset->url,
+        registrationUrl,
+        websiteUrl
+      }
+    `;
+    const results = await sanityClient.fetch(query);
+    return results || [];
+  } catch (error) {
+    console.error('Server: Failed to fetch featured events:', error);
+    return [];
+  }
+}
