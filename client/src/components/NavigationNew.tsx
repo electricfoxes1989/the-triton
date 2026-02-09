@@ -39,8 +39,8 @@ export default function NavigationNew() {
               <img 
                 src="/triton-logo.png" 
                 alt="Triton News" 
-                className="h-21 w-auto"
-                style={{ height: '84px' }}
+                className="h-19 w-auto"
+                style={{ height: '76px' }}
               />
             </Link>
             

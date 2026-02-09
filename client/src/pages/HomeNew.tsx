@@ -78,12 +78,12 @@ export default function HomeNew() {
             </div>
 
             {/* Hero Content */}
-            <div className="relative container mx-auto px-4 h-full flex flex-col justify-end pb-16">
+            <div className="relative container mx-auto px-6 md:px-8 h-full flex flex-col justify-end pb-20 md:pb-24">
               <div className="max-w-3xl">
                 <span className="inline-block px-3 py-1 bg-[#00BCD4] text-white text-xs font-bold uppercase tracking-widest mb-4">
                   NEWS
                 </span>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
                   {heroArticle.title}
                 </h1>
                 <div className="flex items-center gap-4 text-white/90 text-sm mb-6">
@@ -101,7 +101,7 @@ export default function HomeNew() {
               </div>
 
               {/* Carousel Navigation */}
-              <div className="absolute bottom-8 right-8 flex items-center gap-4">
+              <div className="absolute bottom-8 right-6 md:right-8 flex items-center gap-4">
                 <button
                   onClick={prevHero}
                   className="p-2 bg-white/20 hover:bg-white/30 rounded-full transition-colors backdrop-blur-sm"
@@ -167,7 +167,7 @@ export default function HomeNew() {
                             {latestArticles[0].excerpt}
                           </p>
                           <p className="text-xs text-gray-500 uppercase tracking-widest font-semibold">
-                            5 MIN READ
+                            By {latestArticles[0].author?.name || 'Triton Staff'}
                           </p>
                         </article>
                       </Link>
@@ -192,7 +192,7 @@ export default function HomeNew() {
                           {article.title}
                         </h3>
                         <p className="text-xs text-gray-500 uppercase tracking-widest font-semibold">
-                          5 MIN READ
+                          By {article.author?.name || 'Triton Staff'}
                         </p>
                       </article>
                     </Link>
@@ -335,7 +335,7 @@ export default function HomeNew() {
         </section>
 
         {/* Newsletter Signup */}
-        <section className="relative py-20 md:py-24 bg-gradient-to-br from-primary via-[#1e4a7f] to-[#00BCD4] overflow-hidden">
+        <section className="relative py-12 md:py-16 bg-gradient-to-br from-primary via-[#1e4a7f] to-[#00BCD4] overflow-hidden">
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-5">
             <div className="absolute inset-0" style={{
@@ -347,16 +347,16 @@ export default function HomeNew() {
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto">
               {/* Header */}
-              <div className="text-center mb-10">
+              <div className="text-center mb-8">
                 <div className="inline-block mb-4">
                   <span className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-xs font-semibold uppercase tracking-widest text-white">
                     Stay Informed
                   </span>
                 </div>
-                <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 leading-tight">
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-3 leading-tight">
                   Never Miss a Story
                 </h2>
-                <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
+                <p className="text-base md:text-lg text-white/90 max-w-2xl mx-auto leading-relaxed">
                   Join <span className="font-bold text-white">27,000+ industry professionals</span> receiving weekly insights on yachting news, crew life, and maritime careers.
                 </p>
               </div>
@@ -383,7 +383,7 @@ export default function HomeNew() {
               </form>
 
               {/* Trust Indicators */}
-              <div className="mt-12 grid grid-cols-3 gap-6 max-w-2xl mx-auto">
+              <div className="mt-8 grid grid-cols-3 gap-6 max-w-2xl mx-auto">
                 <div className="text-center">
                   <div className="text-2xl md:text-3xl font-bold text-white mb-1">27k+</div>
                   <div className="text-xs md:text-sm text-white/70 uppercase tracking-wide">Subscribers</div>
