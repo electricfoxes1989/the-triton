@@ -260,3 +260,7 @@
 ## Hero Slideshow Updates
 - [x] Add more padding to hero content area
 - [x] Reduce font sizes for better proportion
+
+## Navigation and Hero Updates
+- [x] Make navigation bar sticky on mobile
+- [x] Remove text overlay from hero slideshow

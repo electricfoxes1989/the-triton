@@ -15,7 +15,7 @@ export default function NavigationNew() {
   };
 
   return (
-    <>
+    <div className="sticky top-0 z-50 bg-white">
       {/* Top Bar with Subscribe and Advertise links */}
       <div className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-4">
@@ -57,7 +57,7 @@ export default function NavigationNew() {
       </div>
 
       {/* Main Navigation */}
-      <nav className="bg-primary text-white sticky top-0 z-50 shadow-md">
+      <nav className="bg-primary text-white shadow-md">
         <div className="container mx-auto">
           <div className="flex items-center justify-between h-16">
             {/* Empty space for alignment */}
@@ -167,6 +167,6 @@ export default function NavigationNew() {
           </div>
         )}
       </nav>
-    </>
+    </div>
   );
 }
