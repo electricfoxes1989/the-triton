@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import NavigationNew from "@/components/NavigationNew";
 import Footer from "@/components/Footer";
 import BannerAd from "@/components/BannerAd";
+import TrendingArticles from "@/components/TrendingArticles";
 import { trpc } from "@/lib/trpc";
 import { Newspaper, TrendingUp, Ship, Calendar, Users, ArrowRight } from "lucide-react";
 
@@ -215,7 +216,7 @@ export default function NewsPage() {
           </section>
         )}
 
-        {/* Latest News Grid */}
+        {/* Latest News Grid with Sidebar */}
         {latestNews.length > 1 && (
           <section className="py-16 bg-gray-50">
             <div className="container mx-auto px-6 md:px-8">
@@ -225,10 +226,22 @@ export default function NewsPage() {
                 description="Breaking stories and recent developments from across the superyacht sector"
                 viewAllLink="/category/news"
               />
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {latestNews.slice(1, 7).map((article) => (
-                  <ArticleCard key={article._id} article={article} />
-                ))}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                {/* Main Content - Articles Grid */}
+                <div className="lg:col-span-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {latestNews.slice(1, 7).map((article) => (
+                      <ArticleCard key={article._id} article={article} />
+                    ))}
+                  </div>
+                </div>
+                
+                {/* Sidebar - Trending Articles */}
+                <div className="lg:col-span-4">
+                  <div className="lg:sticky lg:top-8">
+                    <TrendingArticles limit={5} />
+                  </div>
+                </div>
               </div>
             </div>
           </section>

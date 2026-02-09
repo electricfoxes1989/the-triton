@@ -449,3 +449,15 @@
 - [x] Add "View All" links for each category
 - [x] Test responsive layout on mobile and desktop
 - [x] Ensure consistent branding with Triton style
+
+## Trending Articles Sidebar Widget
+- [x] Add view tracking to Sanity schema (views field)
+- [x] Create backend functions to track article views
+- [x] Add tRPC procedure to fetch trending articles by view count
+- [x] Create TrendingArticles sidebar component
+- [x] Add view count display with eye icon
+- [x] Implement compact article card design for sidebar
+- [x] Integrate widget into News page sidebar
+- [ ] Add widget to Captains and Crew Life pages
+- [x] Test view tracking and trending sort
+- [x] Write vitest tests for view tracking

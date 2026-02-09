@@ -3,7 +3,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { z } from "zod";
-import { getArticles, getArticleBySlug, getArticlesByCategory, searchArticles, getMagazineIssues, getEvents, getAuthorBySlug, getArticlesByAuthor, getFeaturedVideoByCategory, getBannerAds, getAllActiveBanners, getAllAdvertisements, trackBannerImpression, trackBannerClick } from "./sanity";
+import { getArticles, getArticleBySlug, getArticlesByCategory, searchArticles, getMagazineIssues, getEvents, getAuthorBySlug, getArticlesByAuthor, getFeaturedVideoByCategory, getBannerAds, getAllActiveBanners, getAllAdvertisements, trackBannerImpression, trackBannerClick, trackArticleView, getTrendingArticles } from "./sanity";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -43,12 +43,21 @@ export const appRouter = router({
       }),
     
     search: publicProcedure
-      .input(z.object({ 
-        query: z.string(),
-        limit: z.number().optional().default(20)
-      }))
+      .input(z.object({ query: z.string(), limit: z.number().optional().default(20) }))
       .query(async ({ input }) => {
         return await searchArticles(input.query, input.limit);
+      }),
+    
+    trending: publicProcedure
+      .input(z.object({ limit: z.number().optional().default(5) }))
+      .query(async ({ input }) => {
+        return await getTrendingArticles(input.limit);
+      }),
+    
+    trackView: publicProcedure
+      .input(z.object({ articleId: z.string() }))
+      .mutation(async ({ input }) => {
+        return await trackArticleView(input.articleId);
       }),
   }),
 

@@ -30,6 +30,7 @@ export interface SanityArticle {
     name: string;
     slug: { current: string } | string;
   }>;
+  views?: number;
 }
 
 export async function getArticles(limit: number = 50): Promise<SanityArticle[]> {
@@ -502,5 +503,44 @@ export async function trackBannerClick(adId: string): Promise<boolean> {
   } catch (error) {
     console.error('Error tracking banner click:', error);
     return false;
+  }
+}
+
+
+// Article View Tracking
+export async function trackArticleView(articleId: string): Promise<boolean> {
+  try {
+    await sanityClient
+      .patch(articleId)
+      .setIfMissing({ views: 0 })
+      .inc({ views: 1 })
+      .commit();
+    return true;
+  } catch (error) {
+    console.error('Error tracking article view:', error);
+    return false;
+  }
+}
+
+export async function getTrendingArticles(limit: number = 5): Promise<SanityArticle[]> {
+  try {
+    const query = `
+      *[_type == "article" && defined(views)] | order(views desc) [0...${limit}] {
+        _id,
+        title,
+        slug,
+        excerpt,
+        publishedAt,
+        heroImageUrl,
+        views,
+        "author": author->{name, slug},
+        "category": category->{title, slug}
+      }
+    `;
+    const results = await sanityClient.fetch(query);
+    return results || [];
+  } catch (error) {
+    console.error('Error fetching trending articles:', error);
+    return [];
   }
 }
