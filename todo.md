@@ -303,3 +303,12 @@
 - [x] Ensure NavigationNew component appears on all pages
 - [x] Add routes in App.tsx for all category pages
 - [x] Implement category filtering in backend tRPC procedures
+
+## Advertise With Us Page
+- [x] Create AdvertisePage component with NavigationNew and Footer
+- [x] Add hero section with compelling headline
+- [x] Display reach statistics (22k magazine, 25k+ boat show, 27k+ newsletter, 2.5M+ impressions)
+- [x] Create contact form with name, email, company, message fields
+- [x] Add media kit download link
+- [x] Add route in App.tsx for /advertise
+- [x] Implement form submission handling

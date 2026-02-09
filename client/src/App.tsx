@@ -15,6 +15,7 @@ import CaptainsPage from "./pages/CaptainsPage";
 import CrewLifePage from "./pages/CrewLifePage";
 import MagazinePage from "./pages/MagazinePage";
 import EventsPage from "./pages/EventsPage";
+import AdvertisePage from "./pages/AdvertisePage";
 
 function Router() {
   return (
@@ -27,6 +28,7 @@ function Router() {
       <Route path="/crew-life" component={CrewLifePage} />
       <Route path="/magazine" component={MagazinePage} />
       <Route path="/events" component={EventsPage} />
+      <Route path="/advertise" component={AdvertisePage} />
       <Route path="/category/:slug" component={Category} />
       <Route path="/tag/:slug" component={Tag} />
       <Route path="/search" component={Search} />
