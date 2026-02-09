@@ -208,3 +208,14 @@
 - [ ] Check spacing and padding matches mockup
 - [ ] Verify color scheme matches mockup
 - [ ] Test responsive design on mobile/tablet/desktop
+
+## Article Detail Page
+- [x] Create ArticleDetail page component
+- [x] Add full-width hero image section
+- [x] Implement body content rendering with Portable Text
+- [x] Add author bio section with photo
+- [x] Create related articles sidebar
+- [x] Add social sharing buttons
+- [x] Add reading progress indicator
+- [x] Style with NYT-inspired typography
+- [x] Test article page with sample content

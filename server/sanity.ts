@@ -15,9 +15,12 @@ export interface SanityArticle {
   excerpt?: string;
   publishedAt: string;
   heroImageUrl?: string;
+  body?: any;
   author?: {
     name: string;
     slug: { current: string } | string;
+    image?: string;
+    bio?: string;
   };
   category?: {
     title: string;

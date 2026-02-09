@@ -5,7 +5,7 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/HomeNew";
-import Article from "./pages/Article";
+import ArticleDetail from "./pages/ArticleDetail";
 import Category from "./pages/Category";
 import Tag from "./pages/Tag";
 import Search from "./pages/Search";
@@ -16,7 +16,7 @@ function Router() {
     <Switch>
       {/* Public routes */}
       <Route path="/" component={Home} />
-      <Route path="/article/:slug" component={Article} />
+      <Route path="/article/:slug" component={ArticleDetail} />
       <Route path="/category/:slug" component={Category} />
       <Route path="/tag/:slug" component={Tag} />
       <Route path="/search" component={Search} />
