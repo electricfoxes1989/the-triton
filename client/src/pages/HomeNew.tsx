@@ -337,24 +337,29 @@ export default function HomeNew() {
               ))}
               
               {/* Advertisement Card */}
-              <div className="group cursor-pointer hover-card">
+              <a 
+                href="https://amesolutions.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="group cursor-pointer hover-card block"
+              >
                 <div className="aspect-video overflow-hidden mb-4 rounded bg-gray-900 flex items-center justify-center">
-                  <div className="text-center text-white p-6">
-                    <h3 className="text-xl font-bold mb-2">Driveline Failure?</h3>
-                    <p className="text-sm mb-4">We're here for you when <span className="text-[#00BCD4] font-bold">SHIP HAPPENS</span></p>
-                    <div className="text-xs">AMESOLUTIONS.COM</div>
-                  </div>
+                  <img 
+                    src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663300921591/iiNXMBiFuXVYMGIh.png" 
+                    alt="AME Solutions - Driveline Failure? We're here for you when SHIP HAPPENS"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">
-                  Advertisement
+                <h3 className="text-lg font-bold text-gray-900 group-hover:text-[var(--triton-aqua)] transition-colors mb-2">
+                  AME Solutions
                 </h3>
                 <p className="text-sm text-gray-600 mb-2">
-                  Your ad could be here
+                  Driveline solutions when ship happens
                 </p>
                 <p className="text-xs text-gray-500 uppercase tracking-wide">
-                  Contact us
+                  Sponsored
                 </p>
-              </div>
+              </a>
             </div>
           </div>
         </section>

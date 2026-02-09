@@ -45,8 +45,12 @@ export default function NavigationNew() {
             </Link>
             
             {/* Ad Banner Space */}
-            <div className="flex-1 h-24 bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
-              Advertisement Space (728x90)
+            <div className="flex-1 h-24 flex items-center justify-center">
+              <img 
+                src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663300921591/WOOPvtNVghHvPkWb.png" 
+                alt="Quantum Marine Stabilizers - e-FIN Electric Stabilizers with Energy Recovery"
+                className="h-full w-auto object-contain"
+              />
             </div>
           </div>
         </div>

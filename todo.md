@@ -229,3 +229,12 @@
 - [x] Add Crew Life section below Media Kit (3 articles + 1 ad)
 - [ ] Enhance author bio with social media links
 - [ ] Add recent articles list to author bio section
+
+## Homepage Section Reordering
+- [ ] Move Media Kit banner section above Crew Life section
+
+## Banner Images Integration
+- [x] Upload AME Solutions banner to S3
+- [x] Upload Quantum Marine Stabilizers banner to S3
+- [x] Replace top horizontal ad banner with Quantum banner
+- [x] Replace Crew Life ad card with AME Solutions banner
