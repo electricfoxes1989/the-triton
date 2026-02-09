@@ -361,3 +361,12 @@
 - [x] Show complete article archive in grid layout
 - [x] Add route in App.tsx for /author/:slug
 - [x] Update article pages to link to author profiles
+
+## Search Modal Implementation
+- [x] Create SearchModal component with dialog/overlay
+- [x] Add search input with debounced query
+- [x] Display instant search results as user types
+- [x] Show article thumbnails, titles, excerpts, and categories
+- [x] Add keyboard navigation (Esc to close, Enter to select)
+- [x] Wire up search icon in NavigationNew to open modal
+- [x] Add empty state and loading indicators

@@ -1,18 +1,13 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { Search, Menu, X } from "lucide-react";
+import { SearchModal } from "./SearchModal";
 
 export default function NavigationNew() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchModalOpen, setSearchModalOpen] = useState(false);
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      window.location.href = `/search?q=${encodeURIComponent(searchQuery.trim())}`;
-    }
-  };
+
 
   return (
     <div className="sticky top-0 z-50 bg-white">
@@ -84,7 +79,7 @@ export default function NavigationNew() {
 
             {/* Search Icon */}
             <button
-              onClick={() => setSearchOpen(!searchOpen)}
+              onClick={() => setSearchModalOpen(true)}
               className="p-2 hover:bg-primary/80 rounded-full transition-colors"
               aria-label="Search"
             >
@@ -101,27 +96,7 @@ export default function NavigationNew() {
             </button>
           </div>
 
-          {/* Search Bar */}
-          {searchOpen && (
-            <div className="border-t border-white/20 py-4">
-              <form onSubmit={handleSearch} className="flex gap-2">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search articles..."
-                  className="flex-1 px-4 py-2 rounded bg-white/10 text-white placeholder-white/60 border border-white/20 focus:outline-none focus:border-white/40"
-                  autoFocus
-                />
-                <button
-                  type="submit"
-                  className="px-6 py-2 bg-white text-primary rounded font-medium hover:bg-gray-100 transition-colors"
-                >
-                  Search
-                </button>
-              </form>
-            </div>
-          )}
+
         </div>
 
         {/* Mobile Menu */}
@@ -167,6 +142,9 @@ export default function NavigationNew() {
           </div>
         )}
       </nav>
+
+      {/* Search Modal */}
+      <SearchModal isOpen={searchModalOpen} onClose={() => setSearchModalOpen(false)} />
     </div>
   );
 }
