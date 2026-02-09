@@ -334,30 +334,70 @@ export default function HomeNew() {
           </div>
         </section>
 
-        {/* Newsletter Signup - Turquoise */}
-        <section className="py-16 bg-[#00BCD4] text-white">
-          <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Sign Up to the Triton Newsletter for our Latest Updates
-            </h2>
-            <p className="text-lg mb-8 text-white/90">
-              Join 28K+ captains, crew, and industry leaders for weekly updates.
-            </p>
+        {/* Newsletter Signup */}
+        <section className="relative py-20 md:py-24 bg-gradient-to-br from-primary via-[#1e4a7f] to-[#00BCD4] overflow-hidden">
+          {/* Background Pattern */}
+          <div className="absolute inset-0 opacity-5">
+            <div className="absolute inset-0" style={{
+              backgroundImage: 'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="1"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
+              backgroundSize: '60px 60px'
+            }}></div>
+          </div>
 
-            <form className="max-w-2xl mx-auto flex flex-col sm:flex-row gap-4">
-              <input
-                type="email"
-                placeholder="Email address"
-                className="flex-1 px-6 py-4 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white"
-                required
-              />
-              <button
-                type="submit"
-                className="px-8 py-4 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-colors uppercase tracking-wide"
-              >
-                Subscribe
-              </button>
-            </form>
+          <div className="container mx-auto px-4 relative z-10">
+            <div className="max-w-4xl mx-auto">
+              {/* Header */}
+              <div className="text-center mb-10">
+                <div className="inline-block mb-4">
+                  <span className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-xs font-semibold uppercase tracking-widest text-white">
+                    Stay Informed
+                  </span>
+                </div>
+                <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 leading-tight">
+                  Never Miss a Story
+                </h2>
+                <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
+                  Join <span className="font-bold text-white">27,000+ industry professionals</span> receiving weekly insights on yachting news, crew life, and maritime careers.
+                </p>
+              </div>
+
+              {/* Form */}
+              <form className="max-w-2xl mx-auto">
+                <div className="flex flex-col sm:flex-row gap-3 bg-white/10 backdrop-blur-md p-2 rounded-xl border border-white/20 shadow-2xl">
+                  <input
+                    type="email"
+                    placeholder="Enter your email address"
+                    className="flex-1 px-6 py-4 bg-white text-gray-900 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00BCD4] text-base font-medium"
+                    required
+                  />
+                  <button
+                    type="submit"
+                    className="px-8 py-4 bg-[#00BCD4] text-white font-bold rounded-lg hover:bg-[#00ACC1] transition-all duration-300 uppercase tracking-wide shadow-lg hover:shadow-xl hover:scale-105 whitespace-nowrap"
+                  >
+                    Subscribe Now
+                  </button>
+                </div>
+                <p className="text-center text-white/70 text-sm mt-4">
+                  Free weekly newsletter • Unsubscribe anytime • No spam, ever
+                </p>
+              </form>
+
+              {/* Trust Indicators */}
+              <div className="mt-12 grid grid-cols-3 gap-6 max-w-2xl mx-auto">
+                <div className="text-center">
+                  <div className="text-2xl md:text-3xl font-bold text-white mb-1">27k+</div>
+                  <div className="text-xs md:text-sm text-white/70 uppercase tracking-wide">Subscribers</div>
+                </div>
+                <div className="text-center border-x border-white/20">
+                  <div className="text-2xl md:text-3xl font-bold text-white mb-1">Weekly</div>
+                  <div className="text-xs md:text-sm text-white/70 uppercase tracking-wide">Delivery</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl md:text-3xl font-bold text-white mb-1">20+ Years</div>
+                  <div className="text-xs md:text-sm text-white/70 uppercase tracking-wide">Publishing</div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
