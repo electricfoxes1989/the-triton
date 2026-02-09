@@ -342,3 +342,12 @@
 - [x] Update magazines.list tRPC router to use Sanity query
 - [x] Update events.list tRPC router to use Sanity query
 - [ ] Test with sample data once schemas are added to Sanity Studio
+
+## Article Detail Page
+- [x] Create ArticlePage component with hero image
+- [x] Render article body content from Sanity
+- [x] Add author bio card with image and description
+- [x] Display related articles sidebar
+- [x] Add social sharing buttons
+- [x] Show article metadata (date, category, tags)
+- [x] Add route in App.tsx for /article/:slug
