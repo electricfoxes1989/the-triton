@@ -1,9 +1,9 @@
-import { useParams, Link } from "wouter";
+import { Link, useParams } from "wouter";
 import NavigationNew from "@/components/NavigationNew";
 import Footer from "@/components/Footer";
 import { trpc } from "@/lib/trpc";
 import { PortableText } from "@portabletext/react";
-import { Calendar, Tag, Share2, Facebook, Twitter, Linkedin, Mail } from "lucide-react";
+import { Calendar, Tag, Share2, Facebook, Twitter, Linkedin, Mail, Clock, TrendingUp } from "lucide-react";
 import { useState } from "react";
 
 export function ArticlePage() {
@@ -18,9 +18,12 @@ export function ArticlePage() {
     : "";
   
   const { data: relatedArticles } = trpc.articles.byCategory.useQuery(
-    { categorySlug, limit: 3 },
+    { categorySlug, limit: 4 },
     { enabled: !!categorySlug }
   );
+  
+  const { data: trendingArticles } = trpc.articles.list.useQuery({ limit: 5 });
+  
   const [showShareMenu, setShowShareMenu] = useState(false);
 
   if (isLoading) {
@@ -56,22 +59,23 @@ export function ArticlePage() {
     );
   }
 
-  const shareUrl = typeof window !== "undefined" ? window.location.href : "";
+  const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
   const shareTitle = article.title;
 
   const handleShare = (platform: string) => {
     const urls = {
       facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
       twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareTitle)}`,
-      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`,
-      email: `mailto:?subject=${encodeURIComponent(shareTitle)}&body=${encodeURIComponent(shareUrl)}`,
+      linkedin: `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(shareTitle)}`,
+      email: `mailto:?subject=${encodeURIComponent(shareTitle)}&body=${encodeURIComponent(shareUrl)}`
     };
     
     if (platform in urls) {
-      window.open(urls[platform as keyof typeof urls], "_blank", "width=600,height=400");
+      window.open(urls[platform as keyof typeof urls], '_blank', 'width=600,height=400');
     }
-    setShowShareMenu(false);
   };
+
+  const articleSlug = typeof article.slug === 'string' ? article.slug : article.slug.current;
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
@@ -79,30 +83,29 @@ export function ArticlePage() {
 
       {/* Hero Image */}
       {article.heroImageUrl && (
-        <div className="w-full h-[50vh] md:h-[60vh] bg-gray-900">
+        <div className="w-full h-[400px] md:h-[500px] relative overflow-hidden">
           <img
             src={article.heroImageUrl}
             alt={article.title}
-            className="w-full h-full object-cover opacity-90"
+            className="w-full h-full object-cover"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
         </div>
       )}
 
-      {/* Article Content */}
-      <div className="flex-1 py-12">
-        <div className="container mx-auto px-6 md:px-8">
+      {/* Main Content */}
+      <div className="flex-1 bg-white">
+        <div className="container mx-auto px-6 md:px-8 py-12">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            {/* Main Content */}
+            {/* Main Article Column (2/3) */}
             <div className="lg:col-span-2">
-              <article className="bg-white rounded-lg shadow-sm p-8 md:p-12">
+              <article>
                 {/* Category Badge */}
                 {article.category && (
                   <div className="mb-4">
-                    <Link href={`/${typeof article.category === 'string' ? article.category : (typeof article.category.slug === 'string' ? article.category.slug : article.category.slug.current)}`}>
-                      <span className="inline-block px-4 py-1.5 bg-primary/10 text-primary text-sm font-semibold uppercase tracking-wider rounded hover:bg-primary/20 transition-colors">
-                        {typeof article.category === 'string' ? article.category : article.category.title}
-                      </span>
-                    </Link>
+                    <span className="inline-block px-3 py-1 bg-primary text-white text-xs font-semibold uppercase tracking-wider rounded">
+                      {typeof article.category === 'string' ? article.category : article.category.title}
+                    </span>
                   </div>
                 )}
 
@@ -111,8 +114,15 @@ export function ArticlePage() {
                   {article.title}
                 </h1>
 
+                {/* Excerpt */}
+                {article.excerpt && (
+                  <p className="text-xl text-gray-600 mb-8 leading-relaxed font-light">
+                    {article.excerpt}
+                  </p>
+                )}
+
                 {/* Meta Information */}
-                <div className="flex flex-wrap items-center gap-6 text-gray-600 mb-8 pb-8 border-b border-gray-200">
+                <div className="flex flex-wrap items-center gap-6 text-sm text-gray-600 mb-8 pb-8 border-b border-gray-200">
                   {article.author && (
                     <div className="flex items-center gap-3">
                       {article.author.image && (
@@ -131,77 +141,62 @@ export function ArticlePage() {
                   )}
                   <div className="flex items-center gap-2">
                     <Calendar className="w-4 h-4" />
-                    <time>
+                    <time dateTime={article.publishedAt}>
                       {new Date(article.publishedAt).toLocaleDateString("en-GB", {
                         day: "numeric",
                         month: "long",
-                        year: "numeric",
+                        year: "numeric"
                       })}
                     </time>
                   </div>
-                  
-                  {/* Share Button */}
-                  <div className="relative ml-auto">
-                    <button
-                      onClick={() => setShowShareMenu(!showShareMenu)}
-                      className="flex items-center gap-2 px-4 py-2 text-primary hover:bg-primary/10 rounded-lg transition-colors"
-                    >
-                      <Share2 className="w-4 h-4" />
-                      <span className="text-sm font-medium">Share</span>
-                    </button>
-                    
-                    {/* Share Menu */}
-                    {showShareMenu && (
-                      <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-10">
-                        <button
-                          onClick={() => handleShare("facebook")}
-                          className="w-full flex items-center gap-3 px-4 py-2 hover:bg-gray-50 transition-colors"
-                        >
-                          <Facebook className="w-4 h-4 text-[#1877F2]" />
-                          <span className="text-sm">Facebook</span>
-                        </button>
-                        <button
-                          onClick={() => handleShare("twitter")}
-                          className="w-full flex items-center gap-3 px-4 py-2 hover:bg-gray-50 transition-colors"
-                        >
-                          <Twitter className="w-4 h-4 text-[#1DA1F2]" />
-                          <span className="text-sm">Twitter</span>
-                        </button>
-                        <button
-                          onClick={() => handleShare("linkedin")}
-                          className="w-full flex items-center gap-3 px-4 py-2 hover:bg-gray-50 transition-colors"
-                        >
-                          <Linkedin className="w-4 h-4 text-[#0A66C2]" />
-                          <span className="text-sm">LinkedIn</span>
-                        </button>
-                        <button
-                          onClick={() => handleShare("email")}
-                          className="w-full flex items-center gap-3 px-4 py-2 hover:bg-gray-50 transition-colors"
-                        >
-                          <Mail className="w-4 h-4 text-gray-600" />
-                          <span className="text-sm">Email</span>
-                        </button>
-                      </div>
-                    )}
+                  <div className="flex items-center gap-2">
+                    <Clock className="w-4 h-4" />
+                    <span>5 min read</span>
                   </div>
                 </div>
 
-                {/* Excerpt */}
-                {article.excerpt && (
-                  <div className="text-xl text-gray-700 mb-8 leading-relaxed font-serif italic border-l-4 border-primary pl-6">
-                    {article.excerpt}
-                  </div>
-                )}
+                {/* Social Sharing */}
+                <div className="flex items-center gap-4 mb-8 pb-8 border-b border-gray-200">
+                  <span className="text-sm font-semibold text-gray-700">Share:</span>
+                  <button
+                    onClick={() => handleShare('facebook')}
+                    className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                    aria-label="Share on Facebook"
+                  >
+                    <Facebook className="w-5 h-5 text-gray-600" />
+                  </button>
+                  <button
+                    onClick={() => handleShare('twitter')}
+                    className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                    aria-label="Share on Twitter"
+                  >
+                    <Twitter className="w-5 h-5 text-gray-600" />
+                  </button>
+                  <button
+                    onClick={() => handleShare('linkedin')}
+                    className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                    aria-label="Share on LinkedIn"
+                  >
+                    <Linkedin className="w-5 h-5 text-gray-600" />
+                  </button>
+                  <button
+                    onClick={() => handleShare('email')}
+                    className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                    aria-label="Share via Email"
+                  >
+                    <Mail className="w-5 h-5 text-gray-600" />
+                  </button>
+                </div>
 
                 {/* Article Body */}
-                {article.body && (
-                  <div className="prose prose-lg max-w-none">
+                <div className="prose prose-lg max-w-none mb-12">
+                  {article.body && (
                     <PortableText
                       value={article.body}
                       components={{
                         block: {
                           normal: ({ children }) => (
-                            <p className="mb-6 text-gray-800 leading-relaxed">{children}</p>
+                            <p className="text-gray-800 leading-relaxed mb-6">{children}</p>
                           ),
                           h2: ({ children }) => (
                             <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-6">{children}</h2>
@@ -210,7 +205,7 @@ export function ArticlePage() {
                             <h3 className="text-2xl font-bold text-gray-900 mt-10 mb-4">{children}</h3>
                           ),
                           blockquote: ({ children }) => (
-                            <blockquote className="border-l-4 border-primary pl-6 my-8 italic text-gray-700">
+                            <blockquote className="border-l-4 border-primary pl-6 py-2 my-8 italic text-xl text-gray-700">
                               {children}
                             </blockquote>
                           ),
@@ -219,124 +214,169 @@ export function ArticlePage() {
                           strong: ({ children }) => (
                             <strong className="font-bold text-gray-900">{children}</strong>
                           ),
-                          em: ({ children }) => <em className="italic">{children}</em>,
-                          link: ({ value, children }) => (
+                          em: ({ children }) => (
+                            <em className="italic">{children}</em>
+                          ),
+                          link: ({ children, value }) => (
                             <a
-                              href={value?.href}
+                              href={value.href}
+                              className="text-primary hover:underline"
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-primary hover:underline"
                             >
                               {children}
                             </a>
                           ),
                         },
-                        types: {
-                          image: ({ value }) => (
-                            <figure className="my-8">
-                              <img
-                                src={value?.asset?.url}
-                                alt={value?.alt || ""}
-                                className="w-full rounded-lg"
-                              />
-                              {value?.caption && (
-                                <figcaption className="text-sm text-gray-600 mt-2 text-center">
-                                  {value.caption}
-                                </figcaption>
-                              )}
-                            </figure>
-                          ),
-                        },
                       }}
                     />
-                  </div>
-                )}
+                  )}
+                </div>
 
                 {/* Tags */}
                 {article.tags && article.tags.length > 0 && (
-                  <div className="mt-12 pt-8 border-t border-gray-200">
-                    <div className="flex flex-wrap items-center gap-3">
-                      <Tag className="w-4 h-4 text-gray-500" />
-                      {article.tags.map((tag, index) => (
+                  <div className="flex flex-wrap items-center gap-3 mb-12">
+                    <Tag className="w-4 h-4 text-gray-500" />
+                    <span className="text-sm font-semibold text-gray-700">Tags:</span>
+                    {article.tags.map((tag, index) => {
+                      const tagTitle = typeof tag === 'string' ? tag : tag.name;
+                      return (
                         <span
                           key={index}
                           className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 transition-colors cursor-pointer"
                         >
-                          {typeof tag === 'string' ? tag : tag.name}
+                          {tagTitle}
                         </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Author Bio */}
-                {article.author && (
-                  <div className="mt-12 pt-8 border-t border-gray-200">
-                    <div className="flex gap-6">
-                      {article.author.image && (
-                        <img
-                          src={article.author.image}
-                          alt={article.author.name}
-                          className="w-20 h-20 rounded-full object-cover flex-shrink-0"
-                        />
-                      )}
-                      <div>
-                        <h3 className="text-xl font-bold text-gray-900 mb-2">
-                          About {article.author.name}
-                        </h3>
-                        {article.author.bio && typeof article.author.bio === 'string' && (
-                          <p className="text-gray-700 leading-relaxed">{article.author.bio}</p>
-                        )}
-                      </div>
-                    </div>
+                      );
+                    })}
                   </div>
                 )}
               </article>
             </div>
 
-            {/* Sidebar */}
-            <div className="lg:col-span-1">
-              {/* Related Articles */}
-              {relatedArticles && relatedArticles.length > 0 && (
-                <div className="bg-white rounded-lg shadow-sm p-6 sticky top-24">
-                  <h3 className="text-xl font-bold text-gray-900 mb-6 uppercase tracking-wide">
-                    Related Articles
+            {/* Sidebar (1/3) */}
+            <aside className="lg:col-span-1 space-y-8">
+              {/* Author Card */}
+              {article.author && (
+                <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+                  <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
+                    About the Author
                   </h3>
-                  <div className="space-y-6">
-                    {relatedArticles
-                      .filter((related) => related._id !== article._id)
-                      .slice(0, 3)
-                      .map((related) => (
-                        <Link
-                          key={related._id}
-                            href={`/article/${typeof related.slug === 'string' ? related.slug : related.slug.current}`}
-                          className="block group"
-                        >
-                          <article>
-                            {related.heroImageUrl && (
-                              <div className="aspect-video overflow-hidden rounded-lg mb-3 bg-gray-200">
-                                <img
-                                  src={related.heroImageUrl}
-                                  alt={related.title}
-                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                />
-                              </div>
-                            )}
-                            <h4 className="font-bold text-gray-900 group-hover:text-primary transition-colors line-clamp-2 mb-2">
-                              {related.title}
-                            </h4>
-                            {related.excerpt && (
-                              <p className="text-sm text-gray-600 line-clamp-2">
-                                {related.excerpt}
-                              </p>
-                            )}
-                          </article>
-                        </Link>
-                      ))}
+                  <div className="flex flex-col items-center text-center">
+                    {article.author.image && (
+                      <img
+                        src={article.author.image}
+                        alt={article.author.name}
+                        className="w-24 h-24 rounded-full object-cover mb-4"
+                      />
+                    )}
+                    <Link href={`/author/${typeof article.author.slug === 'string' ? article.author.slug : article.author.slug.current}`}>
+                      <h4 className="text-lg font-bold text-gray-900 mb-2 hover:text-primary transition-colors cursor-pointer">
+                        {article.author.name}
+                      </h4>
+                    </Link>
+                    {article.author.bio && (
+                      <p className="text-sm text-gray-600 mb-4 leading-relaxed">
+                        {article.author.bio}
+                      </p>
+                    )}
+                    <Link href={`/author/${typeof article.author.slug === 'string' ? article.author.slug : article.author.slug.current}`}>
+                      <button className="text-sm text-primary hover:underline font-medium">
+                        View all articles →
+                      </button>
+                    </Link>
                   </div>
                 </div>
               )}
-            </div>
+
+              {/* Related Articles */}
+              {relatedArticles && relatedArticles.length > 0 && (
+                <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+                  <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
+                    Related Articles
+                  </h3>
+                  <div className="space-y-4">
+                    {relatedArticles
+                      .filter(related => related._id !== article._id)
+                      .slice(0, 3)
+                      .map((related) => {
+                        const relatedSlug = typeof related.slug === 'string' ? related.slug : related.slug.current;
+                        return (
+                          <Link key={related._id} href={`/article/${relatedSlug}`}>
+                            <div className="group cursor-pointer">
+                              {related.heroImageUrl && (
+                                <div className="aspect-video overflow-hidden rounded mb-2">
+                                  <img
+                                    src={related.heroImageUrl}
+                                    alt={related.title}
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                  />
+                                </div>
+                              )}
+                              <h4 className="font-bold text-gray-900 group-hover:text-primary transition-colors line-clamp-2 mb-1">
+                                {related.title}
+                              </h4>
+                              <p className="text-xs text-gray-500">
+                                {new Date(related.publishedAt).toLocaleDateString('en-GB', {
+                                  day: 'numeric',
+                                  month: 'short',
+                                  year: 'numeric'
+                                })}
+                              </p>
+                            </div>
+                          </Link>
+                        );
+                      })}
+                  </div>
+                </div>
+              )}
+
+              {/* Trending Articles */}
+              {trendingArticles && trendingArticles.length > 0 && (
+                <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+                  <div className="flex items-center gap-2 mb-4">
+                    <TrendingUp className="w-4 h-4 text-primary" />
+                    <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
+                      Trending Now
+                    </h3>
+                  </div>
+                  <div className="space-y-4">
+                    {trendingArticles.slice(0, 5).map((trending, index) => {
+                      const trendingSlug = typeof trending.slug === 'string' ? trending.slug : trending.slug.current;
+                      return (
+                        <Link key={trending._id} href={`/article/${trendingSlug}`}>
+                          <div className="group cursor-pointer flex gap-3">
+                            <span className="text-2xl font-bold text-gray-200 group-hover:text-primary transition-colors">
+                              {(index + 1).toString().padStart(2, '0')}
+                            </span>
+                            <div className="flex-1">
+                              <h4 className="font-bold text-sm text-gray-900 group-hover:text-primary transition-colors line-clamp-2">
+                                {trending.title}
+                              </h4>
+                            </div>
+                          </div>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Newsletter Signup */}
+              <div className="bg-gradient-to-br from-primary to-cyan-600 rounded-lg p-6 text-white shadow-lg">
+                <h3 className="text-lg font-bold mb-2">
+                  Never Miss a Story
+                </h3>
+                <p className="text-sm text-white/90 mb-4">
+                  Get the latest maritime news delivered to your inbox weekly
+                </p>
+                <Link href="/newsletter">
+                  <button className="w-full bg-white text-primary py-2 px-4 rounded font-semibold hover:bg-gray-100 transition-colors">
+                    Subscribe Now
+                  </button>
+                </Link>
+              </div>
+            </aside>
           </div>
         </div>
       </div>

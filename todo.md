@@ -370,3 +370,12 @@
 - [x] Add keyboard navigation (Esc to close, Enter to select)
 - [x] Wire up search icon in NavigationNew to open modal
 - [x] Add empty state and loading indicators
+
+## Article Page Redesign - News Standard Layout
+- [x] Restructure layout with main content column (66%) and sidebar (33%)
+- [x] Move author card to sidebar with enhanced design
+- [x] Add related articles section to sidebar
+- [x] Add "Trending Now" widget to sidebar
+- [x] Improve article content typography and spacing
+- [x] Enhance social sharing buttons placement
+- [x] Add newsletter signup widget to sidebar
