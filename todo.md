@@ -167,3 +167,17 @@
 - [x] Add articles for Crew Life section (4 articles)
 - [x] Include proper categories, authors, hero images, and excerpts
 - [x] Run migration script and verify articles display correctly
+
+## Sanity API Connection Error Fix
+- [x] Diagnose Sanity API connection error
+- [x] Check CORS configuration in Sanity project
+- [x] Verify API token permissions
+- [x] Test direct API connection
+- [x] Fix client configuration (CORS origins updated)
+
+## Enhanced Article Migration - Diverse Content
+- [x] Create migration script with 40 diverse articles
+- [x] Include varied topics (destinations, crew roles, regulations, lifestyle)
+- [x] Add articles covering global yachting locations
+- [x] Include different crew perspectives (chef, engineer, deckhand, stew)
+- [x] Run migration and verify content diversity
