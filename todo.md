@@ -312,3 +312,26 @@
 - [x] Add media kit download link
 - [x] Add route in App.tsx for /advertise
 - [x] Implement form submission handling
+
+## Sanity CMS Category System
+- [x] Research current Triton News website magazine section
+- [x] Create Sanity schema update documentation
+- [ ] Implement schema updates in Sanity Studio
+- [ ] Add categories to existing articles
+- [ ] Mark featured articles for homepage
+- [ ] Update homepage to filter featured articles for slideshow
+- [ ] Ensure all category pages pull correctly filtered articles
+
+## Magazine Page with Issue Viewer
+- [x] Research Triton News magazine section implementation
+- [x] Create magazine issue schema in Sanity
+- [x] Build magazine archive page with issue grid
+- [x] Implement digital magazine viewer with Issuu iframe
+- [x] Add year filtering and modal viewer
+
+## Events Calendar System
+- [x] Research calendar system options (FullCalendar, React Big Calendar)
+- [x] Create events schema in Sanity
+- [x] Build events calendar page with month/week/day views
+- [x] Add event detail modal with registration links
+- [x] Implement color-coded event types and legend

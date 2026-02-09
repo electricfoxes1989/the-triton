@@ -51,6 +51,26 @@ export const appRouter = router({
         return await searchArticles(input.query, input.limit);
       }),
   }),
+
+  // Magazine issues (placeholder until Sanity schema is updated)
+  magazines: router({
+    list: publicProcedure
+      .input(z.object({ limit: z.number().optional().default(50) }))
+      .query(async () => {
+        // Placeholder: will fetch from Sanity once schema is updated
+        return [];
+      }),
+  }),
+
+  // Events (placeholder until Sanity schema is updated)
+  events: router({
+    list: publicProcedure
+      .input(z.object({ limit: z.number().optional().default(50) }))
+      .query(async () => {
+        // Placeholder: will fetch from Sanity once schema is updated
+        return [];
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

@@ -14,7 +14,7 @@ import NewsPage from "./pages/NewsPage";
 import CaptainsPage from "./pages/CaptainsPage";
 import CrewLifePage from "./pages/CrewLifePage";
 import MagazinePage from "./pages/MagazinePage";
-import EventsPage from "./pages/EventsPage";
+import EventsPageNew from "./pages/EventsPageNew";
 import AdvertisePage from "./pages/AdvertisePage";
 
 function Router() {
@@ -27,7 +27,7 @@ function Router() {
       <Route path="/captains" component={CaptainsPage} />
       <Route path="/crew-life" component={CrewLifePage} />
       <Route path="/magazine" component={MagazinePage} />
-      <Route path="/events" component={EventsPage} />
+      <Route path="/events" component={EventsPageNew} />
       <Route path="/advertise" component={AdvertisePage} />
       <Route path="/category/:slug" component={Category} />
       <Route path="/tag/:slug" component={Tag} />
