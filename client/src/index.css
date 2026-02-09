@@ -120,17 +120,22 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Crimson Text', 'Georgia', 'Garamond', serif;
-    font-size: 18px;
-    line-height: 1.7;
-    font-feature-settings: "kern" 1, "liga" 1;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', 'Baskerville', Georgia, serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
     font-weight: 700;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
+  }
+  /* Article body text uses serif */
+  article p, article li, article blockquote {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 18px;
+    line-height: 1.8;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -190,7 +195,7 @@
   /* Drop cap for article openings */
   .drop-cap::first-letter {
     @apply float-left text-6xl sm:text-7xl leading-none mr-2 mt-1;
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: Georgia, serif;
     font-weight: 700;
     color: var(--primary);
   }

@@ -103,7 +103,7 @@
 ## Logo and Layout Fixes
 - [x] Add Triton logo to navigation
 - [x] Reposition ad banner horizontally next to logo (not full width)
-- [ ] Update article typography to NYT serif style only
+- [x] Update article typography to NYT serif style only
 
 ## Sanity CMS Content Strategy
 - [x] Document required Sanity schema fields (hero image, headline, author, body, etc.)
@@ -118,3 +118,10 @@
 - [x] Check CORS configuration
 - [x] Verify API token permissions
 - [x] Test with simpler queries
+
+## Typography Update - Match Mockup
+- [x] Remove Playfair Display completely
+- [x] Use clean sans-serif font for all headlines (matching mockup)
+- [x] Use serif font for article body text only
+- [x] Update navigation menu font
+- [x] Update section headings font
