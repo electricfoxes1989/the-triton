@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import NavigationNew from "@/components/NavigationNew";
 import Footer from "@/components/Footer";
+import StatisticsSection from "@/components/StatisticsSection";
 import { trpc } from "@/lib/trpc";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -276,32 +277,7 @@ export default function HomeNew() {
 
 
         {/* Statistics Section */}
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-6 md:px-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              <div>
-                <div className="text-5xl font-bold text-gray-300 mb-2">22k</div>
-                <div className="text-sm font-semibold text-gray-700 uppercase">Bi-monthly<br />Magazine</div>
-                <div className="text-xs text-gray-500 mt-1">Printed and digital<br />distribution</div>
-              </div>
-              <div>
-                <div className="text-5xl font-bold text-gray-300 mb-2">25k+</div>
-                <div className="text-sm font-semibold text-gray-700 uppercase">Boat Show Daily</div>
-                <div className="text-xs text-gray-500 mt-1">Digital Subscribers.<br />Distributed at FLIBS and<br />Palm Beach boat shows</div>
-              </div>
-              <div>
-                <div className="text-5xl font-bold text-gray-300 mb-2">27k+</div>
-                <div className="text-sm font-semibold text-gray-700 uppercase">Weekly News Brief</div>
-                <div className="text-xs text-gray-500 mt-1">Email Subscribers</div>
-              </div>
-              <div>
-                <div className="text-5xl font-bold text-gray-300 mb-2">2.5M+</div>
-                <div className="text-sm font-semibold text-gray-700 uppercase">Digital and Social<br />Media</div>
-                <div className="text-xs text-gray-500 mt-1">Annual Impressions</div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <StatisticsSection />
 
         {/* Media Kit Banner */}
         <section className="py-0 bg-gradient-to-r from-primary via-primary to-[#00BCD4]">

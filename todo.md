@@ -271,3 +271,7 @@
 ## Hero Text Overlay Restoration
 - [x] Restore title, author, date, and Read More button to hero slideshow
 - [x] Make overlay smaller and more subtle than original
+
+## Statistics Animation
+- [x] Add count-up animation to statistics numbers
+- [x] Trigger animation when section comes into view
