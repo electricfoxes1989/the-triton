@@ -490,3 +490,15 @@
 - [x] Ensure responsive design for articles section
 - [x] Test article fetching and display
 - [x] Verify calendar functionality remains intact
+
+## Galleries and Expos Pages
+- [x] Research The Triton website galleries section
+- [x] Research The Triton website expos section
+- [x] Create Galleries page with article list layout
+- [x] Create Expos page with article list layout
+- [x] Add appropriate filtering/sorting for galleries
+- [x] Add appropriate filtering/sorting for expos
+- [x] Add routes to App.tsx
+- [ ] Add navigation links to header/footer
+- [x] Test responsive layouts
+- [x] Verify Sanity integration for content
