@@ -470,3 +470,13 @@
 - [x] Update EventsPageNew.tsx header gradient
 - [x] Update AdvertisementAnalytics.tsx header gradient
 - [x] Test visual consistency across all pages
+
+## Sanity Request Caching Implementation
+- [x] Update React Query configuration in client/src/main.tsx
+- [x] Add staleTime (5 minutes) for article caching
+- [x] Add gcTime (10 minutes) to keep cached data
+- [x] Implement retry logic with exponential backoff
+- [x] Configure refetch behavior (disable on window focus)
+- [x] Test cache performance on News page
+- [x] Verify reduced API calls in network tab
+- [x] Document caching behavior
