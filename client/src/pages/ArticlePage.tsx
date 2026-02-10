@@ -5,6 +5,7 @@ import { trpc } from "@/lib/trpc";
 import { PortableText } from "@portabletext/react";
 import { Calendar, Tag, Share2, Facebook, Twitter, Linkedin, Mail, Clock, TrendingUp } from "lucide-react";
 import { useState } from "react";
+import Lightbox from "@/components/Lightbox";
 
 export function ArticlePage() {
   const { slug } = useParams();
@@ -25,6 +26,15 @@ export function ArticlePage() {
   const { data: trendingArticles } = trpc.articles.list.useQuery({ limit: 5 });
   
   const [showShareMenu, setShowShareMenu] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxImages, setLightboxImages] = useState<string[]>([]);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+
+  const openLightbox = (imageUrl: string, allImages: string[]) => {
+    setLightboxImages(allImages);
+    setLightboxIndex(allImages.indexOf(imageUrl));
+    setLightboxOpen(true);
+  };
 
   if (isLoading) {
     return (
@@ -210,6 +220,31 @@ export function ArticlePage() {
                             </blockquote>
                           ),
                         },
+                        types: {
+                          image: ({ value }) => {
+                            // Collect all images from article body for lightbox navigation
+                            const allImages = article.body
+                              ?.filter((block: any) => block._type === 'image')
+                              .map((block: any) => block.asset?.url || '')
+                              .filter(Boolean) || [];
+                            
+                            return (
+                              <figure className="my-8">
+                                <img
+                                  src={value.asset?.url}
+                                  alt={value.alt || 'Article image'}
+                                  className="w-full rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
+                                  onClick={() => openLightbox(value.asset?.url, allImages)}
+                                />
+                                {value.caption && (
+                                  <figcaption className="text-center text-sm text-gray-600 mt-2 italic">
+                                    {value.caption}
+                                  </figcaption>
+                                )}
+                              </figure>
+                            );
+                          },
+                        },
                         marks: {
                           strong: ({ children }) => (
                             <strong className="font-bold text-gray-900">{children}</strong>
@@ -382,6 +417,14 @@ export function ArticlePage() {
       </div>
 
       <Footer />
+      
+      {/* Lightbox */}
+      <Lightbox
+        images={lightboxImages}
+        initialIndex={lightboxIndex}
+        isOpen={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+      />
     </div>
   );
 }

@@ -5,11 +5,21 @@ import { trpc } from "@/lib/trpc";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Camera, Calendar, User } from "lucide-react";
+import Lightbox from "@/components/Lightbox";
 
 type EventType = "all" | "boat-show" | "expo" | "networking" | "competition" | "industry-event";
 
 export default function GalleriesPage() {
   const [selectedType, setSelectedType] = useState<EventType>("all");
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxImages, setLightboxImages] = useState<string[]>([]);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+
+  const openLightbox = (imageUrl: string, allImages: string[]) => {
+    setLightboxImages(allImages);
+    setLightboxIndex(allImages.indexOf(imageUrl));
+    setLightboxOpen(true);
+  };
 
   // Fetch galleries from Sanity (placeholder - will need to add to Sanity schema)
   const { data: galleries, isLoading } = trpc.articles.byCategory.useQuery({ 
@@ -150,6 +160,14 @@ export default function GalleriesPage() {
       </div>
 
       <Footer />
+      
+      {/* Lightbox */}
+      <Lightbox
+        images={lightboxImages}
+        initialIndex={lightboxIndex}
+        isOpen={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+      />
     </div>
   );
 }

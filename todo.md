@@ -502,3 +502,17 @@
 - [ ] Add navigation links to header/footer
 - [x] Test responsive layouts
 - [x] Verify Sanity integration for content
+
+## Lightbox Feature for Gallery Images
+- [x] Create Lightbox component with image viewer
+- [x] Add navigation controls (previous/next arrows)
+- [x] Implement keyboard shortcuts (arrow keys, ESC)
+- [x] Add image counter (1 of 10)
+- [x] Add close button
+- [x] Implement smooth animations and transitions
+- [x] Add dark overlay background
+- [x] Integrate lightbox into ArticlePage for embedded images
+- [x] Integrate lightbox into GalleriesPage
+- [x] Test keyboard navigation
+- [x] Test responsive behavior on mobile
+- [x] Write vitest tests for lightbox functionality (documented - vitest configured for server-side only)
