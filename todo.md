@@ -534,3 +534,12 @@
 - [x] Create import script or JSON files
 - [x] Document import process
 - [x] Test imported content on website (after Sanity import)
+
+## Load More Pagination for Galleries and Expos
+- [x] Add pagination state to GalleriesPage (initial: 6, increment: 6)
+- [x] Add pagination state to ExposPage (initial: 6, increment: 6)
+- [x] Implement Load More button with loading state
+- [x] Show article count (e.g., "Showing 6 of 10")
+- [x] Hide button when all articles loaded
+- [x] Test pagination functionality
+- [x] Verify performance improvement

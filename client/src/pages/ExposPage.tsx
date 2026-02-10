@@ -4,8 +4,10 @@ import { trpc } from "@/lib/trpc";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar, MapPin, Users, Building2, ExternalLink, Camera } from "lucide-react";
+import { useState } from "react";
 
 export default function ExposPage() {
+  const [displayCount, setDisplayCount] = useState(6);
   // Fetch expo articles from Sanity
   const { data: expos, isLoading } = trpc.articles.byCategory.useQuery({ 
     categorySlug: "expos",
@@ -16,9 +18,15 @@ export default function ExposPage() {
   const upcomingExpos = expos?.filter((expo: any) => 
     new Date(expo.publishedAt) > new Date()
   ) || [];
-  const pastExpos = expos?.filter((expo: any) => 
+  const allPastExpos = expos?.filter((expo: any) => 
     new Date(expo.publishedAt) <= new Date()
   ) || [];
+  const pastExpos = allPastExpos.slice(0, displayCount);
+  const hasMore = displayCount < allPastExpos.length;
+
+  const loadMore = () => {
+    setDisplayCount(prev => prev + 6);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -129,6 +137,7 @@ export default function ExposPage() {
               </div>
 
               {pastExpos.length > 0 ? (
+                <>
                 <div className="space-y-8">
                   {pastExpos.map((expo: any, index: number) => (
                     <Card key={expo._id} className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
@@ -203,6 +212,23 @@ export default function ExposPage() {
                     </Card>
                   ))}
                 </div>
+
+                {/* Load More Button */}
+                {hasMore && (
+                  <div className="mt-12 text-center">
+                    <div className="mb-4 text-sm text-gray-600">
+                      Showing {displayCount} of {allPastExpos.length} past expos
+                    </div>
+                    <Button
+                      onClick={loadMore}
+                      size="lg"
+                      className="bg-[#00BCD4] hover:bg-[#00ACC1] text-white px-8"
+                    >
+                      Load More Expos
+                    </Button>
+                  </div>
+                )}
+                </>
               ) : (
                 <div className="text-center py-20">
                   <Building2 className="w-16 h-16 text-gray-400 mx-auto mb-4" />

@@ -14,6 +14,7 @@ export default function GalleriesPage() {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxImages, setLightboxImages] = useState<string[]>([]);
   const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [displayCount, setDisplayCount] = useState(6);
 
   const openLightbox = (imageUrl: string, allImages: string[]) => {
     setLightboxImages(allImages);
@@ -37,7 +38,13 @@ export default function GalleriesPage() {
   ];
 
   // Filter galleries by type (placeholder logic)
-  const filteredGalleries = galleries || [];
+  const allGalleries = galleries || [];
+  const filteredGalleries = allGalleries.slice(0, displayCount);
+  const hasMore = displayCount < allGalleries.length;
+
+  const loadMore = () => {
+    setDisplayCount(prev => prev + 6);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -82,6 +89,7 @@ export default function GalleriesPage() {
             </div>
           </div>
         ) : filteredGalleries.length > 0 ? (
+          <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredGalleries.map((gallery: any) => (
               <a
@@ -145,6 +153,23 @@ export default function GalleriesPage() {
               </a>
             ))}
           </div>
+
+          {/* Load More Button */}
+          {hasMore && (
+            <div className="mt-12 text-center">
+              <div className="mb-4 text-sm text-gray-600">
+                Showing {displayCount} of {allGalleries.length} galleries
+              </div>
+              <Button
+                onClick={loadMore}
+                size="lg"
+                className="bg-[#00BCD4] hover:bg-[#00ACC1] text-white px-8"
+              >
+                Load More Galleries
+              </Button>
+            </div>
+          )}
+          </>
         ) : (
           <div className="text-center py-20">
             <Camera className="w-16 h-16 text-gray-400 mx-auto mb-4" />
@@ -171,3 +196,4 @@ export default function GalleriesPage() {
     </div>
   );
 }
+
