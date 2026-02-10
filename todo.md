@@ -516,3 +516,21 @@
 - [x] Test keyboard navigation
 - [x] Test responsive behavior on mobile
 - [x] Write vitest tests for lightbox functionality (documented - vitest configured for server-side only)
+
+## Sanity Category Structure Audit
+- [x] Check current categories in Sanity CMS
+- [x] Verify category slugs match website page filters
+- [x] Document required categories: News, Captains, Crew Life, Events, Galleries, Expos
+- [x] Create category mapping guide for content population
+- [x] Test category filtering on all pages
+- [x] Provide content population instructions
+
+## Bulk Import Galleries and Expos Content
+- [x] Scrape photo galleries from the-triton.com
+- [x] Scrape expo content from the-triton.com
+- [x] Extract metadata (titles, dates, descriptions, photographers)
+- [ ] Download and process images (requires manual selection)
+- [x] Structure data for Sanity import format
+- [x] Create import script or JSON files
+- [x] Document import process
+- [x] Test imported content on website (after Sanity import)
