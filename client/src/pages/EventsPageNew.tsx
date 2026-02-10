@@ -69,7 +69,7 @@ export default function EventsPageNew() {
       <NavigationNew />
 
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-[#002B5B] to-[#1E5A8E] text-white py-16">
+      <div className="bg-gradient-to-r from-[#0A2342] to-[#00BCD4] text-white py-16">
         <div className="container mx-auto px-6 md:px-8">
           <div className="flex items-center gap-3 mb-4">
             <Calendar className="w-10 h-10" />

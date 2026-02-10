@@ -90,7 +90,7 @@ export default function AdvertisementAnalytics() {
       <NavigationNew />
 
       {/* Header */}
-      <div className="bg-gradient-to-r from-[#0A2342] to-[#0d3a5f] text-white py-16">
+      <div className="bg-gradient-to-r from-[#0A2342] to-[#00BCD4] text-white py-16">
         <div className="container mx-auto px-6 md:px-8">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Advertisement Analytics</h1>
           <p className="text-xl text-gray-300">Performance metrics and insights for all banner advertisements</p>

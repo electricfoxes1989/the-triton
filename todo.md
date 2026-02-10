@@ -461,3 +461,12 @@
 - [ ] Add widget to Captains and Crew Life pages
 - [x] Test view tracking and trending sort
 - [x] Write vitest tests for view tracking
+
+## Update Header Hero Colours to Triton Teal
+- [x] Update NewsPage.tsx header gradient
+- [x] Update CaptainsPage.tsx header gradient
+- [x] Update CrewLifePage.tsx header gradient
+- [x] Update MagazinePage.tsx header gradient
+- [x] Update EventsPageNew.tsx header gradient
+- [x] Update AdvertisementAnalytics.tsx header gradient
+- [x] Test visual consistency across all pages

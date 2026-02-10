@@ -20,7 +20,7 @@ export default function CrewLifePage() {
       <NavigationNew />
 
       {/* Hero Section with Video Embed */}
-      <div className="relative bg-gradient-to-br from-cyan-600 to-blue-700 text-white">
+      <div className="relative bg-gradient-to-r from-[#0A2342] to-[#00BCD4] text-white">
         <div className="container mx-auto px-6 md:px-8 py-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -232,7 +232,7 @@ export default function CrewLifePage() {
       </div>
 
       {/* Opportunities Widget */}
-      <div id="opportunities" className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16">
+      <div id="opportunities" className="bg-gradient-to-r from-[#0A2342] to-[#00BCD4] text-white py-16">
         <div className="container mx-auto px-6 md:px-8">
           <div className="text-center max-w-3xl mx-auto">
             <Briefcase className="w-16 h-16 text-cyan-400 mx-auto mb-6" />
