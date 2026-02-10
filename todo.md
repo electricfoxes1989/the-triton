@@ -480,3 +480,13 @@
 - [x] Test cache performance on News page
 - [x] Verify reduced API calls in network tab
 - [x] Document caching behavior
+
+## Events Page Redesign - Articles + Calendar
+- [x] Fetch event-related articles from Sanity (category: EVENTS)
+- [x] Create event articles section above calendar
+- [x] Display 3 featured event articles in grid layout
+- [x] Add "View All" link to full articles
+- [x] Reorganize page layout: Hero → Articles → Calendar
+- [x] Ensure responsive design for articles section
+- [x] Test article fetching and display
+- [x] Verify calendar functionality remains intact

@@ -25,6 +25,9 @@ export default function EventsPageNew() {
 
   // Fetch events from Sanity
   const { data: events, isLoading } = trpc.events.list.useQuery();
+  
+  // Fetch event-related articles
+  const { data: eventArticles, isLoading: articlesLoading } = trpc.articles.byCategory.useQuery({ categorySlug: "events", limit: 3 });
 
   // Transform events for FullCalendar
   const calendarEvents = events?.map((event: any) => ({
@@ -83,8 +86,85 @@ export default function EventsPageNew() {
         </div>
       </div>
 
-      {/* Main Content */}
+      {/* Event Articles Section */}
+      <div className="bg-white py-12 border-b border-gray-200">
+        <div className="container mx-auto px-6 md:px-8">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-2">EVENT NEWS & COVERAGE</h2>
+              <p className="text-gray-600">Latest updates, previews, and recaps from yacht shows and industry events</p>
+            </div>
+            <a href="/news" className="text-[#00BCD4] hover:text-[#0A2342] font-semibold transition-colors">
+              View All →
+            </a>
+          </div>
+
+          {articlesLoading ? (
+            <div className="flex items-center justify-center py-12">
+              <div className="inline-block w-8 h-8 border-4 border-gray-300 border-t-[#00BCD4] rounded-full animate-spin" />
+            </div>
+          ) : eventArticles && eventArticles.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {eventArticles.slice(0, 3).map((article: any) => (
+                <a
+                  key={article._id}
+                  href={`/article/${article.slug}`}
+                  className="group block bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl transition-all duration-300"
+                >
+                  {article.mainImage && (
+                    <div className="aspect-video overflow-hidden">
+                      <img
+                        src={article.mainImage}
+                        alt={article.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                  )}
+                  <div className="p-6">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="inline-block px-3 py-1 bg-[#00BCD4] text-white text-xs font-semibold rounded-full uppercase">
+                        Events
+                      </span>
+                      <span className="text-sm text-gray-500">
+                        {new Date(article.publishedAt).toLocaleDateString("en-GB", {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                        })}
+                      </span>
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-[#00BCD4] transition-colors line-clamp-2">
+                      {article.title}
+                    </h3>
+                    {article.excerpt && (
+                      <p className="text-gray-600 text-sm line-clamp-3 mb-4">
+                        {article.excerpt}
+                      </p>
+                    )}
+                    {article.author && (
+                      <p className="text-sm text-gray-500">
+                        By {article.author.name}
+                      </p>
+                    )}
+                  </div>
+                </a>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 bg-gray-50 rounded-lg">
+              <p className="text-gray-600">No event articles available yet</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Calendar Section */}
       <div className="container mx-auto px-6 md:px-8 py-12">
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold text-gray-900 mb-2">EVENT CALENDAR</h2>
+          <p className="text-gray-600">Browse upcoming boat shows, conferences, and industry events</p>
+        </div>
+        
         {/* View Controls */}
         <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
           <div className="flex gap-2">
