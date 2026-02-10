@@ -543,3 +543,13 @@
 - [x] Hide button when all articles loaded
 - [x] Test pagination functionality
 - [x] Verify performance improvement
+
+## Add Images to Gallery and Expo Articles
+- [x] Query Sanity to check which articles have images
+- [x] Identify articles missing mainImage
+- [x] Generate AI images for galleries (boat shows, networking events, competitions)
+- [x] Generate AI images for expos (Triton Expo events)
+- [x] Upload images to Sanity CMS via API
+- [x] Verify images display correctly on Galleries page
+- [x] Verify images display correctly on Expos page
+- [x] Test lightbox functionality with new images
