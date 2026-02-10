@@ -553,3 +553,15 @@
 - [x] Verify images display correctly on Galleries page
 - [x] Verify images display correctly on Expos page
 - [x] Test lightbox functionality with new images
+
+## Sanity Article Templates and Import Workflow
+- [x] Create article template for News articles
+- [x] Create article template for Captains articles
+- [x] Create article template for Crew Life articles
+- [x] Create article template for Events articles
+- [x] Create article template for Galleries
+- [x] Create article template for Expos
+- [x] Build JSON-to-Sanity import script
+- [x] Create step-by-step import documentation
+- [x] Provide example articles for each category
+- [x] Test import workflow with sample data
