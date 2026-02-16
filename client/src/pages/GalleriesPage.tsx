@@ -1,7 +1,7 @@
 import { useState } from "react";
 import NavigationNew from "@/components/NavigationNew";
 import Footer from "@/components/Footer";
-import { trpc } from "@/lib/trpc";
+import { useArticlesByCategory } from "@/lib/sanityHooks";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Camera, Calendar, User } from "lucide-react";
@@ -23,10 +23,7 @@ export default function GalleriesPage() {
   };
 
   // Fetch galleries from Sanity (placeholder - will need to add to Sanity schema)
-  const { data: galleries, isLoading } = trpc.articles.byCategory.useQuery({ 
-    categorySlug: "galleries",
-    limit: 50 
-  });
+  const { data: galleries, isLoading } = useArticlesByCategory("galleries", 50);
 
   const eventTypes = [
     { value: "all" as const, label: "All Galleries" },

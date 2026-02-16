@@ -3,7 +3,7 @@ import NavigationNew from "@/components/NavigationNew";
 import Footer from "@/components/Footer";
 import BannerAd from "@/components/BannerAd";
 import TrendingArticles from "@/components/TrendingArticles";
-import { trpc } from "@/lib/trpc";
+import { useArticles } from "@/lib/sanityHooks";
 import { Newspaper, TrendingUp, Ship, Calendar, Users, ArrowRight } from "lucide-react";
 
 function formatDate(dateStr: string) {
@@ -142,7 +142,7 @@ function SectionHeader({ icon, title, description, viewAllLink }: SectionHeaderP
 
 export default function NewsPage() {
   // Fetch all news articles
-  const { data: allArticles = [], isLoading } = trpc.articles.list.useQuery({ limit: 50 });
+  const { data: allArticles = [], isLoading } = useArticles(50);
 
   // Filter articles by category (assuming categories are set in Sanity)
   const latestNews = allArticles.slice(0, 7); // Top 7 for featured + grid

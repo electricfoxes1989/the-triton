@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "wouter";
 import NavigationNew from "@/components/NavigationNew";
 import Footer from "@/components/Footer";
-import { trpc } from "@/lib/trpc";
+import { useArticlesByCategory } from "@/lib/sanityHooks";
 
 function formatDate(dateStr: string) {
   const d = new Date(dateStr);
@@ -17,10 +17,7 @@ interface CategoryPageProps {
 
 export default function CategoryPage({ category, title, description }: CategoryPageProps) {
   // Fetch articles filtered by category
-  const { data: articles = [], isLoading } = trpc.articles.byCategory.useQuery({ 
-    categorySlug: category.toLowerCase(),
-    limit: 50
-  });
+  const { data: articles = [], isLoading } = useArticlesByCategory(category.toLowerCase(), 50);
 
   if (isLoading) {
     return (

@@ -1,16 +1,13 @@
 import { useParams, Link } from "wouter";
 import NavigationNew from "@/components/NavigationNew";
 import Footer from "@/components/Footer";
-import { trpc } from "@/lib/trpc";
+import { useAuthorBySlug, useArticlesByAuthor } from "@/lib/sanityHooks";
 import { Twitter, Linkedin, Mail, Globe, Calendar } from "lucide-react";
 
 export function AuthorPage() {
   const { slug } = useParams();
-  const { data: author, isLoading: authorLoading } = trpc.authors.bySlug.useQuery({ slug: slug || "" });
-  const { data: articles, isLoading: articlesLoading } = trpc.authors.articles.useQuery(
-    { authorSlug: slug || "", limit: 50 },
-    { enabled: !!slug }
-  );
+  const { data: author, isLoading: authorLoading } = useAuthorBySlug(slug || "");
+  const { data: articles, isLoading: articlesLoading } = useArticlesByAuthor(slug || "");
 
   if (authorLoading) {
     return (

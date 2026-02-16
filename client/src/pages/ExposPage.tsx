@@ -1,6 +1,6 @@
 import NavigationNew from "@/components/NavigationNew";
 import Footer from "@/components/Footer";
-import { trpc } from "@/lib/trpc";
+import { useArticlesByCategory } from "@/lib/sanityHooks";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar, MapPin, Users, Building2, ExternalLink, Camera } from "lucide-react";
@@ -9,10 +9,7 @@ import { useState } from "react";
 export default function ExposPage() {
   const [displayCount, setDisplayCount] = useState(6);
   // Fetch expo articles from Sanity
-  const { data: expos, isLoading } = trpc.articles.byCategory.useQuery({ 
-    categorySlug: "expos",
-    limit: 20 
-  });
+  const { data: expos, isLoading } = useArticlesByCategory("expos", 50);
 
   // Separate upcoming and past expos (placeholder logic - would need status field in Sanity)
   const upcomingExpos = expos?.filter((expo: any) => 

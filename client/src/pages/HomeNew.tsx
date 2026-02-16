@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import NavigationNew from "@/components/NavigationNew";
 import Footer from "@/components/Footer";
 import StatisticsSection from "@/components/StatisticsSection";
-import { trpc } from "@/lib/trpc";
+import { useArticles } from "@/lib/sanityHooks";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 function formatDate(dateStr: string) {
@@ -15,8 +15,8 @@ export default function HomeNew() {
   const [heroIndex, setHeroIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   
-  // Fetch articles through tRPC backend
-  const { data: articles = [], isLoading } = trpc.articles.list.useQuery({ limit: 50 });
+  // Fetch articles directly from Sanity
+  const { data: articles = [], isLoading } = useArticles(50);
   
   // Auto-rotation effect
   useEffect(() => {

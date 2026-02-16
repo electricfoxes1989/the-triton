@@ -1,7 +1,7 @@
 import { useState } from "react";
 import NavigationNew from "@/components/NavigationNew";
 import Footer from "@/components/Footer";
-import { trpc } from "@/lib/trpc";
+import { useMagazineIssues } from "@/lib/sanityHooks";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Loader2, ExternalLink, Download } from "lucide-react";
@@ -11,7 +11,7 @@ export default function MagazinePage() {
   const [selectedIssue, setSelectedIssue] = useState<any | null>(null);
 
   // Fetch all magazine issues
-  const { data: issues, isLoading } = trpc.magazines.list.useQuery();
+  const { data: issues, isLoading } = useMagazineIssues();
 
   // Get unique years from issues
   const years: number[] = issues

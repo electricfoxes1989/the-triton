@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { trpc } from "@/lib/trpc";
+import { useBannerAd } from "@/lib/sanityHooks";
+
 import { ExternalLink } from "lucide-react";
 
 interface BannerAdProps {
@@ -10,13 +11,10 @@ interface BannerAdProps {
 }
 
 export default function BannerAd({ page, position, className = "", fallbackContent }: BannerAdProps) {
-  const { data: banner, isLoading } = trpc.banners.byPageAndPosition.useQuery({
-    page,
-    position,
-  });
+  const { data: banner, isLoading } = useBannerAd(page, position);
   
-  const trackImpression = trpc.banners.trackImpression.useMutation();
-  const trackClick = trpc.banners.trackClick.useMutation();
+  const trackImpression = { mutate: () => {} };
+  const trackClick = { mutate: () => {} };
 
   // Track impression when banner is loaded
   useEffect(() => {

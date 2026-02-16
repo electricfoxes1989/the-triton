@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import NavigationNew from "@/components/NavigationNew";
 import Footer from "@/components/Footer";
-import { trpc } from "@/lib/trpc";
+import { useArticlesByCategory, useEvents } from "@/lib/sanityHooks";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -24,10 +24,10 @@ export default function EventsPageNew() {
   const [view, setView] = useState<"month" | "week" | "list">("month");
 
   // Fetch events from Sanity
-  const { data: events, isLoading } = trpc.events.list.useQuery();
+  const { data: events, isLoading } = useEvents();
   
   // Fetch event-related articles
-  const { data: eventArticles, isLoading: articlesLoading } = trpc.articles.byCategory.useQuery({ categorySlug: "events", limit: 3 });
+  const { data: eventArticles, isLoading: articlesLoading } = useArticlesByCategory("events", 3);
 
   // Transform events for FullCalendar
   const calendarEvents = events?.map((event: any) => ({

@@ -2,18 +2,13 @@ import { Link } from "wouter";
 import NavigationNew from "@/components/NavigationNew";
 import Footer from "@/components/Footer";
 import BannerAd from "@/components/BannerAd";
-import { trpc } from "@/lib/trpc";
+import { useArticlesByCategory, useFeaturedVideo } from "@/lib/sanityHooks";
 import { Calendar, ArrowRight, Briefcase, BookOpen, MapPin } from "lucide-react";
 
 export default function CrewLifePage() {
-  const { data: articles, isLoading } = trpc.articles.byCategory.useQuery({
-    categorySlug: "crew-life",
-    limit: 20,
-  });
+  const { data: articles, isLoading } = useArticlesByCategory("crew-life", 20);
 
-  const { data: featuredVideo } = trpc.videos.byCategory.useQuery({
-    category: "crew-life",
-  });
+  const { data: featuredVideo } = useFeaturedVideo("crew-life");
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">

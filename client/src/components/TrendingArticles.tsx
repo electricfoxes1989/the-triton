@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { trpc } from "@/lib/trpc";
+import { useTrendingArticles } from "@/lib/sanityHooks";
 import { TrendingUp, Eye } from "lucide-react";
 
 function formatDate(dateStr: string) {
@@ -20,7 +20,7 @@ interface TrendingArticlesProps {
 }
 
 export default function TrendingArticles({ limit = 5, className = "" }: TrendingArticlesProps) {
-  const { data: trendingArticles, isLoading } = trpc.articles.trending.useQuery({ limit });
+  const { data: trendingArticles, isLoading } = useTrendingArticles(limit);
 
   if (isLoading) {
     return (

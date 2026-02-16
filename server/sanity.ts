@@ -65,7 +65,13 @@ export async function getArticleBySlug(slug: string): Promise<SanityArticle | nu
         excerpt,
         publishedAt,
         heroImageUrl,
-        body,
+        body[]{
+          ...,
+          _type == "image" => {
+            ...,
+            "asset": asset->{url, _id}
+          }
+        },
         "author": author->{
           name, 
           slug,

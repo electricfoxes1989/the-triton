@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useRoute, Link } from "wouter";
 import NavigationNew from "@/components/NavigationNew";
 import Footer from "@/components/Footer";
-import { trpc } from "@/lib/trpc";
+import { useArticleBySlug, useArticlesByCategory } from "@/lib/sanityHooks";
 import { PortableText } from "@portabletext/react";
 import { Facebook, Twitter, Linkedin, Link as LinkIcon } from "lucide-react";
 
@@ -18,20 +18,14 @@ export default function ArticleDetail() {
   const [readingProgress, setReadingProgress] = useState(0);
   
   // Fetch article by slug
-  const { data: article, isLoading } = trpc.articles.bySlug.useQuery({ slug });
+  const { data: article, isLoading } = useArticleBySlug(slug);
   
   // Fetch related articles (same category)
   const categorySlug = article?.category?.slug 
     ? (typeof article.category.slug === 'string' ? article.category.slug : article.category.slug.current)
     : "";
   
-  const { data: relatedArticles = [] } = trpc.articles.byCategory.useQuery(
-    { 
-      categorySlug,
-      limit: 4
-    },
-    { enabled: !!article?.category && !!categorySlug }
-  );
+  const { data: relatedArticles = [] } = useArticlesByCategory(categorySlug, 4);
 
   // Track reading progress
   useEffect(() => {

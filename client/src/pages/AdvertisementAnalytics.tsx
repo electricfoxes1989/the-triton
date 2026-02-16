@@ -1,11 +1,11 @@
 import { useState, useMemo } from "react";
-import { trpc } from "@/lib/trpc";
+import { useAllAdvertisements } from "@/lib/sanityHooks";
 import NavigationNew from "@/components/NavigationNew";
 import Footer from "@/components/Footer";
 import { ArrowUpDown, TrendingUp, Eye, MousePointerClick, ExternalLink } from "lucide-react";
 
 export default function AdvertisementAnalytics() {
-  const { data: advertisements, isLoading } = trpc.analytics.allAdvertisements.useQuery();
+  const { data: advertisements, isLoading } = useAllAdvertisements();
   const [sortField, setSortField] = useState<"priority" | "impressions" | "clicks" | "ctr">("priority");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [filterStatus, setFilterStatus] = useState<"all" | "active" | "inactive">("all");

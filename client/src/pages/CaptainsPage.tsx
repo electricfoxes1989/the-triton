@@ -2,18 +2,13 @@ import { Link } from "wouter";
 import NavigationNew from "@/components/NavigationNew";
 import Footer from "@/components/Footer";
 import BannerAd from "@/components/BannerAd";
-import { trpc } from "@/lib/trpc";
+import { useArticlesByCategory, useFeaturedVideo } from "@/lib/sanityHooks";
 import { Calendar, ArrowRight, Award, Anchor, TrendingUp, Users } from "lucide-react";
 
 export default function CaptainsPage() {
-  const { data: articles, isLoading } = trpc.articles.byCategory.useQuery({
-    categorySlug: "captains",
-    limit: 20,
-  });
+  const { data: articles, isLoading } = useArticlesByCategory("captains", 20);
 
-  const { data: featuredVideo } = trpc.videos.byCategory.useQuery({
-    category: "captains",
-  });
+  const { data: featuredVideo } = useFeaturedVideo("captains");
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">

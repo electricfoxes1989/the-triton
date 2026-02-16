@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "wouter";
-import { trpc } from "@/lib/trpc";
+import { useSearchArticles } from "@/lib/sanityHooks";
 import { Search, X, Calendar } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 
@@ -31,10 +31,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
   }, [isOpen]);
 
   // Fetch search results
-  const { data: results, isLoading } = trpc.articles.search.useQuery(
-    { query: debouncedQuery, limit: 10 },
-    { enabled: debouncedQuery.length >= 2 }
-  );
+  const { data: results, isLoading } = useSearchArticles(debouncedQuery);
 
   // Handle keyboard shortcuts
   useEffect(() => {

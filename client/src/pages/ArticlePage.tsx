@@ -1,15 +1,39 @@
 import { Link, useParams } from "wouter";
 import NavigationNew from "@/components/NavigationNew";
 import Footer from "@/components/Footer";
-import { trpc } from "@/lib/trpc";
+import { useArticleBySlug, useArticlesByCategory, useArticles } from "@/lib/sanityHooks";
 import { PortableText } from "@portabletext/react";
 import { Calendar, Tag, Share2, Facebook, Twitter, Linkedin, Mail, Clock, TrendingUp } from "lucide-react";
 import { useState } from "react";
 import Lightbox from "@/components/Lightbox";
 
+// Build Sanity image URL from asset ref when .url isn't available
+function sanityImageFromRef(ref: string, width = 1200): string {
+  const parts = ref.replace('image-', '').split('-');
+  const format = parts.pop();
+  const dimensions = parts.pop();
+  const id = parts.join('-');
+  return `https://cdn.sanity.io/images/9w7gje4u/production/${id}-${dimensions}.${format}?w=${width}&auto=format`;
+}
+
+function getImageUrl(value: any): string | null {
+  if (value?.asset?.url) return value.asset.url;
+  if (value?.asset?._ref) return sanityImageFromRef(value.asset._ref);
+  return null;
+}
+
+// Auto-detect quotes from text patterns
+function isQuoteBlock(block: any): boolean {
+  const text = block?.children?.map((c: any) => c.text || '').join('') || '';
+  const trimmed = text.trim();
+  if (/^[""\u201C\u201D]/.test(trimmed)) return true;
+  if (/[""\u201C].{40,}[""\u201D]\s*[-—–]/.test(trimmed)) return true;
+  return false;
+}
+
 export function ArticlePage() {
   const { slug } = useParams();
-  const { data: article, isLoading } = trpc.articles.bySlug.useQuery({ slug: slug || "" });
+  const { data: article, isLoading } = useArticleBySlug(slug || "");
   const categorySlug = article?.category 
     ? (typeof article.category === 'string' 
         ? article.category 
@@ -18,12 +42,8 @@ export function ArticlePage() {
             : article.category.slug.current))
     : "";
   
-  const { data: relatedArticles } = trpc.articles.byCategory.useQuery(
-    { categorySlug, limit: 4 },
-    { enabled: !!categorySlug }
-  );
-  
-  const { data: trendingArticles } = trpc.articles.list.useQuery({ limit: 5 });
+  const { data: relatedArticles } = useArticlesByCategory(categorySlug, 4);
+  const { data: trendingArticles } = useArticles(5);
   
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -205,39 +225,51 @@ export function ArticlePage() {
                       value={article.body}
                       components={{
                         block: {
-                          normal: ({ children }) => (
-                            <p className="text-gray-800 leading-relaxed mb-6">{children}</p>
-                          ),
+                          normal: ({ children, value }) => {
+                            // Auto-detect quotes
+                            if (isQuoteBlock(value)) {
+                              return (
+                                <blockquote className="border-l-4 border-[var(--triton-aqua)] pl-6 py-2 my-8 italic text-xl text-gray-700 font-serif">
+                                  {children}
+                                </blockquote>
+                              );
+                            }
+                            return <p className="text-gray-800 leading-relaxed mb-6 font-serif text-lg">{children}</p>
+                          },
                           h2: ({ children }) => (
-                            <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-6">{children}</h2>
+                            <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-6 font-sans">{children}</h2>
                           ),
                           h3: ({ children }) => (
-                            <h3 className="text-2xl font-bold text-gray-900 mt-10 mb-4">{children}</h3>
+                            <h3 className="text-2xl font-bold text-gray-900 mt-10 mb-4 font-sans">{children}</h3>
                           ),
                           blockquote: ({ children }) => (
-                            <blockquote className="border-l-4 border-primary pl-6 py-2 my-8 italic text-xl text-gray-700">
+                            <blockquote className="border-l-4 border-[var(--triton-aqua)] pl-6 py-2 my-8 italic text-xl text-gray-700 font-serif">
                               {children}
                             </blockquote>
                           ),
                         },
                         types: {
                           image: ({ value }) => {
+                            const imgUrl = getImageUrl(value);
+                            if (!imgUrl) return null;
+                            
                             // Collect all images from article body for lightbox navigation
                             const allImages = article.body
                               ?.filter((block: any) => block._type === 'image')
-                              .map((block: any) => block.asset?.url || '')
-                              .filter(Boolean) || [];
+                              .map((block: any) => getImageUrl(block))
+                              .filter(Boolean) as string[] || [];
                             
                             return (
-                              <figure className="my-8">
+                              <figure className="my-10">
                                 <img
-                                  src={value.asset?.url}
+                                  src={imgUrl}
                                   alt={value.alt || 'Article image'}
-                                  className="w-full rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
-                                  onClick={() => openLightbox(value.asset?.url, allImages)}
+                                  className="w-full cursor-pointer hover:opacity-90 transition-opacity"
+                                  loading="lazy"
+                                  onClick={() => openLightbox(imgUrl, allImages)}
                                 />
                                 {value.caption && (
-                                  <figcaption className="text-center text-sm text-gray-600 mt-2 italic">
+                                  <figcaption className="text-center text-sm text-gray-500 mt-3 italic font-sans">
                                     {value.caption}
                                   </figcaption>
                                 )}
@@ -255,7 +287,7 @@ export function ArticlePage() {
                           link: ({ children, value }) => (
                             <a
                               href={value.href}
-                              className="text-primary hover:underline"
+                              className="text-[var(--triton-aqua)] hover:underline"
                               target="_blank"
                               rel="noopener noreferrer"
                             >
