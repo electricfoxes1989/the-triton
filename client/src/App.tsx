@@ -21,6 +21,7 @@ import AdvertisePage from "./pages/AdvertisePage";
 import AdvertisementAnalytics from "./pages/AdvertisementAnalytics";
 import GalleriesPage from "./pages/GalleriesPage";
 import ExposPage from "./pages/ExposPage";
+import ContactPage from "./pages/ContactPage";
 
 function Router() {
   return (
@@ -38,6 +39,7 @@ function Router() {
       <Route path="/ad-analytics" component={AdvertisementAnalytics} />
       <Route path="/galleries" component={GalleriesPage} />
       <Route path="/expos" component={ExposPage} />
+      <Route path="/contact" component={ContactPage} />
       <Route path="/category/:slug" component={Category} />
       <Route path="/tag/:slug" component={Tag} />
       <Route path="/search" component={Search} />

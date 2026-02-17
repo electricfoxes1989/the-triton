@@ -151,6 +151,9 @@ export default function NewsPage() {
           <h1 className="text-3xl font-bold text-[#0A2342] border-b-2 border-[#0A2342] pb-3 inline-block">
             News
           </h1>
+          <p className="text-gray-600 mt-4 max-w-2xl">
+            Breaking news and updates from the superyacht and yachting industry worldwide.
+          </p>
         </div>
 
         {/* Banner Ad */}

@@ -8,62 +8,90 @@ function formatDate(dateStr: string) {
   return d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }).toUpperCase();
 }
 
-function ArticleGrid({ articles }: { articles: any[] }) {
-  if (!articles || articles.length === 0) {
-    return <p className="text-gray-500 text-sm italic">No articles yet.</p>;
-  }
-
+function FeaturedCard({ article }: { article: any }) {
+  const slug = typeof article.slug === "string" ? article.slug : article.slug.current;
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {articles.map((article: any) => {
-        const slug = typeof article.slug === "string" ? article.slug : article.slug.current;
-        return (
-          <Link key={article._id} href={`/article/${slug}`}>
-            <article className="group cursor-pointer">
-              <div className="aspect-video overflow-hidden mb-3 bg-gray-100">
-                {article.heroImageUrl ? (
-                  <img
-                    src={article.heroImageUrl}
-                    alt={article.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                    <span className="text-gray-400 text-xs">No image</span>
-                  </div>
-                )}
-              </div>
-              <h3 className="text-lg font-bold text-gray-900 group-hover:text-[#00BCD4] transition-colors mb-2 line-clamp-2 leading-tight">
-                {article.title}
-              </h3>
-              {article.excerpt && (
-                <p className="text-sm text-gray-600 line-clamp-2 mb-2">{article.excerpt}</p>
-              )}
-              <div className="flex items-center gap-2 text-xs text-gray-500">
-                <span>{formatDate(article.publishedAt)}</span>
-                {article.author?.name && (
-                  <>
-                    <span>•</span>
-                    <span>By {article.author.name}</span>
-                  </>
-                )}
-              </div>
-            </article>
-          </Link>
-        );
-      })}
-    </div>
+    <Link href={`/article/${slug}`}>
+      <article className="group cursor-pointer">
+        <div className="overflow-hidden mb-4 bg-gray-100">
+          {article.heroImageUrl ? (
+            <img
+              src={article.heroImageUrl}
+              alt={article.title}
+              className="w-full h-[350px] object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+          ) : (
+            <div className="w-full h-[350px] bg-gray-200"></div>
+          )}
+        </div>
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 group-hover:text-[#00BCD4] transition-colors mb-3 leading-tight">
+          {article.title}
+        </h2>
+        {article.excerpt && (
+          <p className="text-gray-600 leading-relaxed mb-3 line-clamp-3">{article.excerpt}</p>
+        )}
+        <div className="flex items-center gap-2 text-xs text-gray-500">
+          <span>{formatDate(article.publishedAt)}</span>
+          {article.author?.name && (
+            <>
+              <span>•</span>
+              <span>By {article.author.name}</span>
+            </>
+          )}
+        </div>
+      </article>
+    </Link>
   );
 }
 
 function Section({ title, id, articles }: { title: string; id: string; articles: any[] }) {
+  if (!articles || articles.length === 0) {
+    return (
+      <section id={id} className="py-12 border-b border-gray-200 last:border-b-0">
+        <h2 className="text-2xl font-bold text-[#0A2342] mb-8">
+          {title}
+          <div className="h-1 w-20 bg-[#00BCD4] mt-2"></div>
+        </h2>
+        <p className="text-gray-500 text-sm italic">No articles yet.</p>
+      </section>
+    );
+  }
+
+  const featured = articles[0];
+  const rest = articles.slice(1);
+
   return (
     <section id={id} className="py-12 border-b border-gray-200 last:border-b-0">
       <h2 className="text-2xl font-bold text-[#0A2342] mb-8">
         {title}
         <div className="h-1 w-20 bg-[#00BCD4] mt-2"></div>
       </h2>
-      <ArticleGrid articles={articles} />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2">
+          <FeaturedCard article={featured} />
+        </div>
+        <div className="space-y-6">
+          {rest.map((article: any) => (
+            <Link key={article._id} href={`/article/${typeof article.slug === "string" ? article.slug : article.slug.current}`}>
+              <article className="group cursor-pointer flex gap-4 pb-4 border-b border-gray-100 last:border-b-0">
+                <div className="w-[100px] h-[70px] flex-shrink-0 overflow-hidden bg-gray-100">
+                  {article.heroImageUrl ? (
+                    <img src={article.heroImageUrl} alt={article.title} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full bg-gray-200"></div>
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h4 className="text-sm font-bold text-gray-900 group-hover:text-[#00BCD4] transition-colors line-clamp-2 leading-tight">
+                    {article.title}
+                  </h4>
+                  <span className="text-xs text-gray-500 mt-1 block">{formatDate(article.publishedAt)}</span>
+                </div>
+              </article>
+            </Link>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }

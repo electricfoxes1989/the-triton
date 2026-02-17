@@ -69,12 +69,16 @@ export default function HomeNew() {
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
           >
-            <div 
-              className="absolute inset-0 bg-cover bg-center"
-              style={{
-                backgroundImage: heroArticle.heroImageUrl ? `url(${heroArticle.heroImageUrl})` : 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)',
-              }}
-            >
+            <div className="absolute inset-0">
+              {heroArticle.heroImageUrl ? (
+                <img 
+                  src={heroArticle.heroImageUrl} 
+                  alt={heroArticle.title}
+                  className="w-full h-full object-cover object-top"
+                />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-[#1e3a8a] to-[#3b82f6]" />
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
             </div>
 

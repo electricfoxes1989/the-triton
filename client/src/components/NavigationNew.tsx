@@ -80,6 +80,12 @@ export default function NavigationNew() {
               <Link href="/advertise" className="hover-aqua">
                 Advertise
               </Link>
+              <Link href="/contact" className="hover-aqua">
+                Contact
+              </Link>
+              <a href="https://www.yatco.com/yachts-for-sale" target="_blank" rel="noopener noreferrer" className="hover-aqua">
+                Yachts for Sale
+              </a>
             </div>
 
             {/* Search Icon */}
@@ -136,6 +142,22 @@ export default function NavigationNew() {
               >
                 Advertise
               </Link>
+              <Link
+                href="/contact"
+                className="block px-4 py-2 hover:bg-white/10 rounded transition-colors uppercase tracking-wide"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Contact
+              </Link>
+              <a
+                href="https://www.yatco.com/yachts-for-sale"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block px-4 py-2 hover:bg-white/10 rounded transition-colors uppercase tracking-wide"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Yachts for Sale
+              </a>
             </div>
           </div>
         )}

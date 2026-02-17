@@ -2,284 +2,170 @@ import { Link } from "wouter";
 import NavigationNew from "@/components/NavigationNew";
 import Footer from "@/components/Footer";
 import BannerAd from "@/components/BannerAd";
-import { useArticlesByCategory, useFeaturedVideo } from "@/lib/sanityHooks";
-import { Calendar, ArrowRight, Award, Anchor, TrendingUp, Users } from "lucide-react";
+import { useArticlesByCategory } from "@/lib/sanityHooks";
 
-export default function CaptainsPage() {
-  const { data: articles, isLoading } = useArticlesByCategory("captains", 20);
+function formatDate(dateStr: string) {
+  const d = new Date(dateStr);
+  return d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }).toUpperCase();
+}
 
-  const { data: featuredVideo } = useFeaturedVideo("captains");
-
+function FeaturedCard({ article }: { article: any }) {
+  const slug = typeof article.slug === "string" ? article.slug : article.slug.current;
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
-      <NavigationNew />
-
-      {/* Hero Section with Video Embed */}
-      <div className="relative bg-gradient-to-r from-[#0A2342] to-[#00BCD4] text-white">
-        <div className="container mx-auto px-6 md:px-8 py-16">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h1 className="text-5xl md:text-6xl font-bold mb-6 uppercase">
-                Captains
-              </h1>
-              <p className="text-xl text-white/90 mb-8 leading-relaxed">
-                Expert insights, technical guidance, and professional advice from experienced superyacht captains. Navigate complex regulations, operational challenges, and best practices for vessel management.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <a href="#articles">
-                  <button className="bg-white text-gray-900 px-8 py-3 rounded font-bold hover:bg-gray-100 transition-colors">
-                    Read Expert Insights
-                  </button>
-                </a>
-                <a href="#profiles">
-                  <button className="border-2 border-white text-white px-8 py-3 rounded font-bold hover:bg-white hover:text-gray-900 transition-colors">
-                    View Captain Profiles
-                  </button>
-                </a>
-              </div>
-            </div>
-            <div className="aspect-video bg-black rounded-lg overflow-hidden shadow-2xl">
-              {featuredVideo?.videoUrl ? (
-                <iframe
-                  className="w-full h-full"
-                  src={featuredVideo.videoUrl}
-                  title={featuredVideo.title || "Captain Interview"}
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-              ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gray-900">
-                  <p className="text-white/60">No featured video available</p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Banner Ad 1 */}
-      <div className="bg-white py-6">
-        <div className="container mx-auto px-6 md:px-8">
-          <p className="text-sm text-gray-500 uppercase tracking-wider mb-2 text-center">Advertisement</p>
-          <BannerAd 
-            page="captains" 
-            position="content-top"
-            className="h-24 w-full rounded-lg overflow-hidden"
-            fallbackContent={
-              <div className="bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg p-8 text-center h-24 flex items-center justify-center">
-                <p className="text-gray-400 text-lg">Marine Equipment & Services Banner</p>
-              </div>
-            }
-          />
-        </div>
-      </div>
-
-      {/* Featured Articles Section */}
-      <div id="articles" className="bg-white py-16">
-        <div className="container mx-auto px-6 md:px-8">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 uppercase">Latest Insights</h2>
-          </div>
-
-          {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div key={i} className="animate-pulse">
-                  <div className="aspect-video bg-gray-200 rounded-lg mb-4"></div>
-                  <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                  <div className="h-4 bg-gray-200 rounded w-2/3"></div>
-                </div>
-              ))}
-            </div>
-          ) : articles && articles.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {articles.map((article) => {
-                const articleSlug = typeof article.slug === 'string' ? article.slug : article.slug.current;
-                return (
-                  <Link key={article._id} href={`/article/${articleSlug}`}>
-                    <article className="group cursor-pointer bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-200">
-                      {article.heroImageUrl && (
-                        <div className="aspect-video overflow-hidden">
-                          <img
-                            src={article.heroImageUrl}
-                            alt={article.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
-                        </div>
-                      )}
-                      <div className="p-6">
-                        <h3 className="text-xl font-bold text-gray-900 group-hover:text-primary transition-colors mb-3 line-clamp-2">
-                          {article.title}
-                        </h3>
-                        {article.excerpt && (
-                          <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                            {article.excerpt}
-                          </p>
-                        )}
-                        <div className="flex items-center gap-4 text-xs text-gray-500">
-                          <div className="flex items-center gap-1">
-                            <Calendar className="w-3 h-3" />
-                            <time dateTime={article.publishedAt}>
-                              {new Date(article.publishedAt).toLocaleDateString('en-GB', {
-                                day: 'numeric',
-                                month: 'short',
-                                year: 'numeric'
-                              })}
-                            </time>
-                          </div>
-                          {article.author && (
-                            <span className="font-medium">By {article.author.name}</span>
-                          )}
-                        </div>
-                      </div>
-                    </article>
-                  </Link>
-                );
-              })}
-            </div>
+    <Link href={`/article/${slug}`}>
+      <article className="group cursor-pointer">
+        <div className="overflow-hidden mb-4 bg-gray-100">
+          {article.heroImageUrl ? (
+            <img
+              src={article.heroImageUrl}
+              alt={article.title}
+              className="w-full h-[350px] object-cover group-hover:scale-105 transition-transform duration-500"
+            />
           ) : (
-            <div className="text-center py-16">
-              <p className="text-gray-500 text-lg">No captain articles yet. Check back soon!</p>
-            </div>
+            <div className="w-full h-[350px] bg-gray-200"></div>
           )}
         </div>
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 group-hover:text-[#00BCD4] transition-colors mb-3 leading-tight">
+          {article.title}
+        </h2>
+        {article.excerpt && (
+          <p className="text-gray-600 leading-relaxed mb-3 line-clamp-3">{article.excerpt}</p>
+        )}
+        <div className="flex items-center gap-2 text-xs text-gray-500">
+          <span>{formatDate(article.publishedAt)}</span>
+          {article.author?.name && (
+            <>
+              <span>•</span>
+              <span>By {article.author.name}</span>
+            </>
+          )}
+        </div>
+      </article>
+    </Link>
+  );
+}
+
+function Section({ title, articles, showMore }: { title: string; articles: any[]; showMore?: string }) {
+  if (!articles || articles.length === 0) return null;
+  const featured = articles[0];
+  const rest = articles.slice(1);
+
+  return (
+    <section className="py-12 border-b border-gray-200 last:border-b-0">
+      <div className="flex items-center justify-between mb-8">
+        <h2 className="text-2xl font-bold text-[#0A2342]">
+          {title}
+          <div className="h-1 w-20 bg-[#00BCD4] mt-2"></div>
+        </h2>
+        {showMore && (
+          <Link href={showMore} className="text-sm text-[#00BCD4] font-semibold uppercase tracking-wide hover:underline">
+            View All →
+          </Link>
+        )}
       </div>
 
-      {/* Captain Profiles Showcase */}
-      <div id="profiles" className="bg-gradient-to-br from-gray-100 to-gray-50 py-16">
-        <div className="container mx-auto px-6 md:px-8">
-          <h2 className="text-3xl font-bold text-gray-900 uppercase mb-8">Featured Captains</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
-                <div className="aspect-square bg-gradient-to-br from-gray-800 to-gray-600 flex items-center justify-center">
-                  <Anchor className="w-24 h-24 text-white/30" />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2">
+          <FeaturedCard article={featured} />
+        </div>
+        <div className="space-y-6">
+          {rest.map((article: any) => (
+            <Link key={article._id} href={`/article/${typeof article.slug === "string" ? article.slug : article.slug.current}`}>
+              <article className="group cursor-pointer flex gap-4 pb-4 border-b border-gray-100 last:border-b-0">
+                <div className="w-[100px] h-[70px] flex-shrink-0 overflow-hidden bg-gray-100">
+                  {article.heroImageUrl ? (
+                    <img src={article.heroImageUrl} alt={article.title} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full bg-gray-200"></div>
+                  )}
                 </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Captain Profile {i}</h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    25+ years experience commanding superyachts worldwide. Specialising in Mediterranean and Caribbean operations.
-                  </p>
-                  <button className="text-primary font-semibold hover:underline flex items-center gap-2">
-                    View Profile <ArrowRight className="w-4 h-4" />
-                  </button>
+                <div className="flex-1 min-w-0">
+                  <h4 className="text-sm font-bold text-gray-900 group-hover:text-[#00BCD4] transition-colors line-clamp-2 leading-tight">
+                    {article.title}
+                  </h4>
+                  <span className="text-xs text-gray-500 mt-1 block">{formatDate(article.publishedAt)}</span>
                 </div>
-              </div>
-            ))}
-          </div>
+              </article>
+            </Link>
+          ))}
         </div>
       </div>
+    </section>
+  );
+}
 
-      {/* Banner Ad 2 */}
-      <div className="bg-white py-6">
+export default function CaptainsPage() {
+  const { data: captainsArticles = [], isLoading: loadingCaptains } = useArticlesByCategory("captains", 20);
+  const { data: crewLifeArticles = [], isLoading: loadingCrew } = useArticlesByCategory("crew-life", 10);
+  const { data: destinationsArticles = [], isLoading: loadingDest } = useArticlesByCategory("destinations", 10);
+
+  const isLoading = loadingCaptains || loadingCrew || loadingDest;
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex flex-col bg-white">
+        <NavigationNew />
+        <main className="flex-1 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0A2342] mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading...</p>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col bg-white">
+      <NavigationNew />
+
+      <main className="flex-1">
+        {/* Breadcrumb */}
+        <div className="border-b border-gray-200">
+          <div className="container mx-auto px-6 md:px-8 py-4">
+            <div className="flex items-center gap-2 text-sm text-gray-500">
+              <Link href="/" className="hover:text-[#00BCD4]">Home</Link>
+              <span>›</span>
+              <span className="text-gray-900 font-medium">Captains</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Page Header */}
+        <div className="container mx-auto px-6 md:px-8 pt-8 pb-4">
+          <h1 className="text-3xl font-bold text-[#0A2342] border-b-2 border-[#0A2342] pb-3 inline-block">
+            Captains
+          </h1>
+          <p className="text-gray-600 mt-4 max-w-2xl">
+            Expert insights, technical guidance, and professional advice from experienced superyacht captains.
+          </p>
+        </div>
+
+        {/* Banner Ad */}
+        <div className="container mx-auto px-6 md:px-8 py-4">
+          <BannerAd page="captains" position="content-top" className="w-full h-24" />
+        </div>
+
         <div className="container mx-auto px-6 md:px-8">
-          <p className="text-sm text-gray-500 uppercase tracking-wider mb-2 text-center">Advertisement</p>
-          <BannerAd 
-            page="captains" 
-            position="content-middle"
-            className="h-24 w-full rounded-lg overflow-hidden"
-            fallbackContent={
-              <div className="bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg p-8 text-center h-24 flex items-center justify-center">
-                <p className="text-gray-400 text-lg">Insurance & Legal Services Banner</p>
-              </div>
-            }
+          <Section
+            title="Captains"
+            articles={captainsArticles.slice(0, 7)}
+            showMore="/category/captains"
+          />
+
+          <Section
+            title="Crew Life"
+            articles={crewLifeArticles.slice(0, 7)}
+            showMore="/crew-life"
+          />
+
+          <Section
+            title="Destinations"
+            articles={destinationsArticles.slice(0, 7)}
+            showMore="/category/destinations"
           />
         </div>
-      </div>
-
-      {/* Professional Development Resources */}
-      <div className="bg-white py-16">
-        <div className="container mx-auto px-6 md:px-8">
-          <h2 className="text-3xl font-bold text-gray-900 uppercase mb-8">Professional Resources</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-8 hover:shadow-lg transition-shadow">
-              <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mb-4">
-                <Award className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Certifications</h3>
-              <p className="text-gray-600 mb-4">
-                Stay current with MCA, USCG, and international maritime certification requirements and renewal processes.
-              </p>
-              <button className="text-primary font-semibold hover:underline flex items-center gap-2">
-                Learn More <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-
-            <div className="bg-gradient-to-br from-indigo-50 to-blue-50 rounded-lg p-8 hover:shadow-lg transition-shadow">
-              <div className="w-12 h-12 bg-indigo-600 rounded-lg flex items-center justify-center mb-4">
-                <TrendingUp className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Industry Insights</h3>
-              <p className="text-gray-600 mb-4">
-                Market trends, charter season updates, and operational best practices from industry leaders.
-              </p>
-              <button className="text-indigo-600 font-semibold hover:underline flex items-center gap-2">
-                Explore <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-
-            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-8 hover:shadow-lg transition-shadow">
-              <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mb-4">
-                <Users className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Crew Management</h3>
-              <p className="text-gray-600 mb-4">
-                Leadership strategies, recruitment guidance, and team development resources for effective crew management.
-              </p>
-              <button className="text-primary font-semibold hover:underline flex items-center gap-2">
-                View Resources <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Industry Best Practices Section */}
-      <div className="bg-gradient-to-r from-[#0A2342] to-[#00BCD4] text-white py-16">
-        <div className="container mx-auto px-6 md:px-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <Anchor className="w-16 h-16 text-primary mx-auto mb-6" />
-              <h2 className="text-4xl font-bold mb-4 uppercase">Industry Best Practices</h2>
-              <p className="text-xl text-gray-300">
-                Access comprehensive guides on safety protocols, regulatory compliance, environmental stewardship, and operational excellence.
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-colors">
-                <h3 className="text-lg font-bold mb-2">Safety & Security</h3>
-                <p className="text-gray-300 text-sm">
-                  ISPS compliance, emergency procedures, and crew safety protocols
-                </p>
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-colors">
-                <h3 className="text-lg font-bold mb-2">Regulatory Compliance</h3>
-                <p className="text-gray-300 text-sm">
-                  Flag state requirements, MLC 2006, and international maritime law
-                </p>
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-colors">
-                <h3 className="text-lg font-bold mb-2">Environmental Standards</h3>
-                <p className="text-gray-300 text-sm">
-                  MARPOL compliance, waste management, and sustainable operations
-                </p>
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-colors">
-                <h3 className="text-lg font-bold mb-2">Operational Excellence</h3>
-                <p className="text-gray-300 text-sm">
-                  Maintenance schedules, budget management, and performance optimisation
-                </p>
-              </div>
-            </div>
-            <div className="text-center mt-12">
-              <button className="bg-white text-gray-900 px-8 py-3 rounded font-bold hover:bg-gray-100 transition-colors">
-                Access Full Resource Library
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      </main>
 
       <Footer />
     </div>
