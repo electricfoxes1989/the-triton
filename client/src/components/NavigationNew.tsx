@@ -60,7 +60,7 @@ export default function NavigationNew() {
       </div>
 
       {/* Main Navigation */}
-      <nav className="bg-primary text-white shadow-md">
+      <nav className="bg-primary text-white">
         <div className="container mx-auto">
           <div className="flex items-center justify-between h-16">
             {/* Empty space for alignment */}
@@ -91,7 +91,7 @@ export default function NavigationNew() {
             {/* Search Icon */}
             <button
               onClick={() => setSearchModalOpen(true)}
-              className="p-2 hover:bg-primary/80 rounded-full transition-colors"
+              className="p-2 hover:bg-primary/80 transition-colors"
               aria-label="Search"
             >
               <Search className="w-5 h-5" />
@@ -100,7 +100,7 @@ export default function NavigationNew() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 hover:bg-primary/80 rounded transition-colors"
+              className="md:hidden p-2 hover:bg-primary/80 transition-colors"
               aria-label="Menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -116,35 +116,35 @@ export default function NavigationNew() {
             <div className="container mx-auto py-4 space-y-2">
               <Link
                 href="/news"
-                className="block px-4 py-2 hover:bg-white/10 rounded transition-colors uppercase tracking-wide"
+                className="block px-4 py-2 hover:bg-white/10 transition-colors uppercase tracking-wide"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 News
               </Link>
               <Link
                 href="/crew-life"
-                className="block px-4 py-2 hover:bg-white/10 rounded transition-colors uppercase tracking-wide"
+                className="block px-4 py-2 hover:bg-white/10 transition-colors uppercase tracking-wide"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Crew Life
               </Link>
               <Link
                 href="/events"
-                className="block px-4 py-2 hover:bg-white/10 rounded transition-colors uppercase tracking-wide"
+                className="block px-4 py-2 hover:bg-white/10 transition-colors uppercase tracking-wide"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Events
               </Link>
               <Link
                 href="/advertise"
-                className="block px-4 py-2 hover:bg-white/10 rounded transition-colors uppercase tracking-wide"
+                className="block px-4 py-2 hover:bg-white/10 transition-colors uppercase tracking-wide"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Advertise
               </Link>
               <Link
                 href="/contact"
-                className="block px-4 py-2 hover:bg-white/10 rounded transition-colors uppercase tracking-wide"
+                className="block px-4 py-2 hover:bg-white/10 transition-colors uppercase tracking-wide"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Contact
@@ -153,7 +153,7 @@ export default function NavigationNew() {
                 href="https://www.yatco.com/yachts-for-sale"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block px-4 py-2 hover:bg-white/10 rounded transition-colors uppercase tracking-wide"
+                className="block px-4 py-2 hover:bg-white/10 transition-colors uppercase tracking-wide"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Yachts for Sale

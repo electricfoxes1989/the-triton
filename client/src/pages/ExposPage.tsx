@@ -26,7 +26,7 @@ export default function ExposPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <NavigationNew />
 
       {/* Hero Section */}
@@ -63,11 +63,11 @@ export default function ExposPage() {
                 </div>
 
                 {upcomingExpos.map((expo: any) => (
-                  <Card key={expo._id} className="p-8 bg-gradient-to-br from-white to-gray-50 border-2 border-[#00BCD4]">
+                  <Card key={expo._id} className="p-8 bg-white border-2 border-[#00BCD4]">
                     <div className="grid md:grid-cols-2 gap-8">
                       {/* Expo Image */}
                       {expo.mainImage && (
-                        <div className="aspect-video rounded-lg overflow-hidden">
+                        <div className="aspect-video overflow-hidden">
                           <img
                             src={expo.mainImage}
                             alt={expo.title}
@@ -137,7 +137,7 @@ export default function ExposPage() {
                 <>
                 <div className="space-y-8">
                   {pastExpos.map((expo: any, index: number) => (
-                    <Card key={expo._id} className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                    <Card key={expo._id} className="overflow-hidden border border-gray-200 transition-colors duration-300">
                       <div className="grid md:grid-cols-3 gap-6">
                         {/* Expo Image */}
                         {expo.mainImage && (
@@ -157,7 +157,7 @@ export default function ExposPage() {
                         {/* Expo Content */}
                         <div className="md:col-span-2 p-6">
                           <div className="flex items-center gap-2 mb-3">
-                            <span className="inline-block px-3 py-1 bg-[#00BCD4] text-white text-xs font-semibold rounded-full uppercase">
+                            <span className="inline-block px-3 py-1 bg-[#00BCD4] text-white text-xs font-semibold uppercase">
                               Expo
                             </span>
                             <span className="text-sm text-gray-500">

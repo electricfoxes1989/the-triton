@@ -60,11 +60,11 @@ export function ArticlePage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex flex-col bg-gray-50">
+      <div className="min-h-screen flex flex-col bg-white">
         <NavigationNew />
         <div className="flex-1 flex items-center justify-center py-20">
           <div className="text-center">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+            <div className="inline-block animate-spin h-12 w-12 border-b-2 border-primary"></div>
             <p className="mt-4 text-gray-600">Loading article...</p>
           </div>
         </div>
@@ -75,7 +75,7 @@ export function ArticlePage() {
 
   if (!article) {
     return (
-      <div className="min-h-screen flex flex-col bg-gray-50">
+      <div className="min-h-screen flex flex-col bg-white">
         <NavigationNew />
         <div className="flex-1 flex items-center justify-center py-20">
           <div className="text-center">
@@ -145,7 +145,7 @@ export function ArticlePage() {
                     <img
                       src={article.heroImageUrl}
                       alt={article.title}
-                      className="w-full max-h-[500px] object-cover rounded"
+                      className="w-full max-h-[500px] object-cover"
                     />
                   </div>
                 )}
@@ -194,28 +194,28 @@ export function ArticlePage() {
                   <span className="text-sm font-semibold text-gray-700">Share:</span>
                   <button
                     onClick={() => handleShare('facebook')}
-                    className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                    className="p-2 hover:bg-gray-100 transition-colors"
                     aria-label="Share on Facebook"
                   >
                     <Facebook className="w-5 h-5 text-gray-600" />
                   </button>
                   <button
                     onClick={() => handleShare('twitter')}
-                    className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                    className="p-2 hover:bg-gray-100 transition-colors"
                     aria-label="Share on Twitter"
                   >
                     <Twitter className="w-5 h-5 text-gray-600" />
                   </button>
                   <button
                     onClick={() => handleShare('linkedin')}
-                    className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                    className="p-2 hover:bg-gray-100 transition-colors"
                     aria-label="Share on LinkedIn"
                   >
                     <Linkedin className="w-5 h-5 text-gray-600" />
                   </button>
                   <button
                     onClick={() => handleShare('email')}
-                    className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                    className="p-2 hover:bg-gray-100 transition-colors"
                     aria-label="Share via Email"
                   >
                     <Mail className="w-5 h-5 text-gray-600" />
@@ -268,7 +268,7 @@ export function ArticlePage() {
                                 <img
                                   src={imgUrl}
                                   alt={value.alt || 'Article image'}
-                                  className="w-full max-h-[450px] object-contain cursor-pointer hover:opacity-90 transition-opacity rounded"
+                                  className="w-full max-h-[450px] object-contain cursor-pointer hover:opacity-90 transition-opacity"
                                   loading="lazy"
                                   onClick={() => openLightbox(imgUrl, allImages)}
                                 />
@@ -314,7 +314,7 @@ export function ArticlePage() {
                       return (
                         <span
                           key={index}
-                          className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 transition-colors cursor-pointer"
+                          className="px-3 py-1 bg-gray-100 text-gray-700 text-sm hover:bg-gray-200 transition-colors cursor-pointer"
                         >
                           {tagTitle}
                         </span>
@@ -329,7 +329,7 @@ export function ArticlePage() {
             <aside className="lg:col-span-1 space-y-8">
               {/* Author Card */}
               {article.author && (
-                <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+                <div className="bg-white border border-gray-200 p-6">
                   <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
                     About the Author
                   </h3>
@@ -362,7 +362,7 @@ export function ArticlePage() {
 
               {/* Related Articles */}
               {relatedArticles && relatedArticles.length > 0 && (
-                <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+                <div className="bg-white border border-gray-200 p-6">
                   <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
                     Related Articles
                   </h3>
@@ -376,7 +376,7 @@ export function ArticlePage() {
                           <Link key={related._id} href={`/article/${relatedSlug}`}>
                             <div className="group cursor-pointer">
                               {related.heroImageUrl && (
-                                <div className="aspect-video overflow-hidden rounded mb-2">
+                                <div className="aspect-video overflow-hidden mb-2">
                                   <img
                                     src={related.heroImageUrl}
                                     alt={related.title}
@@ -404,7 +404,7 @@ export function ArticlePage() {
 
               {/* Trending Articles */}
               {trendingArticles && trendingArticles.length > 0 && (
-                <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+                <div className="bg-white border border-gray-200 p-6">
                   <div className="flex items-center gap-2 mb-4">
                     <TrendingUp className="w-4 h-4 text-primary" />
                     <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
@@ -434,7 +434,7 @@ export function ArticlePage() {
               )}
 
               {/* Newsletter Signup */}
-              <div className="bg-gradient-to-br from-primary to-cyan-600 rounded-lg p-6 text-white shadow-lg">
+              <div className="bg-gradient-to-br from-primary to-cyan-600 p-6 text-white">
                 <h3 className="text-lg font-bold mb-2">
                   Never Miss a Story
                 </h3>
@@ -442,7 +442,7 @@ export function ArticlePage() {
                   Get the latest maritime news delivered to your inbox weekly
                 </p>
                 <Link href="/newsletter">
-                  <button className="w-full bg-white text-primary py-2 px-4 rounded font-semibold hover:bg-gray-100 transition-colors">
+                  <button className="w-full bg-white text-primary py-2 px-4 font-semibold hover:bg-gray-100 transition-colors">
                     Subscribe Now
                   </button>
                 </Link>

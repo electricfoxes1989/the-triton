@@ -99,7 +99,7 @@ export default function HomeNew() {
                   <span className="uppercase">{formatDate(heroArticle.publishedAt)}</span>
                 </div>
                 <Link href={`/article/${typeof heroArticle.slug === "string" ? heroArticle.slug : heroArticle.slug.current}`}>
-                  <button className="px-6 py-2 bg-white text-primary font-semibold rounded hover:bg-gray-100 hover-scale transition-colors uppercase tracking-wide text-xs">
+                  <button className="px-6 py-2 bg-white text-primary font-semibold hover:bg-gray-100 transition-colors uppercase tracking-wide text-xs">
                     Read More
                   </button>
                 </Link>
@@ -110,20 +110,20 @@ export default function HomeNew() {
             <div className="absolute bottom-8 right-6 md:right-8 flex items-center gap-4 z-10">
                 <button
                   onClick={prevHero}
-                  className="p-2 bg-white/20 hover:bg-white/30 rounded-full transition-colors backdrop-blur-sm"
+                  className="p-2 bg-white/20 hover:bg-white/30 transition-colors"
                   aria-label="Previous"
                 >
                   <ChevronLeft className="w-6 h-6 text-white" />
                 </button>
                 
-                {/* Dots */}
+                {/* Dots — small squares */}
                 <div className="flex gap-2">
                   {Array.from({ length: Math.min(articles.length, 5) }).map((_, i) => (
                     <button
                       key={i}
                       onClick={() => setHeroIndex(i)}
-                      className={`w-3 h-3 rounded-full transition-all ${
-                        i === heroIndex ? 'bg-white w-8' : 'bg-white/50 hover:bg-white/70'
+                      className={`h-2 transition-all ${
+                        i === heroIndex ? 'bg-white w-8' : 'bg-white/50 hover:bg-white/70 w-2'
                       }`}
                       aria-label={`Go to slide ${i + 1}`}
                     />
@@ -132,7 +132,7 @@ export default function HomeNew() {
 
                 <button
                   onClick={nextHero}
-                  className="p-2 bg-white/20 hover:bg-white/30 rounded-full transition-colors backdrop-blur-sm"
+                  className="p-2 bg-white/20 hover:bg-white/30 transition-colors"
                   aria-label="Next"
                 >
                   <ChevronRight className="w-6 h-6 text-white" />
@@ -142,14 +142,15 @@ export default function HomeNew() {
         )}
 
         {/* The Latest News + Trending Now */}
-        <section className="py-16 bg-gray-50">
+        <section className="py-16 bg-white border-b border-gray-200">
           <div className="container mx-auto px-6 md:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
               {/* Latest News - Left 2/3 */}
               <div className="lg:col-span-2">
                 <h2 className="text-3xl font-bold mb-8">
+                  <span className="text-sm font-normal text-gray-400 tracking-widest uppercase block mb-1">01 — The Latest</span>
                   The Latest News
-                  <div className="h-1 w-24 bg-primary mt-2"></div>
+                  <div className="h-px w-24 bg-primary mt-2"></div>
                 </h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
@@ -158,7 +159,7 @@ export default function HomeNew() {
                     <div className="md:col-span-2">
                       <Link href={`/article/${typeof latestArticles[0].slug === "string" ? latestArticles[0].slug : latestArticles[0].slug.current}`}>
                         <article className="group cursor-pointer hover-card">
-                          <div className="aspect-video overflow-hidden mb-4 rounded">
+                          <div className="aspect-video overflow-hidden mb-4">
                             <img
                               src={latestArticles[0].heroImageUrl || '/placeholder.jpg'}
                               alt={latestArticles[0].title}
@@ -186,7 +187,7 @@ export default function HomeNew() {
                       href={`/article/${typeof article.slug === "string" ? article.slug : article.slug.current}`}
                     >
                       <article className="group cursor-pointer hover-card">
-                        <div className="aspect-video overflow-hidden mb-3 rounded">
+                        <div className="aspect-video overflow-hidden mb-3">
                           <img
                             src={article.heroImageUrl || '/placeholder.jpg'}
                             alt={article.title}
@@ -209,7 +210,7 @@ export default function HomeNew() {
               <div>
                 <h2 className="text-2xl font-bold mb-6">
                   Trending Now
-                  <div className="h-1 w-24 bg-[#00BCD4] mt-2"></div>
+                  <div className="h-px w-24 bg-[#00BCD4] mt-2"></div>
                 </h2>
 
                 <div className="space-y-6">
@@ -240,11 +241,12 @@ export default function HomeNew() {
         </section>
 
         {/* Triton Spotlight */}
-        <section className="py-16 bg-white">
+        <section className="py-16 bg-white border-b border-gray-200">
           <div className="container mx-auto px-6 md:px-8">
             <h2 className="text-3xl font-bold mb-8">
+              <span className="text-sm font-normal text-gray-400 tracking-widest uppercase block mb-1">02 — Spotlight</span>
               Triton Spotlight
-              <div className="h-1 w-24 bg-primary mt-2"></div>
+              <div className="h-px w-24 bg-primary mt-2"></div>
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -253,25 +255,23 @@ export default function HomeNew() {
                   key={article._id}
                   href={`/article/${typeof article.slug === "string" ? article.slug : article.slug.current}`}
                 >
-                  <article className="group cursor-pointer bg-gray-50 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-                    <div className="aspect-video overflow-hidden">
+                  <article className="group cursor-pointer bg-white border-b border-gray-200 pb-6">
+                    <div className="aspect-video overflow-hidden mb-4">
                       <img
                         src={article.heroImageUrl || '/placeholder.jpg'}
                         alt={article.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     </div>
-                    <div className="p-6">
-                      <span className="text-xs font-semibold text-accent uppercase tracking-wider">
-                        Triton Spotlight
-                      </span>
-                      <h3 className="text-xl font-bold text-gray-900 group-hover:text-[var(--triton-aqua)] transition-colors mt-2 mb-3">
-                        {article.title}
-                      </h3>
-                      <p className="text-gray-600 mb-4 line-clamp-3">
-                        {article.excerpt}
-                      </p>
-                    </div>
+                    <span className="text-xs font-semibold text-accent uppercase tracking-wider">
+                      Triton Spotlight
+                    </span>
+                    <h3 className="text-xl font-bold text-gray-900 group-hover:text-[var(--triton-aqua)] transition-colors mt-2 mb-3">
+                      {article.title}
+                    </h3>
+                    <p className="text-gray-600 mb-4 line-clamp-3">
+                      {article.excerpt}
+                    </p>
                   </article>
                 </Link>
               ))}
@@ -299,15 +299,26 @@ export default function HomeNew() {
                   Position your brand alongside the go-to source for technical expertise, regulatory information, 
                   and career advice trusted by 22,000 captains and crew worldwide.
                 </p>
-                <a href="/TRITON-MediaKit-2026.pdf" download className="inline-block px-8 py-4 bg-[#00BCD4] text-white font-semibold rounded hover:bg-[#00ACC1] transition-colors uppercase tracking-wide">
+                <a href="/TRITON-MediaKit-2026.pdf" download className="inline-block px-8 py-4 bg-[#00BCD4] text-white font-semibold hover:bg-[#00ACC1] transition-colors uppercase tracking-wide">
                   Download Media Kit 2026
                 </a>
               </div>
-              <div className="hidden md:flex items-center justify-center py-12">
-                <div className="relative">
-                  <div className="w-80 h-80 bg-white/10 rounded-lg backdrop-blur-sm flex items-center justify-center">
-                    <span className="text-white/50 text-sm">Media Kit Preview</span>
-                  </div>
+              <div className="hidden md:grid grid-cols-2 gap-8 py-12">
+                <div className="text-center border-r border-white/20">
+                  <div className="text-4xl font-bold text-white mb-1">22k+</div>
+                  <div className="text-xs text-white/70 uppercase tracking-widest">Readers</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-white mb-1">20+</div>
+                  <div className="text-xs text-white/70 uppercase tracking-widest">Years Publishing</div>
+                </div>
+                <div className="text-center border-r border-white/20">
+                  <div className="text-4xl font-bold text-white mb-1">50k+</div>
+                  <div className="text-xs text-white/70 uppercase tracking-widest">Monthly Visits</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-white mb-1">#1</div>
+                  <div className="text-xs text-white/70 uppercase tracking-widest">Crew Publication</div>
                 </div>
               </div>
             </div>
@@ -329,7 +340,7 @@ export default function HomeNew() {
               {/* Header */}
               <div className="text-center mb-8">
                 <div className="inline-block mb-4">
-                  <span className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-xs font-semibold uppercase tracking-widest text-white">
+                  <span className="inline-block px-4 py-1.5 bg-white/10 border border-white/20 text-xs font-semibold uppercase tracking-widest text-white">
                     Stay Informed
                   </span>
                 </div>
@@ -343,16 +354,16 @@ export default function HomeNew() {
 
               {/* Form */}
               <form className="max-w-2xl mx-auto">
-                <div className="flex flex-col sm:flex-row gap-3 bg-white/10 backdrop-blur-md p-2 rounded-xl border border-white/20 shadow-2xl">
+                <div className="flex flex-col sm:flex-row gap-3 bg-white/10 p-2 border border-white/20">
                   <input
                     type="email"
                     placeholder="Enter your email address"
-                    className="flex-1 px-6 py-4 bg-white text-gray-900 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00BCD4] text-base font-medium"
+                    className="flex-1 px-6 py-4 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#00BCD4] text-base font-medium"
                     required
                   />
                   <button
                     type="submit"
-                    className="px-8 py-4 bg-[#00BCD4] text-white font-bold rounded-lg hover:bg-[#00ACC1] transition-all duration-300 uppercase tracking-wide shadow-lg hover:shadow-xl hover:scale-105 whitespace-nowrap"
+                    className="px-8 py-4 bg-[#00BCD4] text-white font-bold hover:bg-[#00ACC1] transition-all duration-300 uppercase tracking-wide whitespace-nowrap"
                   >
                     Subscribe Now
                   </button>
@@ -383,11 +394,12 @@ export default function HomeNew() {
 
 
         {/* Crew Life Section */}
-        <section className="py-16 bg-white">
+        <section className="py-16 bg-white border-b border-gray-200">
           <div className="container mx-auto px-6 md:px-8">
             <h2 className="text-3xl font-bold mb-8">
+              <span className="text-sm font-normal text-gray-400 tracking-widest uppercase block mb-1">03 — Crew Life</span>
               Crew Life
-              <div className="h-1 w-24 bg-primary mt-2"></div>
+              <div className="h-px w-24 bg-primary mt-2"></div>
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -397,7 +409,7 @@ export default function HomeNew() {
                   href={`/article/${typeof article.slug === "string" ? article.slug : article.slug.current}`}
                 >
                   <article className="group cursor-pointer hover-card">
-                    <div className="aspect-video overflow-hidden mb-4 rounded">
+                    <div className="aspect-video overflow-hidden mb-4">
                       <img
                         src={article.heroImageUrl || '/placeholder.jpg'}
                         alt={article.title}
@@ -424,7 +436,7 @@ export default function HomeNew() {
                 rel="noopener noreferrer"
                 className="group cursor-pointer hover-card block"
               >
-                <div className="aspect-video overflow-hidden mb-4 rounded bg-gray-900 flex items-center justify-center">
+                <div className="aspect-video overflow-hidden mb-4 bg-gray-900 flex items-center justify-center">
                   <img 
                     src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663300921591/iiNXMBiFuXVYMGIh.png" 
                     alt="AME Solutions - Driveline Failure? We're here for you when SHIP HAPPENS"

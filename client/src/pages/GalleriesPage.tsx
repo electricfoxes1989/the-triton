@@ -44,7 +44,7 @@ export default function GalleriesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <NavigationNew />
 
       {/* Hero Section */}
@@ -70,7 +70,7 @@ export default function GalleriesPage() {
               key={type.value}
               variant={selectedType === type.value ? "default" : "outline"}
               onClick={() => setSelectedType(type.value)}
-              className="rounded-full"
+              className=""
             >
               {type.label}
             </Button>
@@ -94,7 +94,7 @@ export default function GalleriesPage() {
                 href={`/article/${gallery.slug}`}
                 className="group block"
               >
-                <Card className="overflow-hidden hover:shadow-xl transition-all duration-300">
+                <Card className="overflow-hidden border border-gray-200 transition-all duration-300">
                   {/* Gallery Image */}
                   {gallery.mainImage && (
                     <div className="aspect-video overflow-hidden bg-gray-200">
@@ -109,7 +109,7 @@ export default function GalleriesPage() {
                   {/* Gallery Info */}
                   <div className="p-6">
                     <div className="flex items-center gap-2 mb-3">
-                      <span className="inline-block px-3 py-1 bg-[#00BCD4] text-white text-xs font-semibold rounded-full uppercase">
+                      <span className="inline-block px-3 py-1 bg-[#00BCD4] text-white text-xs font-semibold uppercase">
                         Gallery
                       </span>
                       <span className="text-sm text-gray-500 flex items-center gap-1">

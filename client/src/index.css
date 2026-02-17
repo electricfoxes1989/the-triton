@@ -54,7 +54,7 @@
   --chart-3: var(--color-blue-600);
   --chart-4: var(--color-blue-700);
   --chart-5: var(--color-blue-800);
-  --radius: 0.5rem;
+  --radius: 0;
   --background: oklch(1 0 0); /* white */
   --foreground: oklch(0.18 0.03 250); /* Navy-tinted dark text */
   --card: oklch(1 0 0);
@@ -258,7 +258,6 @@
   
   .hover-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   }
   
   .hover-scale {
