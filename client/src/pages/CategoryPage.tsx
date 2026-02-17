@@ -41,7 +41,7 @@ export default function CategoryPage({ category, title, description }: CategoryP
         {/* Page Header */}
         <section className="bg-gradient-to-r from-primary to-[#00BCD4] py-16">
           <div className="container mx-auto px-6 md:px-8">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 uppercase" style={{ fontFamily: 'Georgia, serif' }}>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 uppercase">
               {title}
             </h1>
             <p className="text-white/90 text-lg max-w-3xl">

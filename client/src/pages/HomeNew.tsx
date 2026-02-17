@@ -84,7 +84,7 @@ export default function HomeNew() {
                 <span className="inline-block px-3 py-1 bg-[#00BCD4] text-white text-xs font-bold uppercase tracking-widest mb-3">
                   NEWS
                 </span>
-                <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3 leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
+                <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3 leading-tight">
                   {heroArticle.title}
                 </h1>
                 <div className="flex items-center gap-3 text-white/90 text-xs mb-4">
@@ -161,10 +161,10 @@ export default function HomeNew() {
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             />
                           </div>
-                          <h3 className="text-3xl md:text-4xl font-bold text-gray-900 group-hover:text-[var(--triton-aqua)] transition-colors mb-3 leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
+                          <h3 className="text-3xl md:text-4xl font-bold text-gray-900 group-hover:text-[var(--triton-aqua)] transition-colors mb-3 leading-tight">
                             {latestArticles[0].title}
                           </h3>
-                          <p className="text-lg text-gray-700 mb-4 line-clamp-2" style={{ fontFamily: 'Georgia, serif' }}>
+                          <p className="text-lg text-gray-700 mb-4 line-clamp-2">
                             {latestArticles[0].excerpt}
                           </p>
                           <p className="text-xs text-gray-500 uppercase tracking-widest font-semibold">
@@ -189,7 +189,7 @@ export default function HomeNew() {
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                           />
                         </div>
-                        <h3 className="text-xl font-bold text-gray-900 group-hover:text-[var(--triton-aqua)] transition-colors mb-3 line-clamp-3 leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
+                        <h3 className="text-xl font-bold text-gray-900 group-hover:text-[var(--triton-aqua)] transition-colors mb-3 line-clamp-3 leading-tight">
                           {article.title}
                         </h3>
                         <p className="text-xs text-gray-500 uppercase tracking-widest font-semibold">

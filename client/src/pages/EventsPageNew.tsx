@@ -1,381 +1,133 @@
-import { useState, useRef } from "react";
+import { Link } from "wouter";
 import NavigationNew from "@/components/NavigationNew";
 import Footer from "@/components/Footer";
-import { useArticlesByCategory, useEvents } from "@/lib/sanityHooks";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import listPlugin from "@fullcalendar/list";
-import interactionPlugin from "@fullcalendar/interaction";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Calendar, MapPin, ExternalLink, Clock } from "lucide-react";
+import { useArticlesByCategory } from "@/lib/sanityHooks";
 
-export default function EventsPageNew() {
-  const calendarRef = useRef<FullCalendar>(null);
-  const [selectedEvent, setSelectedEvent] = useState<any | null>(null);
-  const [view, setView] = useState<"month" | "week" | "list">("month");
+function formatDate(dateStr: string) {
+  const d = new Date(dateStr);
+  return d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }).toUpperCase();
+}
 
-  // Fetch events from Sanity
-  const { data: events, isLoading } = useEvents();
-  
-  // Fetch event-related articles
-  const { data: eventArticles, isLoading: articlesLoading } = useArticlesByCategory("events", 3);
-
-  // Transform events for FullCalendar
-  const calendarEvents = events?.map((event: any) => ({
-    id: event._id,
-    title: event.title,
-    start: event.startDate,
-    end: event.endDate,
-    allDay: event.allDay,
-    extendedProps: event,
-    backgroundColor: getEventColor(event.eventType),
-    borderColor: getEventColor(event.eventType),
-  })) || [];
-
-  function getEventColor(eventType: string) {
-    const colors: Record<string, string> = {
-      "boat-show": "#002B5B",
-      networking: "#1E5A8E",
-      training: "#4A90E2",
-      conference: "#7B2CBF",
-      social: "#E07A5F",
-      other: "#6C757D",
-    };
-    return colors[eventType] || colors.other;
-  }
-
-  function handleEventClick(clickInfo: any) {
-    setSelectedEvent(clickInfo.event.extendedProps);
-  }
-
-  function handleViewChange(newView: "month" | "week" | "list") {
-    setView(newView);
-    const calendarApi = calendarRef.current?.getApi();
-    if (calendarApi) {
-      if (newView === "month") calendarApi.changeView("dayGridMonth");
-      if (newView === "week") calendarApi.changeView("timeGridWeek");
-      if (newView === "list") calendarApi.changeView("listMonth");
-    }
+function ArticleGrid({ articles }: { articles: any[] }) {
+  if (!articles || articles.length === 0) {
+    return <p className="text-gray-500 text-sm italic">No articles yet.</p>;
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {articles.map((article: any) => {
+        const slug = typeof article.slug === "string" ? article.slug : article.slug.current;
+        return (
+          <Link key={article._id} href={`/article/${slug}`}>
+            <article className="group cursor-pointer">
+              <div className="aspect-video overflow-hidden mb-3 bg-gray-100">
+                {article.heroImageUrl ? (
+                  <img
+                    src={article.heroImageUrl}
+                    alt={article.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                    <span className="text-gray-400 text-xs">No image</span>
+                  </div>
+                )}
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 group-hover:text-[#00BCD4] transition-colors mb-2 line-clamp-2 leading-tight">
+                {article.title}
+              </h3>
+              {article.excerpt && (
+                <p className="text-sm text-gray-600 line-clamp-2 mb-2">{article.excerpt}</p>
+              )}
+              <div className="flex items-center gap-2 text-xs text-gray-500">
+                <span>{formatDate(article.publishedAt)}</span>
+                {article.author?.name && (
+                  <>
+                    <span>•</span>
+                    <span>By {article.author.name}</span>
+                  </>
+                )}
+              </div>
+            </article>
+          </Link>
+        );
+      })}
+    </div>
+  );
+}
+
+function Section({ title, id, articles }: { title: string; id: string; articles: any[] }) {
+  return (
+    <section id={id} className="py-12 border-b border-gray-200 last:border-b-0">
+      <h2 className="text-2xl font-bold text-[#0A2342] mb-8">
+        {title}
+        <div className="h-1 w-20 bg-[#00BCD4] mt-2"></div>
+      </h2>
+      <ArticleGrid articles={articles} />
+    </section>
+  );
+}
+
+export default function EventsPageNew() {
+  const { data: eventsArticles = [], isLoading: loadingEvents } = useArticlesByCategory('events', 20);
+  const { data: galleriesArticles = [], isLoading: loadingGalleries } = useArticlesByCategory('galleries', 20);
+  const { data: exposArticles = [], isLoading: loadingExpos } = useArticlesByCategory('expos', 20);
+
+  const isLoading = loadingEvents || loadingGalleries || loadingExpos;
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex flex-col bg-white">
+        <NavigationNew />
+        <main className="flex-1 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0A2342] mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading...</p>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col bg-white">
       <NavigationNew />
 
-      {/* Hero Section */}
-      <div className="bg-gradient-to-r from-[#0A2342] to-[#00BCD4] text-white py-16">
-        <div className="container mx-auto px-6 md:px-8">
-          <div className="flex items-center gap-3 mb-4">
-            <Calendar className="w-10 h-10" />
-            <h1 className="text-4xl md:text-5xl font-bold">EVENTS</h1>
+      <main className="flex-1">
+        {/* Breadcrumb */}
+        <div className="border-b border-gray-200">
+          <div className="container mx-auto px-6 md:px-8 py-4">
+            <div className="flex items-center gap-2 text-sm text-gray-500">
+              <Link href="/" className="hover:text-[#00BCD4]">Home</Link>
+              <span>›</span>
+              <span className="text-gray-900 font-medium">Events</span>
+            </div>
           </div>
-          <p className="text-xl text-gray-200 max-w-3xl">
-            Stay informed about upcoming boat shows, industry conferences,
-            networking events, and training opportunities for yacht captains and
-            crew.
+        </div>
+
+        {/* Page Header */}
+        <div className="container mx-auto px-6 md:px-8 pt-8 pb-4">
+          <h1 className="text-3xl font-bold text-[#0A2342] border-b-2 border-[#0A2342] pb-3 inline-block">
+            Events
+          </h1>
+          <p className="text-gray-600 mt-4 max-w-2xl">
+            Coverage from boat shows, industry expos, and photo galleries from across the yachting world.
           </p>
-        </div>
-      </div>
 
-      {/* Event Articles Section */}
-      <div className="bg-white py-12 border-b border-gray-200">
+          {/* Jump links */}
+          <div className="flex gap-6 mt-6 text-sm font-semibold uppercase tracking-wide">
+            <a href="#events" className="text-[#00BCD4] hover:underline">Events</a>
+            <a href="#galleries" className="text-[#00BCD4] hover:underline">Galleries</a>
+            <a href="#expos" className="text-[#00BCD4] hover:underline">Expos</a>
+          </div>
+        </div>
+
         <div className="container mx-auto px-6 md:px-8">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">EVENT NEWS & COVERAGE</h2>
-              <p className="text-gray-600">Latest updates, previews, and recaps from yacht shows and industry events</p>
-            </div>
-            <a href="/news" className="text-[#00BCD4] hover:text-[#0A2342] font-semibold transition-colors">
-              View All →
-            </a>
-          </div>
-
-          {articlesLoading ? (
-            <div className="flex items-center justify-center py-12">
-              <div className="inline-block w-8 h-8 border-4 border-gray-300 border-t-[#00BCD4] rounded-full animate-spin" />
-            </div>
-          ) : eventArticles && eventArticles.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {eventArticles.slice(0, 3).map((article: any) => (
-                <a
-                  key={article._id}
-                  href={`/article/${article.slug}`}
-                  className="group block bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl transition-all duration-300"
-                >
-                  {article.mainImage && (
-                    <div className="aspect-video overflow-hidden">
-                      <img
-                        src={article.mainImage}
-                        alt={article.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                  )}
-                  <div className="p-6">
-                    <div className="flex items-center gap-2 mb-3">
-                      <span className="inline-block px-3 py-1 bg-[#00BCD4] text-white text-xs font-semibold rounded-full uppercase">
-                        Events
-                      </span>
-                      <span className="text-sm text-gray-500">
-                        {new Date(article.publishedAt).toLocaleDateString("en-GB", {
-                          day: "numeric",
-                          month: "short",
-                          year: "numeric",
-                        })}
-                      </span>
-                    </div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-[#00BCD4] transition-colors line-clamp-2">
-                      {article.title}
-                    </h3>
-                    {article.excerpt && (
-                      <p className="text-gray-600 text-sm line-clamp-3 mb-4">
-                        {article.excerpt}
-                      </p>
-                    )}
-                    {article.author && (
-                      <p className="text-sm text-gray-500">
-                        By {article.author.name}
-                      </p>
-                    )}
-                  </div>
-                </a>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-12 bg-gray-50 rounded-lg">
-              <p className="text-gray-600">No event articles available yet</p>
-            </div>
-          )}
+          <Section title="Events" id="events" articles={eventsArticles} />
+          <Section title="Galleries" id="galleries" articles={galleriesArticles} />
+          <Section title="Expos" id="expos" articles={exposArticles} />
         </div>
-      </div>
-
-      {/* Calendar Section */}
-      <div className="container mx-auto px-6 md:px-8 py-12">
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">EVENT CALENDAR</h2>
-          <p className="text-gray-600">Browse upcoming boat shows, conferences, and industry events</p>
-        </div>
-        
-        {/* View Controls */}
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
-          <div className="flex gap-2">
-            <Button
-              variant={view === "month" ? "default" : "outline"}
-              onClick={() => handleViewChange("month")}
-            >
-              Month
-            </Button>
-            <Button
-              variant={view === "week" ? "default" : "outline"}
-              onClick={() => handleViewChange("week")}
-            >
-              Week
-            </Button>
-            <Button
-              variant={view === "list" ? "default" : "outline"}
-              onClick={() => handleViewChange("list")}
-            >
-              List
-            </Button>
-          </div>
-
-          {/* Legend */}
-          <div className="flex flex-wrap gap-3 text-sm">
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded" style={{ backgroundColor: "#002B5B" }} />
-              <span>Boat Shows</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded" style={{ backgroundColor: "#1E5A8E" }} />
-              <span>Networking</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded" style={{ backgroundColor: "#4A90E2" }} />
-              <span>Training</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded" style={{ backgroundColor: "#7B2CBF" }} />
-              <span>Conference</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Calendar */}
-        <Card className="p-6">
-          {isLoading ? (
-            <div className="flex items-center justify-center py-20">
-              <div className="text-center">
-                <div className="inline-block w-8 h-8 border-4 border-gray-300 border-t-[#002B5B] rounded-full animate-spin mb-4" />
-                <p className="text-gray-600">Loading events...</p>
-              </div>
-            </div>
-          ) : (
-            <FullCalendar
-              ref={calendarRef}
-              plugins={[dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin]}
-              initialView="dayGridMonth"
-              headerToolbar={{
-                left: "prev,next today",
-                center: "title",
-                right: "",
-              }}
-              events={calendarEvents}
-              eventClick={handleEventClick}
-              height="auto"
-              eventTimeFormat={{
-                hour: "2-digit",
-                minute: "2-digit",
-                meridiem: false,
-              }}
-              slotLabelFormat={{
-                hour: "2-digit",
-                minute: "2-digit",
-                meridiem: false,
-              }}
-            />
-          )}
-        </Card>
-
-        {/* Empty State */}
-        {!isLoading && events?.length === 0 && (
-          <div className="text-center py-16">
-            <Calendar className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              No Events Yet
-            </h3>
-            <p className="text-gray-600">
-              Check back soon for upcoming boat shows, conferences, and industry
-              events.
-            </p>
-          </div>
-        )}
-      </div>
-
-      {/* Event Detail Modal */}
-      <Dialog open={!!selectedEvent} onOpenChange={() => setSelectedEvent(null)}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle className="text-2xl">{selectedEvent?.title}</DialogTitle>
-            <DialogDescription>
-              <div className="space-y-4 mt-4">
-                {/* Date & Time */}
-                <div className="flex items-start gap-3">
-                  <Clock className="w-5 h-5 text-gray-500 mt-0.5" />
-                  <div>
-                    <p className="font-medium text-gray-900">
-                      {selectedEvent?.startDate &&
-                        new Date(selectedEvent.startDate).toLocaleDateString(
-                          "en-GB",
-                          {
-                            weekday: "long",
-                            day: "numeric",
-                            month: "long",
-                            year: "numeric",
-                          }
-                        )}
-                    </p>
-                    {selectedEvent?.endDate &&
-                      selectedEvent.startDate !== selectedEvent.endDate && (
-                        <p className="text-sm text-gray-600">
-                          Until{" "}
-                          {new Date(selectedEvent.endDate).toLocaleDateString(
-                            "en-GB",
-                            {
-                              day: "numeric",
-                              month: "long",
-                              year: "numeric",
-                            }
-                          )}
-                        </p>
-                      )}
-                  </div>
-                </div>
-
-                {/* Location */}
-                {selectedEvent?.location && (
-                  <div className="flex items-start gap-3">
-                    <MapPin className="w-5 h-5 text-gray-500 mt-0.5" />
-                    <div>
-                      {selectedEvent.location.venue && (
-                        <p className="font-medium text-gray-900">
-                          {selectedEvent.location.venue}
-                        </p>
-                      )}
-                      {(selectedEvent.location.city ||
-                        selectedEvent.location.country) && (
-                        <p className="text-sm text-gray-600">
-                          {[
-                            selectedEvent.location.city,
-                            selectedEvent.location.country,
-                          ]
-                            .filter(Boolean)
-                            .join(", ")}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {/* Description */}
-                {selectedEvent?.description && (
-                  <div className="prose prose-sm max-w-none">
-                    <p className="text-gray-700">{selectedEvent.description}</p>
-                  </div>
-                )}
-
-                {/* Organizer */}
-                {selectedEvent?.organizer && (
-                  <div>
-                    <p className="text-sm text-gray-600">
-                      Organised by{" "}
-                      <span className="font-medium text-gray-900">
-                        {selectedEvent.organizer}
-                      </span>
-                    </p>
-                  </div>
-                )}
-
-                {/* Actions */}
-                <div className="flex flex-wrap gap-3 pt-4">
-                  {selectedEvent?.registrationUrl && (
-                    <Button asChild>
-                      <a
-                        href={selectedEvent.registrationUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <ExternalLink className="w-4 h-4 mr-2" />
-                        Register / Get Tickets
-                      </a>
-                    </Button>
-                  )}
-                  {selectedEvent?.websiteUrl && (
-                    <Button variant="outline" asChild>
-                      <a
-                        href={selectedEvent.websiteUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <ExternalLink className="w-4 h-4 mr-2" />
-                        Event Website
-                      </a>
-                    </Button>
-                  )}
-                </div>
-              </div>
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+      </main>
 
       <Footer />
     </div>

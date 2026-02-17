@@ -29,7 +29,7 @@ export default function TrendingArticles({ limit = 5, className = "" }: Trending
           <div className="p-2 bg-[#0A2342] text-white rounded">
             <TrendingUp size={20} />
           </div>
-          <h3 className="text-xl font-bold text-gray-900" style={{ fontFamily: 'Georgia, serif' }}>
+          <h3 className="text-xl font-bold text-gray-900">
             Trending Now
           </h3>
         </div>
@@ -56,7 +56,7 @@ export default function TrendingArticles({ limit = 5, className = "" }: Trending
         <div className="p-2 bg-[#0A2342] text-white rounded">
           <TrendingUp size={20} />
         </div>
-        <h3 className="text-xl font-bold text-gray-900" style={{ fontFamily: 'Georgia, serif' }}>
+        <h3 className="text-xl font-bold text-gray-900">
           Trending Now
         </h3>
       </div>

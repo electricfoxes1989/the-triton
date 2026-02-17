@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "wouter";
-import Navigation from "@/components/Navigation";
+import Navigation from "@/components/NavigationNew";
 import Footer from "@/components/Footer";
 import { SanityImage } from "@/components/SanityImage";
 import { getArticlesByTag } from "@/lib/sanity";

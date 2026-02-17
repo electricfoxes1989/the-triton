@@ -1,103 +1,62 @@
+import { useState } from "react";
 import { Link } from "wouter";
 import NavigationNew from "@/components/NavigationNew";
 import Footer from "@/components/Footer";
 import BannerAd from "@/components/BannerAd";
 import TrendingArticles from "@/components/TrendingArticles";
-import { useArticles } from "@/lib/sanityHooks";
-import { Newspaper, TrendingUp, Ship, Calendar, Users, ArrowRight } from "lucide-react";
+import { useArticlesByCategory } from "@/lib/sanityHooks";
+import { ArrowRight } from "lucide-react";
 
 function formatDate(dateStr: string) {
   const d = new Date(dateStr);
   return d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }).toUpperCase();
 }
 
-interface ArticleCardProps {
-  article: any;
-  featured?: boolean;
-}
-
-function ArticleCard({ article, featured = false }: ArticleCardProps) {
+function ArticleCard({ article }: { article: any }) {
   const slug = typeof article.slug === "string" ? article.slug : article.slug.current;
-  
-  if (featured) {
-    return (
-      <Link href={`/article/${slug}`}>
-        <article className="group cursor-pointer bg-white rounded-lg overflow-hidden hover:shadow-2xl transition-all duration-300 border border-gray-200">
-          <div className="grid md:grid-cols-2 gap-0">
-            <div className="aspect-[4/3] md:aspect-auto overflow-hidden bg-gray-100">
-              {article.heroImageUrl ? (
-                <img
-                  src={article.heroImageUrl}
-                  alt={article.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-              ) : (
-                <div className="w-full h-full bg-gradient-to-br from-[#0A2342] to-[#00BCD4]"></div>
-              )}
-            </div>
-            <div className="p-8 md:p-10 flex flex-col justify-center">
-              <div className="flex items-center gap-2 mb-4">
-                <span className="inline-block px-3 py-1 bg-[#00BCD4] text-white text-xs font-bold uppercase tracking-wider rounded">
-                  Featured
-                </span>
-                {article.category && (
-                  <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    {article.category.title}
-                  </span>
-                )}
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 group-hover:text-[#00BCD4] transition-colors mb-4 leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
-                {article.title}
-              </h2>
-              <p className="text-gray-600 mb-6 text-lg leading-relaxed line-clamp-3">
-                {article.excerpt}
-              </p>
-              <div className="flex items-center gap-3 text-sm text-gray-500">
-                <span className="font-medium uppercase tracking-wide">
-                  BY {article.author?.name || 'TRITON STAFF'}
-                </span>
-                <span>•</span>
-                <span className="uppercase">{formatDate(article.publishedAt)}</span>
-              </div>
-            </div>
-          </div>
-        </article>
-      </Link>
-    );
-  }
 
   return (
     <Link href={`/article/${slug}`}>
-      <article className="group cursor-pointer bg-white rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-100 h-full flex flex-col">
-        <div className="aspect-video overflow-hidden bg-gray-100">
-          {article.heroImageUrl ? (
-            <img
-              src={article.heroImageUrl}
-              alt={article.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            />
-          ) : (
-            <div className="w-full h-full bg-gradient-to-br from-[#0A2342] to-[#00BCD4]"></div>
-          )}
-        </div>
-        <div className="p-6 flex-1 flex flex-col">
-          {article.category && (
-            <span className="text-xs font-semibold text-[#00BCD4] uppercase tracking-wider mb-2">
-              {article.category.title}
-            </span>
-          )}
-          <h3 className="text-xl font-bold text-gray-900 group-hover:text-[#00BCD4] transition-colors mb-3 line-clamp-2 leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
-            {article.title}
-          </h3>
-          <p className="text-gray-600 mb-4 line-clamp-3 text-sm leading-relaxed flex-1">
-            {article.excerpt}
-          </p>
-          <div className="flex items-center gap-2 text-xs text-gray-500 mt-auto">
-            <span className="uppercase tracking-wide font-medium">
-              BY {article.author?.name || 'TRITON STAFF'}
-            </span>
-            <span>•</span>
-            <span className="uppercase">{formatDate(article.publishedAt)}</span>
+      <article className="group cursor-pointer border-b border-gray-200 pb-6 mb-6 last:border-b-0 last:pb-0 last:mb-0">
+        <div className="flex gap-6">
+          {/* Image */}
+          <div className="w-[200px] h-[140px] flex-shrink-0 overflow-hidden bg-gray-100">
+            {article.heroImageUrl ? (
+              <img
+                src={article.heroImageUrl}
+                alt={article.title}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+            ) : (
+              <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                <span className="text-gray-400 text-xs">No image</span>
+              </div>
+            )}
+          </div>
+          {/* Text */}
+          <div className="flex-1 min-w-0">
+            {article.category && (
+              <span className="text-xs font-bold text-[#00BCD4] uppercase tracking-wider">
+                {article.category.title}
+              </span>
+            )}
+            <h3 className="text-xl font-bold text-gray-900 group-hover:text-[#00BCD4] transition-colors mt-1 mb-2 leading-tight line-clamp-2">
+              {article.title}
+            </h3>
+            {article.excerpt && (
+              <p className="text-gray-600 text-sm leading-relaxed line-clamp-2 mb-2">
+                {article.excerpt}
+              </p>
+            )}
+            <div className="flex items-center gap-2 text-xs text-gray-500">
+              <span>{formatDate(article.publishedAt)}</span>
+              {article.author?.name && (
+                <>
+                  <span>•</span>
+                  <span>By {article.author.name}</span>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </article>
@@ -105,62 +64,53 @@ function ArticleCard({ article, featured = false }: ArticleCardProps) {
   );
 }
 
-interface SectionHeaderProps {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  viewAllLink?: string;
-}
+function FeaturedCard({ article }: { article: any }) {
+  const slug = typeof article.slug === "string" ? article.slug : article.slug.current;
 
-function SectionHeader({ icon, title, description, viewAllLink }: SectionHeaderProps) {
   return (
-    <div className="flex items-start justify-between mb-8 pb-6 border-b-2 border-gray-200">
-      <div className="flex items-start gap-4">
-        <div className="p-3 bg-[#0A2342] text-white rounded-lg">
-          {icon}
+    <Link href={`/article/${slug}`}>
+      <article className="group cursor-pointer mb-8">
+        <div className="overflow-hidden bg-gray-100 mb-4">
+          {article.heroImageUrl ? (
+            <img
+              src={article.heroImageUrl}
+              alt={article.title}
+              className="w-full h-[300px] object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+          ) : (
+            <div className="w-full h-[300px] bg-gray-200"></div>
+          )}
         </div>
-        <div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Georgia, serif' }}>
-            {title}
-          </h2>
-          <p className="text-gray-600 max-w-2xl">
-            {description}
+        {article.category && (
+          <span className="text-xs font-bold text-[#00BCD4] uppercase tracking-wider">
+            {article.category.title}
+          </span>
+        )}
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 group-hover:text-[#00BCD4] transition-colors mt-1 mb-3 leading-tight">
+          {article.title}
+        </h2>
+        {article.excerpt && (
+          <p className="text-gray-600 leading-relaxed mb-3 line-clamp-3">
+            {article.excerpt}
           </p>
+        )}
+        <div className="flex items-center gap-2 text-xs text-gray-500">
+          <span>{formatDate(article.publishedAt)}</span>
+          {article.author?.name && (
+            <>
+              <span>•</span>
+              <span>By {article.author.name}</span>
+            </>
+          )}
         </div>
-      </div>
-      {viewAllLink && (
-        <Link href={viewAllLink}>
-          <button className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-[#0A2342] hover:text-[#00BCD4] transition-colors group">
-            View All
-            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </button>
-        </Link>
-      )}
-    </div>
+      </article>
+    </Link>
   );
 }
 
 export default function NewsPage() {
-  // Fetch all news articles
-  const { data: allArticles = [], isLoading } = useArticles(50);
-
-  // Filter articles by category (assuming categories are set in Sanity)
-  const latestNews = allArticles.slice(0, 7); // Top 7 for featured + grid
-  const industryInsights = allArticles.filter(a => 
-    a.category?.title?.toLowerCase().includes('industry') || 
-    a.category?.title?.toLowerCase().includes('business')
-  ).slice(0, 3);
-  const yachtReviews = allArticles.filter(a => 
-    a.category?.title?.toLowerCase().includes('yacht') || 
-    a.category?.title?.toLowerCase().includes('review')
-  ).slice(0, 3);
-  const eventsNews = allArticles.filter(a => 
-    a.category?.title?.toLowerCase().includes('event') || 
-    a.category?.title?.toLowerCase().includes('show')
-  ).slice(0, 3);
-  const crewLife = allArticles.filter(a => 
-    a.category?.title?.toLowerCase().includes('crew')
-  ).slice(0, 3);
+  const { data: allArticles = [], isLoading } = useArticlesByCategory('news', 50);
+  const [showCount, setShowCount] = useState(10);
 
   if (isLoading) {
     return (
@@ -176,180 +126,91 @@ export default function NewsPage() {
     );
   }
 
+  const featured = allArticles[0];
+  const rest = allArticles.slice(1, showCount);
+  const hasMore = allArticles.length > showCount;
+
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="min-h-screen flex flex-col bg-white">
       <NavigationNew />
 
       <main className="flex-1">
-        {/* Page Header */}
-        <section className="bg-gradient-to-r from-[#0A2342] to-[#00BCD4] py-16">
-          <div className="container mx-auto px-6 md:px-8">
-            <div className="flex items-center gap-4 mb-4">
-              <Newspaper size={48} className="text-white" />
-              <h1 className="text-4xl md:text-5xl font-bold text-white uppercase" style={{ fontFamily: 'Georgia, serif' }}>
-                News
-              </h1>
-            </div>
-            <p className="text-white/90 text-lg max-w-3xl leading-relaxed">
-              Latest breaking news and updates from the superyacht industry. Stay informed with comprehensive coverage of maritime regulations, industry developments, and yacht operations worldwide.
-            </p>
-          </div>
-        </section>
-
-        {/* Banner Ad */}
-        <div className="bg-white border-b border-gray-200">
+        {/* Simple page header — matching original Triton */}
+        <div className="border-b border-gray-200">
           <div className="container mx-auto px-6 md:px-8 py-4">
-            <BannerAd 
-              page="news" 
-              position="content-top" 
-              className="w-full h-24 rounded-lg"
-            />
+            <div className="flex items-center gap-2 text-sm text-gray-500">
+              <Link href="/" className="hover:text-[#00BCD4]">Home</Link>
+              <span>›</span>
+              <span className="text-gray-900 font-medium">News</span>
+            </div>
           </div>
         </div>
 
-        {/* Featured Article */}
-        {latestNews[0] && (
-          <section className="py-12 bg-white">
-            <div className="container mx-auto px-6 md:px-8">
-              <ArticleCard article={latestNews[0]} featured={true} />
-            </div>
-          </section>
-        )}
-
-        {/* Latest News Grid with Sidebar */}
-        {latestNews.length > 1 && (
-          <section className="py-16 bg-gray-50">
-            <div className="container mx-auto px-6 md:px-8">
-              <SectionHeader
-                icon={<Newspaper size={24} />}
-                title="Latest News"
-                description="Breaking stories and recent developments from across the superyacht sector"
-                viewAllLink="/category/news"
-              />
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                {/* Main Content - Articles Grid */}
-                <div className="lg:col-span-8">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {latestNews.slice(1, 7).map((article) => (
-                      <ArticleCard key={article._id} article={article} />
-                    ))}
-                  </div>
-                </div>
-                
-                {/* Sidebar - Trending Articles */}
-                <div className="lg:col-span-4">
-                  <div className="lg:sticky lg:top-8">
-                    <TrendingArticles limit={5} />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* Industry Insights */}
-        {industryInsights.length > 0 && (
-          <section className="py-16 bg-white">
-            <div className="container mx-auto px-6 md:px-8">
-              <SectionHeader
-                icon={<TrendingUp size={24} />}
-                title="Industry Insights"
-                description="In-depth analysis, market trends, and expert perspectives on the yachting business"
-                viewAllLink="/category/industry"
-              />
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {industryInsights.map((article) => (
-                  <ArticleCard key={article._id} article={article} />
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
+        {/* Page Title */}
+        <div className="container mx-auto px-6 md:px-8 pt-8 pb-4">
+          <h1 className="text-3xl font-bold text-[#0A2342] border-b-2 border-[#0A2342] pb-3 inline-block">
+            News
+          </h1>
+        </div>
 
         {/* Banner Ad */}
-        <div className="bg-gray-50 border-y border-gray-200">
-          <div className="container mx-auto px-6 md:px-8 py-6">
-            <BannerAd 
-              page="news" 
-              position="content-middle" 
-              className="w-full h-24 rounded-lg"
-            />
-          </div>
+        <div className="container mx-auto px-6 md:px-8 py-4">
+          <BannerAd 
+            page="news" 
+            position="content-top" 
+            className="w-full h-24"
+          />
         </div>
 
-        {/* Yacht Reviews */}
-        {yachtReviews.length > 0 && (
-          <section className="py-16 bg-gray-50">
-            <div className="container mx-auto px-6 md:px-8">
-              <SectionHeader
-                icon={<Ship size={24} />}
-                title="Yacht Reviews"
-                description="Detailed reviews, specifications, and insights on the world's finest superyachts"
-                viewAllLink="/category/yacht"
-              />
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {yachtReviews.map((article) => (
+        {/* Main content: Articles + Sidebar */}
+        <div className="container mx-auto px-6 md:px-8 py-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+            {/* Main Column */}
+            <div className="lg:col-span-2">
+              {/* Featured Article */}
+              {featured && <FeaturedCard article={featured} />}
+
+              {/* Article List */}
+              <div className="border-t border-gray-200 pt-6">
+                <h2 className="text-lg font-bold text-[#0A2342] uppercase tracking-wide mb-6">Recent Headlines</h2>
+                {rest.map((article) => (
                   <ArticleCard key={article._id} article={article} />
                 ))}
+                {hasMore && (
+                  <div className="text-center pt-8">
+                    <button
+                      onClick={() => setShowCount(prev => prev + 10)}
+                      className="px-8 py-3 bg-[#0A2342] text-white font-semibold uppercase tracking-wide text-sm hover:bg-[#00BCD4] transition-colors"
+                    >
+                      Load More Articles
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
-          </section>
-        )}
 
-        {/* Events & Shows */}
-        {eventsNews.length > 0 && (
-          <section className="py-16 bg-white">
-            <div className="container mx-auto px-6 md:px-8">
-              <SectionHeader
-                icon={<Calendar size={24} />}
-                title="Events & Shows"
-                description="Coverage of yacht shows, industry events, and maritime exhibitions worldwide"
-                viewAllLink="/events"
+            {/* Sidebar */}
+            <aside className="lg:col-span-1 space-y-8">
+              {/* Trending */}
+              <TrendingArticles limit={5} />
+
+              {/* Events Calendar placeholder */}
+              <div className="border border-gray-200 p-5">
+                <h3 className="text-sm font-bold text-[#0A2342] uppercase tracking-wider mb-4 border-b border-gray-200 pb-2">
+                  Events Calendar
+                </h3>
+                <p className="text-sm text-gray-500">Coming soon</p>
+              </div>
+
+              {/* Banner Ad */}
+              <BannerAd 
+                page="news" 
+                position="sidebar" 
+                className="w-full"
               />
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {eventsNews.map((article) => (
-                  <ArticleCard key={article._id} article={article} />
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* Crew Life */}
-        {crewLife.length > 0 && (
-          <section className="py-16 bg-gray-50">
-            <div className="container mx-auto px-6 md:px-8">
-              <SectionHeader
-                icon={<Users size={24} />}
-                title="Crew Life"
-                description="Stories, advice, and updates for superyacht crew members and maritime professionals"
-                viewAllLink="/crew-life"
-              />
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {crewLife.map((article) => (
-                  <ArticleCard key={article._id} article={article} />
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* Call to Action */}
-        <section className="py-16 bg-gradient-to-r from-[#0A2342] to-[#00BCD4]">
-          <div className="container mx-auto px-6 md:px-8 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4" style={{ fontFamily: 'Georgia, serif' }}>
-              Stay Updated
-            </h2>
-            <p className="text-white/90 text-lg mb-8 max-w-2xl mx-auto">
-              Subscribe to our newsletter for the latest superyacht news, industry insights, and exclusive content delivered directly to your inbox.
-            </p>
-            <Link href="/advertise">
-              <button className="px-8 py-4 bg-white text-[#0A2342] font-bold uppercase tracking-wide rounded-lg hover:bg-gray-100 transition-colors">
-                Subscribe to Newsletter
-              </button>
-            </Link>
+            </aside>
           </div>
-        </section>
+        </div>
       </main>
 
       <Footer />

@@ -71,17 +71,14 @@ export default function NavigationNew() {
               <Link href="/news" className="hover-aqua">
                 News
               </Link>
-              <Link href="/captains" className="hover-aqua">
-                Captains
-              </Link>
               <Link href="/crew-life" className="hover-aqua">
                 Crew Life
               </Link>
-              <Link href="/magazine" className="hover-aqua">
-                Magazine
-              </Link>
               <Link href="/events" className="hover-aqua">
                 Events
+              </Link>
+              <Link href="/advertise" className="hover-aqua">
+                Advertise
               </Link>
             </div>
 
@@ -119,13 +116,6 @@ export default function NavigationNew() {
                 News
               </Link>
               <Link
-                href="/captains"
-                className="block px-4 py-2 hover:bg-white/10 rounded transition-colors uppercase tracking-wide"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Captains
-              </Link>
-              <Link
                 href="/crew-life"
                 className="block px-4 py-2 hover:bg-white/10 rounded transition-colors uppercase tracking-wide"
                 onClick={() => setMobileMenuOpen(false)}
@@ -133,18 +123,18 @@ export default function NavigationNew() {
                 Crew Life
               </Link>
               <Link
-                href="/magazine"
-                className="block px-4 py-2 hover:bg-white/10 rounded transition-colors uppercase tracking-wide"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Magazine
-              </Link>
-              <Link
                 href="/events"
                 className="block px-4 py-2 hover:bg-white/10 rounded transition-colors uppercase tracking-wide"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Events
+              </Link>
+              <Link
+                href="/advertise"
+                className="block px-4 py-2 hover:bg-white/10 rounded transition-colors uppercase tracking-wide"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Advertise
               </Link>
             </div>
           </div>

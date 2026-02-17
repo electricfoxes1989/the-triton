@@ -9,11 +9,13 @@ import Lightbox from "@/components/Lightbox";
 
 // Build Sanity image URL from asset ref when .url isn't available
 function sanityImageFromRef(ref: string, width = 1200): string {
+  const projectId = import.meta.env.VITE_SANITY_PROJECT_ID || '48r6hh2o';
+  const dataset = import.meta.env.VITE_SANITY_DATASET || 'production';
   const parts = ref.replace('image-', '').split('-');
   const format = parts.pop();
   const dimensions = parts.pop();
   const id = parts.join('-');
-  return `https://cdn.sanity.io/images/9w7gje4u/production/${id}-${dimensions}.${format}?w=${width}&auto=format`;
+  return `https://cdn.sanity.io/images/${projectId}/${dataset}/${id}-${dimensions}.${format}?w=${width}&auto=format`;
 }
 
 function getImageUrl(value: any): string | null {
@@ -111,48 +113,50 @@ export function ArticlePage() {
     <div className="min-h-screen flex flex-col bg-gray-50">
       <NavigationNew />
 
-      {/* Hero Image */}
-      {article.heroImageUrl && (
-        <div className="w-full h-[400px] md:h-[500px] relative overflow-hidden">
-          <img
-            src={article.heroImageUrl}
-            alt={article.title}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+      {/* Breadcrumb */}
+      <div className="border-b border-gray-200">
+        <div className="container mx-auto px-6 md:px-8 py-4">
+          <div className="flex items-center gap-2 text-sm text-gray-500">
+            <Link href="/" className="hover:text-[#00BCD4]">Home</Link>
+            <span>›</span>
+            {article.category && (
+              <>
+                <Link href={`/${categorySlug}`} className="hover:text-[#00BCD4]">
+                  {typeof article.category === 'string' ? article.category : article.category.title}
+                </Link>
+                <span>›</span>
+              </>
+            )}
+            <span className="text-gray-700 truncate max-w-xs">{article.title}</span>
+          </div>
         </div>
-      )}
+      </div>
 
       {/* Main Content */}
       <div className="flex-1 bg-white">
-        <div className="container mx-auto px-6 md:px-8 py-12">
+        <div className="container mx-auto px-6 md:px-8 py-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Main Article Column (2/3) */}
             <div className="lg:col-span-2">
               <article>
-                {/* Category Badge */}
-                {article.category && (
-                  <div className="mb-4">
-                    <span className="inline-block px-3 py-1 bg-primary text-white text-xs font-semibold uppercase tracking-wider rounded">
-                      {typeof article.category === 'string' ? article.category : article.category.title}
-                    </span>
+                {/* Hero Image — full width within column */}
+                {article.heroImageUrl && (
+                  <div className="mb-6">
+                    <img
+                      src={article.heroImageUrl}
+                      alt={article.title}
+                      className="w-full max-h-[500px] object-cover rounded"
+                    />
                   </div>
                 )}
 
                 {/* Title */}
-                <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">
                   {article.title}
                 </h1>
 
-                {/* Excerpt */}
-                {article.excerpt && (
-                  <p className="text-xl text-gray-600 mb-8 leading-relaxed font-light">
-                    {article.excerpt}
-                  </p>
-                )}
-
                 {/* Meta Information */}
-                <div className="flex flex-wrap items-center gap-6 text-sm text-gray-600 mb-8 pb-8 border-b border-gray-200">
+                <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-6 pb-6 border-b border-gray-200">
                   {article.author && (
                     <div className="flex items-center gap-3">
                       {article.author.image && (
@@ -264,7 +268,7 @@ export function ArticlePage() {
                                 <img
                                   src={imgUrl}
                                   alt={value.alt || 'Article image'}
-                                  className="w-full cursor-pointer hover:opacity-90 transition-opacity"
+                                  className="w-full max-h-[450px] object-contain cursor-pointer hover:opacity-90 transition-opacity rounded"
                                   loading="lazy"
                                   onClick={() => openLightbox(imgUrl, allImages)}
                                 />

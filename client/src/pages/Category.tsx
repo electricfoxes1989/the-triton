@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useLocation, Link } from "wouter";
 import { getArticlesByCategory, getArticles } from "@/lib/sanity";
-import Navigation from "@/components/Navigation";
+import Navigation from "@/components/NavigationNew";
 import Footer from "@/components/Footer";
 import { SanityImage } from "@/components/SanityImage";
 import { ArrowRight, Loader2 } from "lucide-react";
