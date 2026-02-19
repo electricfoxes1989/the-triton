@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import { useArticleBySlug, useArticlesByCategory, useArticles } from "@/lib/sanityHooks";
 import { PortableText } from "@portabletext/react";
 import { Calendar, Tag, Share2, Facebook, Twitter, Linkedin, Mail, Clock, TrendingUp } from "lucide-react";
+import { SEO } from "@/components/SEO";
 import { useState } from "react";
 import Lightbox from "@/components/Lightbox";
 
@@ -111,6 +112,16 @@ export function ArticlePage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
+      <SEO
+        title={`${article.title} | The Triton`}
+        description={article.excerpt || article.seoDescription || `Read ${article.title} on The Triton`}
+        image={article.heroImageUrl}
+        url={`https://the-triton.vercel.app/article/${articleSlug}`}
+        type="article"
+        publishedTime={article.publishedAt}
+        author={article.author?.name}
+        tags={article.tags?.map((t: any) => typeof t === 'string' ? t : t.name) || []}
+      />
       <NavigationNew />
 
       {/* Breadcrumb */}
@@ -185,7 +196,7 @@ export function ArticlePage() {
                   </div>
                   <div className="flex items-center gap-2">
                     <Clock className="w-4 h-4" />
-                    <span>5 min read</span>
+                    <span>{article.readingTimeMinutes || 5} min read</span>
                   </div>
                 </div>
 
@@ -309,15 +320,17 @@ export function ArticlePage() {
                   <div className="flex flex-wrap items-center gap-3 mb-12">
                     <Tag className="w-4 h-4 text-gray-500" />
                     <span className="text-sm font-semibold text-gray-700">Tags:</span>
-                    {article.tags.map((tag, index) => {
+                    {article.tags.map((tag: any, index: number) => {
                       const tagTitle = typeof tag === 'string' ? tag : tag.name;
+                      const tagSlug = typeof tag === 'string' ? tag : (typeof tag.slug === 'string' ? tag.slug : tag.slug?.current);
                       return (
-                        <span
+                        <Link
                           key={index}
+                          href={`/tag/${tagSlug || tagTitle}`}
                           className="px-3 py-1 bg-gray-100 text-gray-700 text-sm hover:bg-gray-200 transition-colors cursor-pointer"
                         >
                           {tagTitle}
-                        </span>
+                        </Link>
                       );
                     })}
                   </div>
