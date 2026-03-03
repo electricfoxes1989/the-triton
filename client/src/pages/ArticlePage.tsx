@@ -152,17 +152,17 @@ export function ArticlePage() {
               <article>
                 {/* Hero Image — full width within column */}
                 {article.heroImageUrl && (
-                  <div className="mb-6">
+                  <div className="mb-8">
                     <img
                       src={article.heroImageUrl}
                       alt={article.title}
-                      className="w-full max-h-[500px] object-cover"
+                      className="w-full h-auto"
                     />
                   </div>
                 )}
 
                 {/* Title */}
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">
+                <h1 className="text-4xl md:text-5xl font-light text-gray-900 mb-4 leading-tight tracking-tight">
                   {article.title}
                 </h1>
 

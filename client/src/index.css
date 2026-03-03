@@ -121,38 +121,41 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
     font-size: 16px;
+    font-weight: 300;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
   /* 
    * Typography System — Triton Editorial
-   * Headlines: Georgia serif — editorial authority
-   * Body/UI: System sans — clean, professional  
-   * Article body: Georgia serif — long-form readability
+   * Headlines: Cormorant Garamond — thin, elegant, New Yorker/Wired feel
+   * Body/UI: Inter Light — clean, modern, airy  
+   * Article body: Cormorant Garamond — long-form readability
    */
   h1, h2, h3 {
-    font-family: Georgia, 'Times New Roman', serif;
-    font-weight: 700;
-    letter-spacing: -0.01em;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 300;
+    letter-spacing: -0.02em;
   }
   h4, h5, h6 {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-    font-weight: 600;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 400;
     letter-spacing: -0.01em;
   }
-  /* Article body text uses serif for long-form reading */
+  /* Article body text — Inter Light for clean, modern readability */
   article p, article li, article blockquote {
-    font-family: Georgia, 'Times New Roman', serif;
-    font-size: 18px;
-    line-height: 1.8;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.85;
   }
   /* Keep UI text (nav, buttons, labels, meta) in sans */
   nav, button, input, select, textarea, 
   .uppercase, [class*="tracking-"] {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 300;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -212,8 +215,8 @@
   /* Drop cap for article openings */
   .drop-cap::first-letter {
     @apply float-left text-6xl sm:text-7xl leading-none mr-2 mt-1;
-    font-family: Georgia, serif;
-    font-weight: 700;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 300;
     color: var(--primary);
   }
   
